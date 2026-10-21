@@ -6,7 +6,7 @@
 <title>NEXT 중간평가 쇼잉</title>
 <meta name="description" content="아파트를 혼자 배송하는 기사를 위한 클러스터·센터페시아·모바일 서비스 NEXT의 중간평가 쇼잉">
 <meta name="color-scheme" content="light">
-<link rel="icon" href="data:,">
+<link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg?v=next-n-1">
 <link rel="preload" href="ui/assets/WantedSans-Regular.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preload" href="ui/assets/WantedSans-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preload" as="image" fetchpriority="high" href="assets/hero/next-courier-pv5-1480.webp"
@@ -434,7 +434,7 @@
                 <div><dt>기기 화면</dt><dd>3D 안과 이 페이지의 기기 화면은 현재 NEXT UI 복사본을 그대로 띄운 것입니다. 쇼잉을 위해 더한 것은 알림 본문, 음성 받아쓰기, 대기 점 같은 상태뿐입니다.</dd></div>
                 <div><dt>세 기기 연결</dt><dd>같은 출처의 세 화면에 같은 시점을 적용해 맞췄습니다. 실제로 떨어진 기기 사이의 동기화는 검증하지 않았습니다.</dd></div>
                 <div><dt>타임라인</dt><dd>기기 화면의 주행·정차 상태는 현재 UI의 연결 시연(122초 타임라인, 주행 시간 6배 압축)에서 가져왔습니다. 3D 체험의 첫 배송지 주행은 이 연결 시연의 출발~정차 구간을 짧게 줄여 재생합니다.</dd></div>
-                <div><dt>저장 위치</dt><dd>직접 기록은 현재 UI의 저장 방식 그대로 localStorage(next-postload-v4)와 IndexedDB(next-postload-photos-v1)에 남습니다.</dd></div>
+                <div><dt>저장 위치</dt><dd>직접 기록 체험의 기록과 사진은 그 페이지를 보는 동안에만 브라우저 메모리와 임시 저장소에 두고, 페이지를 떠나거나 다시 들어오면 지웁니다. 다른 탭과 나누지 않고 서버로 보내지 않습니다.</dd></div>
                 <div data-src-camera><dt>카메라</dt><dd>브라우저 카메라 권한으로 열고, 카메라 화면을 닫거나 체험 구간을 벗어나면 끕니다. 권한이 없거나 카메라가 없으면 파일 선택으로 이어갑니다.</dd></div>
                 <div><dt>세 기기 공통</dt><dd>글꼴 Wanted Sans, NEXT용 채움형 아이콘, OpenStreetMap 벡터 지도. 화면 크기 800×400, 1280×720, 390×844는 설계 캔버스이며 실제 디스플레이 사양이 아닙니다.</dd></div>
                 <div><dt>3D 조명</dt><dd>실내 밝기는 Blender Cycles로 미리 구운 라이트맵 3장이고, 반사 환경은 창밖과 같은 learner_park HDRI(CC0)입니다. 가죽·대시보드·천장의 표면 결은 Poly Haven 재질(CC0)에서 노멀·러프니스만 가져왔습니다.</dd></div>

@@ -6,19 +6,16 @@
  *   (js/story/try.js 의 검증된 준비 코드를 옮김). 준비는 직접 기록으로 세지 않고, 사진·전달 기록을 자동으로 만들지 않는다
  * - 조작은 폰 화면 안의 현재 UI 흐름 그대로(배송 사진 촬영 → 촬영 → 이 사진 저장 → 전달 저장 · 다음 배송)
  *   쇼잉이 더하는 것: 촬영 순간 셔터음(sfx-shutter)과 짧은 플래시, 카메라를 못 쓸 때 '파일에서 사진 고르기'(쇼잉 file input →
- *   현재 UI #photo-input 흐름), 오른쪽 안내(지금 할 일 한 줄 + 네 단계 표시), 완료 줄, 직접 기록 지우기
+ *   현재 UI #photo-input 흐름), 오른쪽 안내(지금 할 일 한 줄 + 네 단계 표시), 완료 줄
  * - 카메라 트랙은 카메라 시트 닫기(현재 UI)·섹션 이탈·탭 숨김·pagehide 때 모두 멈춘다(ui/showing/try-manual.js)
- * - 기록은 현재 UI 저장 방식 그대로 이 브라우저에만 남는다. 서버 업로드 없음
+ * - 폰은 체험 전용 사본 ui/try-phone.html(scripts/build_try_phone.sh)로 띄운다. 그 안의 기록·사진은 이 페이지 로드 동안만
+ *   메모리·임시 DB 에 있고(ui/showing/try-isolate.js) 다른 탭과 나누지 않는다. 그래서 열 때마다, 다시 들어올 때마다 처음 장면이다.
+ *   서버 업로드 없음
  */
 
 import { createDevice } from '../ui-bridge.js';
 import { PhotoBridge } from './photo.js';
 
-const STORE_KEY = 'next-postload-v4';
-const PHOTO_DB = 'next-postload-photos-v1';
-const ARCHIVE_PREFIX = 'next-postload-archive-';
-const LEGACY_FILL_KEY = 'next-story-filled-v1';   // 예전 하루 이야기 '시연값으로 채우기'가 남긴 목록(직접 기록으로 세지 않음)
-const LEGACY_PREP_KEY = 'next-story-prepared-v1';
 const TARGET = 'A-023';
 const DEFAULT_STOP = { building: '104', buildingLabel: '104동', entrance: '서쪽 공동현관', unit: '1203호', shipment: TARGET };
 const STEPS = ['요청 확인', '사진 찍기 또는 고르기', '사진 저장', '전달 기록'];
@@ -26,9 +23,6 @@ const TRANSMISSION = { unsubmitted: '미제출', queued: '전송 대기', sendin
 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const wait = ms => new Promise(r => setTimeout(r, ms));
-function lsGet(key) { try { return localStorage.getItem(key); } catch { return null; } }
-function lsRemove(key) { try { localStorage.removeItem(key); } catch { /* noop */ } }
-function readJson(key, fallback) { try { const v = JSON.parse(lsGet(key)); return v ?? fallback; } catch { return fallback; } }
 
 function ensureStylesheet() {
   if (document.querySelector('link[rel="stylesheet"][href$="css/try.css"]')) return;
@@ -36,31 +30,6 @@ function ensureStylesheet() {
   link.rel = 'stylesheet';
   link.href = new URL('../../css/try.css', import.meta.url).href;
   document.head.append(link);
-}
-
-function deleteDb(name, timeout = 4000) {
-  return new Promise(resolve => {
-    let done = false;
-    const finish = v => { if (!done) { done = true; resolve(v); } };
-    try {
-      const req = indexedDB.deleteDatabase(name);
-      req.onsuccess = () => finish('deleted');
-      req.onerror = () => finish('error');
-      req.onblocked = () => setTimeout(() => finish('blocked'), timeout);
-    } catch { finish('error'); }
-    setTimeout(() => finish('timeout'), timeout + 500);
-  });
-}
-
-/* 이 브라우저에 남은 직접 기록·보관본·사진을 지운다(서버로 보낸 적 없음) */
-async function wipeLocal(timeout = 4000) {
-  lsRemove(STORE_KEY); lsRemove(LEGACY_FILL_KEY); lsRemove(LEGACY_PREP_KEY);
-  try {
-    const keys = [];
-    for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith(ARCHIVE_PREFIX)) keys.push(k); }
-    keys.forEach(lsRemove);
-  } catch { /* noop */ }
-  return deleteDb(PHOTO_DB, timeout);
 }
 
 function cameraProblem(err) {
@@ -74,9 +43,6 @@ function cameraProblem(err) {
 
 export async function init(root) {
   ensureStylesheet();
-  // 2026-10-21 사용자 요청: 페이지를 열 때마다 직접 체험을 처음 장면('배송 사진 촬영' 버튼이 있는 1203호 상세)부터 시작한다.
-  // 이전 방문의 직접 기록·사진은 이 브라우저 안에서만 쓰였으므로 폰 화면을 만들기 전에 지운다(서버로 보낸 적 없음)
-  const freshReset = wipeLocal(1500);
   const q = sel => root.querySelector(sel);
   const el = {
     stage: q('[data-try-stage]'),
@@ -94,7 +60,6 @@ export async function init(root) {
     done: q('[data-try-done]'),
     doneLine: q('[data-try-done-line]'),
     doneNote: q('[data-try-done-note]'),
-    clear: q('[data-try-clear]'),
     live: q('[data-try-live]'),
     status: q('[data-try-status]'),
   };
@@ -126,16 +91,15 @@ export async function init(root) {
   function start() {
     if (st.startJob) return st.startJob;
     el.stage.dataset.tryState = 'loading';
-    st.startJob = (async () => {
+    // 2026-10-21 사용자 요청: 열 때마다 처음 장면('배송 사진 촬영' 버튼이 있는 1203호 상세)부터. 사본 try-phone.html 이 기록을 이 폰 안에만 둔다
+    const job = (async () => {
       try {
-        await freshReset;
-        const handle = await createDevice({ device: 'phone', mode: 'manual', container: el.screen, fit: true, maxScale: 1, title: 'NEXT 휴대폰 화면(직접 기록)' });
+        const handle = await createDevice({ device: 'phone', mode: 'manual', page: 'try-phone.html', container: el.screen, fit: true, maxScale: 1, title: 'NEXT 휴대폰 화면(직접 기록)' });
         handle.iframe.classList.add('try-ui');
         handle.iframe.setAttribute('tabindex', '0');
         await handle.ready;
-        // 현재 UI 는 같은 주소로 열린 다른 탭의 기록(storage 이벤트)을 따라간다. 체험 폰은 이 탭의 처음 장면을 지키도록
-        // 그 알림이 현재 UI 리스너에 닿기 전에 막는다(대상 단계에서 capture 리스너가 먼저 불린다. 원본 파일은 고치지 않음)
-        handle.win.addEventListener('storage', e => e.stopImmediatePropagation(), true);
+        // 기다리는 사이 다시 만들기(clear)로 새 폰이 시작됐으면 이 폰은 버린다(폰 두 개 방지)
+        if (st.startJob !== job) { handle.destroy(); return false; }
         st.handle = handle;
         if (!handle.win.__tryManual) await handle.inject({ href: 'showing/try-manual.js' });
         photo.attach();
@@ -158,6 +122,8 @@ export async function init(root) {
         render();
         return true;
       } catch (err) {
+        // 다시 만들기(clear)로 이미 다른 폰이 시작됐으면 그 상태를 덮지 않는다
+        if (st.startJob !== job) return false;
         console.warn('[try] 폰 화면을 띄우지 못했습니다', err);
         el.stage.dataset.tryState = 'failed';
         if (el.now) el.now.textContent = '휴대폰 화면을 불러오지 못했습니다. 새로고침하거나 아래로 계속 볼 수 있습니다';
@@ -165,7 +131,8 @@ export async function init(root) {
         return false;
       }
     })();
-    return st.startJob;
+    st.startJob = job;
+    return job;
   }
 
   function state() {
@@ -245,10 +212,6 @@ export async function init(root) {
 
   /* ---------- 단계 판단과 표시 ---------- */
 
-  function legacyFilled() {
-    return new Set(readJson(LEGACY_FILL_KEY, [])).has(TARGET);
-  }
-
   function modalKind() {
     try {
       const d = st.handle?.doc?.getElementById('modal');
@@ -309,6 +272,7 @@ export async function init(root) {
       if (v.sub === 'camera-wait') return '카메라를 여는 중입니다. 권한을 묻는 창이 뜨면 허용하세요';
       return '기기에 있는 사진을 고르세요';
     }
+    if (v.stage === 'boarding' || v.stage === 'planning') return '휴대폰 화면을 준비하고 있습니다';
     if (v.stage && v.stage !== 'delivery') return '이미 이 배송의 기록을 마쳐 다시 기록할 수 없습니다';
     if (v.a?.deferred) return `${unit}를 나중에 배송으로 미뤘습니다. 배송 목록에서 다시 열 수 있습니다`;
     if (v.selected !== TARGET || !v.onDetail) return `'배송' 탭에서 ${unit}를 다시 열어 주세요`;
@@ -376,14 +340,12 @@ export async function init(root) {
       const lead = `이제 ${st.stop.unit} 문 앞에서 요청을 확인하고 기록해 보세요`;
       if (el.lead.textContent !== lead) el.lead.textContent = lead;
     }
-    if (!finished) el.clear?.classList.remove('is-suggested');
-    // 완료 줄(직접 기록을 자동으로 지우지 않는다. 다시 하려면 '직접 기록 지우기')
+    // 완료 줄(섹션을 벗어났다 돌아오면 restartFresh 가 처음 장면으로 되돌린다)
     el.done.hidden = !finished;
     if (finished) {
-      const legacy = legacyFilled();
       const bits = [v.photoSaved ? '사진 저장됨' : '사진 없음', v.sub === 'undelivered' ? '미전달 기록 저장됨' : '전달 기록 저장됨', TRANSMISSION[v.a?.transmission] || '전송 상태 미확인'];
       el.doneLine.textContent = bits.join(' · ');
-      el.done.querySelector('[data-try-done-label]').textContent = legacy ? '이전 시연값 기록' : '내 직접 기록';
+      el.done.querySelector('[data-try-done-label]').textContent = '내 직접 기록';
       const next = v.selected && v.selected !== TARGET ? v.s?.items?.[v.selected] : null;
       const np = next ? parcel(v.selected) : null;
       richLine(el.doneNote, np && np.unit + '호' === st.stop.unit
@@ -392,7 +354,6 @@ export async function init(root) {
       el.doneNote.hidden = !el.doneNote.textContent;
     }
     el.stage.dataset.tryStep = String(v.step);
-    if (el.clear) el.clear.disabled = !st.handle;
   }
 
   function focusFileButton() {
@@ -428,7 +389,7 @@ export async function init(root) {
     render();
   });
 
-  /* ---------- 직접 기록 지우기 · 처음 장면으로 ---------- */
+  /* ---------- 처음 장면으로 ---------- */
 
   // 1203호 기록이 끝났거나 미뤄져 '배송 사진 촬영' 장면으로 돌아갈 수 없는 상태
   function spent() {
@@ -437,17 +398,22 @@ export async function init(root) {
     return v.step === 4 || !['boarding', 'planning', 'delivery'].includes(v.stage) || !!v.a?.deferred;
   }
 
-  // 섹션에 들어올 때 처음 장면('배송 사진 촬영' 버튼이 있는 1203호 상세)이 바로 보이게 기록을 지우고 폰을 다시 만든다
+  // 다시 보여 줄 때 처음 장면이 아닌 상태(끝났거나 미뤘거나, 사진 단계까지 진행). 파일 창을 연 동안은 제외
+  function stale() {
+    return !st.filePending && (spent() || snapshot().step > 0);
+  }
+
+  // 처음 장면('배송 사진 촬영' 버튼이 있는 1203호 상세)이 바로 보이게 폰을 다시 만든다(기록은 폰 안 메모리에만 있어 함께 사라진다)
   async function restartFresh() {
     if (st.resetJob) return st.resetJob;
     st.resetJob = (async () => {
       if (st.startJob) await st.startJob;
-      return clear({ quiet: true });
+      return clear();
     })().finally(() => { st.resetJob = null; });
     return st.resetJob;
   }
 
-  async function clear({ quiet = false } = {}) {
+  async function clear() {
     photo.stopCamera('clear');
     const had = st.handle;
     st.handle = null;
@@ -455,23 +421,15 @@ export async function init(root) {
     st.startJob = null;
     st.cameraError = null;
     st.cameraBlocked = false;
+    st.filePending = false;
     clearInterval(st.poll);
     el.screen.classList.remove('is-live');
     try { had?.destroy(); } catch { /* noop */ }
     render();
     await wait(250);
-    el.clear?.classList.remove('is-suggested');
-    const result = await wipeLocal();
     st.wantPrepare = true;
-    await start();
-    if (el.status && !quiet) {
-      el.status.textContent = result === 'deleted' ? '직접 기록과 사진을 지웠습니다' : '기록은 지웠습니다. 사진은 다른 창을 닫은 뒤 지워집니다';
-      clearTimeout(st.statusTimer);
-      st.statusTimer = setTimeout(() => { el.status.textContent = ''; }, 5000);
-    }
-    return result;
+    return start();
   }
-  el.clear?.addEventListener('click', () => clear());
 
   /* ---------- 생명 주기 ---------- */
 
@@ -488,7 +446,7 @@ export async function init(root) {
     if (st.visible) {
       st.wantPrepare = true;
       // 다시 들어왔을 때 1203호 기록이 이미 끝나 있으면 '이미 기록했습니다' 대신 처음 장면부터 보여 준다
-      if (!was && spent()) { restartFresh(); return; }
+      if (!was && stale()) { restartFresh(); return; }
       start().then(ok => { if (ok) prepare(); });
     } else {
       // 섹션을 벗어나면 카메라를 끈다(현재 UI 의 카메라 시트 '뒤로'와 같은 정리)
@@ -504,18 +462,18 @@ export async function init(root) {
     if (el.building) el.building.textContent = st.stop.buildingLabel;
     if (el.unit) el.unit.textContent = st.stop.unit;
     st.wantPrepare = true;
-    if (spent()) { restartFresh().then(readStop); return; }
+    if (stale()) { restartFresh().then(readStop); return; }
     start().then(ok => { if (ok) { readStop(); prepare(); } });
   });
 
   // 3D 다시 체험: 손댄 기록이 있으면 처음 장면으로 되돌려 둔다(섹션 밖에서 일어나므로 화면이 바뀌는 것은 보이지 않는다)
   window.addEventListener('next:xp-reset', () => {
     if (st.visible || !st.handle) return;
-    if (spent() || snapshot().step > 0) restartFresh();
+    if (stale()) restartFresh();
   });
 
   // 뒤로 가기 캐시(bfcache)로 돌아오면 init 이 다시 돌지 않으므로 끝난 기록을 여기서 되돌린다
-  window.addEventListener('pageshow', e => { if (e.persisted && spent()) restartFresh(); });
+  window.addEventListener('pageshow', e => { if (e.persisted && stale()) restartFresh(); });
 
   window.addEventListener('pagehide', () => photo.stopCamera('pagehide'));
   document.addEventListener('visibilitychange', () => { if (document.hidden) photo.stopCamera('hidden'); });
@@ -525,6 +483,6 @@ export async function init(root) {
 
   // 검수용 훅(?trydebug=1)
   if (new URLSearchParams(location.search).has('trydebug')) {
-    window.__try = { st, photo, state, snapshot, prepare, start, clear, render, readyForPhoto, spent, restartFresh };
+    window.__try = { st, photo, state, snapshot, prepare, start, clear, render, readyForPhoto, spent, stale, restartFresh };
   }
 }

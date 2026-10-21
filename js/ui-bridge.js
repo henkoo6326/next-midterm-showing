@@ -19,6 +19,7 @@
  *   manual    ?mobile=app&gallery=<device>  방문자 localStorage(next-postload-v4)·IndexedDB 에 기록이 남는다
  *   entry     ?mobile=app&entry=notification&gallery=<device>  잠금화면 알림 시연. click('[data-entry="connect"]') 로 알림 표시
  *   query 로 파라미터를 더하거나(값) 지울 수 있다(null).
+ *   page 로 같은 폴더의 다른 사본을 띄울 수 있다(예: 'try-phone.html' — #try 체험 폰 전용, 기록을 탭마다 따로 둔다)
  *
  * 음성: iframe 안의 speechSynthesis.speak 와 SpeechRecognition 은 기본 차단한다(allowSpeech:true 로만 허용).
  * 차단 상태의 SpeechRecognition 은 아무 권한도 요청하지 않는 가짜 객체다. 센터 마이크를 누르면
@@ -37,7 +38,7 @@ const BRIDGE_CSS = 'showing/bridge.css'; // iframe 문서(ui/delivery-app.html) 
 const READY_TIMEOUT_MS = 20000;
 const UI_VERSION = 'uikit-1021';
 
-export function deviceUrl(device, mode = 'autoplay', query = {}) {
+export function deviceUrl(device, mode = 'autoplay', query = {}, page = null) {
   if (!DEVICES[device]) throw new Error(`ui-bridge: 알 수 없는 기기 ${device}`);
   const params = new URLSearchParams();
   params.set('mobile', 'app');
@@ -59,7 +60,7 @@ export function deviceUrl(device, mode = 'autoplay', query = {}) {
     if (value === null || value === undefined || value === false) params.delete(key);
     else params.set(key, String(value));
   }
-  const url = new URL(APP_URL);
+  const url = page ? new URL(page, APP_URL) : new URL(APP_URL);
   url.search = params.toString();
   return url.href;
 }
@@ -178,6 +179,7 @@ export async function createDevice({
   allowSpeech = false,
   maxScale = 1,
   title,
+  page = null,
 } = {}) {
   const size = DEVICES[device];
   if (!size) throw new Error(`ui-bridge: 알 수 없는 기기 ${device}`);
@@ -292,7 +294,7 @@ export async function createDevice({
   });
   ready.catch(() => {});
 
-  iframe.src = deviceUrl(device, mode, query);
+  iframe.src = deviceUrl(device, mode, query, page);
   container.append(iframe);
   layout();
 
