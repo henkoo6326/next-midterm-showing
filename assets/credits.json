@@ -1,0 +1,274 @@
+[
+  {
+    "group": "서비스 UI",
+    "name": "NEXT 클러스터·센터페시아·모바일 프로토타입 (화면·SVG 지도 렌더·아이콘·HTML/CSS/JS)",
+    "author": "고해은",
+    "source_url": "",
+    "license": "자체 제작",
+    "note": "아이콘은 아래 팀 Figma UI Kit 아이콘을 쓰고 외부 아이콘 라이브러리를 쓰지 않았다. 쇼잉에서는 원본을 고치지 않은 복사본(site/ui)을 띄운다"
+  },
+  {
+    "group": "서비스 UI",
+    "name": "NEXT 아이콘 26종 Icon/filled (팀 Figma UI Kit 2PWGi6ScsyaW9cN0o0nFui, 노드 49:5326)",
+    "author": "NEXT 팀 (Figma UI Kit)",
+    "source_url": "https://www.figma.com/design/2PWGi6ScsyaW9cN0o0nFui/?node-id=49-5326",
+    "license": "자체 제작",
+    "note": "24 그리드 채움형. Figma에서 내보낸 path를 바꾸지 않고 채움만 currentColor로 바꿨다(ui/development/icons/icons.js, 디자인 시스템 섹션 아이콘 표)"
+  },
+  {
+    "group": "서비스 UI",
+    "name": "NEXT 로고 (assets/brand/next-logo.svg, 사용자 제공 SVG 2026-10-21)",
+    "author": "고해은",
+    "source_url": "",
+    "license": "자체 제작",
+    "note": "원본 SVG의 패스를 그대로 쓰고 색만 바탕에 맞는 단색으로 바꿨다. 일반 글꼴이나 다시 생성한 이미지로 대신하지 않았다"
+  },
+  {
+    "group": "서비스 UI",
+    "name": "UI 안의 포장 예시 이미지(05-lowpoly.png), 차량 상태 컨셉 이미지(cargo-van.png)",
+    "author": "고해은 (이미지 생성 도구로 제작)",
+    "source_url": "",
+    "license": "자체 제작 생성 이미지",
+    "note": "포장 예시는 생성 도구(built-in image_gen)로 만든 그림이다. 실제 배송 사진이나 실제 차량 사진이 아니다"
+  },
+  {
+    "group": "지도",
+    "name": "상동호수공원 주변 도로·공원·호수·건물",
+    "author": "© OpenStreetMap contributors",
+    "source_url": "https://www.openstreetmap.org/copyright",
+    "license": "ODbL 1.0",
+    "note": "OSM 공식 API(bbox 126.728,37.490,126.765,37.519)로 받은 좌표를 벡터로 그렸다. 동 번호·호 번호(1203호 등)·수령인·입구는 가상이다"
+  },
+  {
+    "group": "글꼴",
+    "name": "Wanted Sans Regular 400 · SemiBold 600 (v1.003)",
+    "author": "Wanted Lab, Inc.",
+    "source_url": "https://github.com/wanteddev/wanted-sans",
+    "license": "SIL Open Font License 1.1",
+    "note": "라이선스 전문을 assets/fonts/OFL-WantedSans.txt 로 함께 배포한다"
+  },
+  {
+    "group": "3D",
+    "name": "운전석 3D 모델 (PV5 v8 자체 모델링 · cockpit_v8, Draco 압축 GLB)",
+    "author": "고해은",
+    "source_url": "",
+    "license": "자체 제작",
+    "note": "공개 자료를 참고해 직접 모델링했다. 제조사 공식 자산이 아니며 제조사와 관계가 없다. 화면에는 GLB 속 옛 UI 텍스처 대신 현재 NEXT UI를 넣었다. 핸들 허브 배지는 원본 모델 그대로 보인다(3D 체험). 이전 판 첫 화면의 정지 렌더는 배지 위에서 잘랐다"
+  },
+  {
+    "group": "3D",
+    "name": "운전석 라이트맵 3장 (cockpit_v8_lm.glb, assets/models/lightmaps lm_0_near·lm_1_cabin·lm_2_exterior)",
+    "author": "고해은 (Blender Cycles로 자체 굽기)",
+    "source_url": "",
+    "license": "자체 제작",
+    "note": "Cycles 디퓨즈(직접+간접광)를 4096 WebP 로 구웠다. 조명 환경은 아래 Learner Park HDRI(CC0). 실내 밝기와 그림자는 이 굽기 결과이며 실시간 계산이 아니다"
+  },
+  {
+    "group": "3D",
+    "name": "three.js r180 (GLTFLoader, DRACOLoader, CSS3DRenderer 등 addons 포함)",
+    "author": "three.js authors",
+    "source_url": "https://github.com/mrdoob/three.js",
+    "license": "MIT",
+    "note": "vendor/three/LICENSE.three 동봉"
+  },
+  {
+    "group": "3D",
+    "name": "Draco 디코더 (draco_decoder.js·.wasm, draco_wasm_wrapper.js)",
+    "author": "The Draco Authors (Google)",
+    "source_url": "https://github.com/google/draco",
+    "license": "Apache License 2.0",
+    "note": "three r180 배포본에 포함된 디코더를 그대로 동봉"
+  },
+  {
+    "group": "3D",
+    "name": "오른쪽 아래팔·손·재킷 소매 (arm_r.glb)",
+    "author": "MakeHuman Community 자산(피부 young_asian_male, 옷 male_casualsuit05)을 MPFB 2.0.18로 조립",
+    "source_url": "https://static.makehumancommunity.org/about/license.html",
+    "license": "CC0 1.0",
+    "note": "3D 체험의 손. 저작자 표기 의무는 없다. 생성형 이미지가 아니다"
+  },
+  {
+    "group": "3D",
+    "name": "로고 없는 일반형 휴대폰 모델 (phone.glb)",
+    "author": "고해은 (스크립트로 직접 제작)",
+    "source_url": "",
+    "license": "자체 제작",
+    "note": "3D 체험의 폰. 특정 제조사 외형·로고를 쓰지 않았다"
+  },
+  {
+    "group": "3D",
+    "name": "첫 배송지 주행 장면 구성(도로 배치·차선·가로수·가로등·공원·아파트 단지·104동 표지)",
+    "author": "고해은 (three.js 코드로 절차적 생성, js/xp/drive.js)",
+    "source_url": "",
+    "license": "자체 제작",
+    "note": "도로·단지 배치와 건물 정면, 차선, 동 번호·표지는 코드로 그렸고, 바닥 재질에는 아래 Poly Haven 텍스처 4종을 썼다. 실제 상동 지역 거리나 건물을 촬영·복제하지 않았다"
+  },
+  {
+    "group": "환경",
+    "name": "창밖 배경·조명 환경 Learner Park (learner_park_4k.jpg, learner_park_1k.hdr)",
+    "author": "Greg Zaal (Poly Haven)",
+    "source_url": "https://polyhaven.com/a/learner_park",
+    "license": "CC0 1.0",
+    "note": "CC0라 표기 의무는 없지만 출처를 남긴다. 4096 equirect JPG는 3D 체험 출발지 창밖과 운전석 맥락 렌더에, 1K HDR은 라이트맵 굽기와 실내 반사 환경에 쓴다"
+  },
+  {
+    "group": "환경",
+    "name": "아스팔트 텍스처 Asphalt 02 (assets/models/drive/asphalt_*.webp)",
+    "author": "Rob Tuytel (Poly Haven)",
+    "source_url": "https://polyhaven.com/a/asphalt_02",
+    "license": "CC0 1.0",
+    "note": "CC0라 표기 의무는 없지만 출처를 남긴다. 1K를 WebP로 바꿔 3D 체험 주행 장면의 도로와 단지 주차면(색·노멀·러프니스)에 쓴다"
+  },
+  {
+    "group": "환경",
+    "name": "보도블록 텍스처 Patterned Concrete Pavers (pavers_*.webp)",
+    "author": "Amal Kumar (Poly Haven)",
+    "source_url": "https://polyhaven.com/a/patterned_concrete_pavers",
+    "license": "CC0 1.0",
+    "note": "CC0라 표기 의무는 없지만 출처를 남긴다. 1K를 WebP로 바꿔 3D 체험 주행 장면의 보도에 쓴다. 색은 채도를 낮췄다"
+  },
+  {
+    "group": "환경",
+    "name": "콘크리트 텍스처 Concrete Floor 01 (concrete_*.webp)",
+    "author": "Rob Tuytel (Poly Haven)",
+    "source_url": "https://polyhaven.com/a/concrete_floor_01",
+    "license": "CC0 1.0",
+    "note": "CC0라 표기 의무는 없지만 출처를 남긴다. 1K를 WebP로 바꿔 3D 체험 주행 장면의 연석·단지 진입로·공원 산책로에 쓴다. 색은 채도를 낮추고 밝혔다"
+  },
+  {
+    "group": "환경",
+    "name": "잔디 텍스처 Leafy Grass (grass_*.webp)",
+    "author": "Charlotte Baglioni (Poly Haven)",
+    "source_url": "https://polyhaven.com/a/leafy_grass",
+    "license": "CC0 1.0",
+    "note": "CC0라 표기 의무는 없지만 출처를 남긴다. 1K를 WebP로 바꿔 3D 체험 주행 장면의 잔디밭에 쓴다"
+  },
+  {
+    "group": "실내 재질",
+    "name": "핸들 가죽 결 Leather Red 02 (assets/models/detail/leather.webp, tpo.webp)",
+    "author": "Rob Tuytel (Poly Haven)",
+    "source_url": "https://polyhaven.com/a/leather_red_02",
+    "license": "CC0 1.0",
+    "note": "노멀·러프니스·높이만 써서 핸들 림 가죽과 대시·도어의 엠보싱 결을 만들었다. 색은 가져오지 않았다(재질 색은 자체 모델 값)"
+  },
+  {
+    "group": "실내 재질",
+    "name": "미세 기공 Leather White (tpo.webp)",
+    "author": "Rob Tuytel (Poly Haven)",
+    "source_url": "https://polyhaven.com/a/leather_white",
+    "license": "CC0 1.0",
+    "note": "높이 맵을 대시 상판·도어 트림 결의 미세 기공으로 더했다"
+  },
+  {
+    "group": "실내 재질",
+    "name": "천장 원단 Jogging Melange (fabric.webp)",
+    "author": "colormass(촬영), Rico Cilliers(가공) (Poly Haven)",
+    "source_url": "https://polyhaven.com/a/jogging_melange",
+    "license": "CC0 1.0",
+    "note": "노멀·러프니스·휘도 얼룩을 천장·선바이저에 썼다. 사출 스티플·헤어라인 결(stipple, hairline)은 노이즈로 자체 제작"
+  },
+  {
+    "group": "페이지 이미지",
+    "name": "운전석 맥락 렌더 4컷 (center-context, center-front, cluster-context, cluster-close · assets/sections)",
+    "author": "고해은 (three.js 헤드리스 렌더, scripts/sections/render.py)",
+    "source_url": "",
+    "license": "자체 제작",
+    "note": "3D 체험과 같은 자체 모델(PV5 v8)·조명·창밖(Learner Park)으로 카메라만 바꿔 렌더했다. 화면 자리는 비워 두고 페이지에서 현재 NEXT UI 캡처를 원근에 맞춰 겹친다. 손·폰은 넣지 않았다"
+  },
+  {
+    "group": "페이지 이미지",
+    "name": "히어로 이미지: 운전석 앞유리 너머 배송기사 (assets/hero/next-courier-pv5-1480·1920·2960.webp)",
+    "author": "고해은 (생성 이미지 + NEXT UI·인물 합성)",
+    "source_url": "",
+    "license": "자체 작업 · 생성 이미지에 NEXT UI와 인물을 합성",
+    "note": "바탕 이미지(작업 폴더 assets/hero/retouch-2026-10-21/original.png)는 생성 도구로 만든 이미지다(사용자 확인 2026-10-21). 기사 인물(중년 한국인 기사)과 클러스터·센터 화면 하우징(자체 3D 모델 PV5 v8 렌더를 참고 이미지로 줌)은 생성 도구(built-in imagegen, 작업 기록 PROCESS-v2.md)로 다시 그려 마스크로 합성했다. 두 화면 안의 글자와 지도는 실제 NEXT UI 정차 화면 캡처(center_40000, cluster_40000)를 네 꼭짓점 원근 변환으로 붙인 것이다(과정 기록 assets/hero/retouch-2026-10-21/PROCESS.md · PROCESS-v2.md). 실제 사진이나 제조사 홍보 자료가 아니며, 화면 하우징은 참고용 생성 보정이라 실제 차량 치수와 같지 않다. 핸들 엠블럼과 기사 상의 가슴의 제조사 로고는 생성 이미지에 있던 것을 그대로 두었다. 이 작업은 차량 제조사와 관계가 없다"
+  },
+  {
+    "group": "페이지 이미지",
+    "name": "정면 휴대폰 프레임 (assets/mockups/iphone-front.png·webp)",
+    "author": "고해은 팀 (scripts/mockups_v2/iphone_frame_build.py로 새로 그림)",
+    "source_url": "https://github.com/picturepan2/devices.css",
+    "license": "자체 제작 (구성 참고 devices.css, MIT, Copyright (c) 2017 Yan Zhu)",
+    "note": "devices.css(MIT, Yan Zhu)의 iPhone 프레임 구성(메탈 테, 유리 베젤, 아일랜드, 버튼)을 참고해 팀이 다시 그렸다. 애플 디자인 리소스 이미지나 다른 앱 화면의 픽셀은 쓰지 않았고, 화면에는 현재 NEXT UI를 넣는다"
+  },
+  {
+    "group": "페이지 이미지",
+    "name": "기기 화면 캡처 (assets/captures, assets/front/cap, assets/system)",
+    "author": "고해은 (현재 NEXT UI를 헤드리스 브라우저로 캡처, scripts/capture_ui.py)",
+    "source_url": "",
+    "license": "자체 제작",
+    "note": "연결 시연과 수동 모드 화면을 2배로 캡처했다. 사진 미리보기·저장 캡처의 사진은 스크립트로 만든 합성 이미지이며 실제 배송 사진이 아니다. assets/system 은 같은 캡처를 잘라낸 디자인 시스템 섹션용 조각이다(scripts/build_system_crops.py)"
+  },
+  {
+    "group": "소리",
+    "name": "휴대폰 진동 (sfx-vibrate · Pixabay 96623)",
+    "author": "Breviceps (원작, Freesound 515295)",
+    "source_url": "https://pixabay.com/sound-effects/technology-phone-vibration-96623/",
+    "license": "Pixabay Content License (원작 CC0)",
+    "note": "한 채널만 쓰고 앞 클릭·무음을 잘라 AAC로 변환. 3D 체험 S2. 파일 단독 재배포 금지"
+  },
+  {
+    "group": "소리",
+    "name": "알림음 confirmation_001 (sfx-notify) · 탭음 tick_004 (sfx-tap)",
+    "author": "Kenney (Interface Sounds 1.0)",
+    "source_url": "https://kenney.nl/assets/interface-sounds",
+    "license": "CC0 1.0",
+    "note": "무음 정리·음량 정렬 후 AAC로 변환. 3D 체험 알림·화면 접촉"
+  },
+  {
+    "group": "소리",
+    "name": "카메라 셔터 (sfx-shutter · Mixkit 1133 Camera shutter click)",
+    "author": "Mixkit",
+    "source_url": "https://mixkit.co/free-sound-effects/",
+    "license": "Mixkit Sound Effects Free License",
+    "note": "사진 기록 장면. 결과물 안에서만 사용, 파일 단독·스톡 재배포 금지"
+  },
+  {
+    "group": "소리",
+    "name": "EV 시동음 (sfx-ev-start · Mixkit 3201 Electric charge hum + 2574 Software interface start)",
+    "author": "Mixkit (두 소리를 잘라 겹쳐 1.45초로 편집)",
+    "source_url": "https://mixkit.co/free-sound-effects/",
+    "license": "Mixkit Sound Effects Free License",
+    "note": "전원 험 뒤 차임. 실제 차량(PV5)의 시동음이 아니다. 결과물 안에서만 사용"
+  },
+  {
+    "group": "소리",
+    "name": "안내 음성 V1·V2·V3 (elevenlabs.io)",
+    "author": "ElevenLabs Text to Speech · 보이스 Anna Kim · eleven_v4",
+    "source_url": "https://elevenlabs.io/",
+    "license": "ElevenLabs 무료 플랜 생성물(비상업, elevenlabs.io 표기 필요)",
+    "note": "합성 음성이다. 실제 사람의 녹음이 아니다"
+  },
+  {
+    "group": "소리",
+    "name": "원본 음성 두 구간 (4:18~4:20, 4:34~4:37)",
+    "author": "감스트GAMST",
+    "source_url": "https://youtu.be/o-nMYZaeAnc",
+    "license": "원저작자 권리 (짧은 구간 인용)",
+    "note": "사용자가 제공한 원본 파일만 쓴다. 파일이 없으면 자막만 보이고 대체 음성은 내지 않는다"
+  },
+  {
+    "group": "이전 판",
+    "name": "생성 목업 PNG (assets/mockups cluster-front, center-34, phone-34, phone-front, lineup)",
+    "author": "고해은 (Codex CLI 내장 이미지 생성 도구로 제작)",
+    "source_url": "",
+    "license": "자체 제작 생성 이미지",
+    "note": "이전 판에서 쓰던 기기 목업이다. 현재 페이지에는 보이지 않는다. 생성 이미지이며 실제 차량 부품 사진이 아니다"
+  },
+  {
+    "group": "이전 판",
+    "name": "운전석 맥락 렌더 cockpit-hero (assets/sections)",
+    "author": "고해은 (three.js 헤드리스 렌더)",
+    "source_url": "",
+    "license": "자체 제작",
+    "note": "이전 판 첫 화면 이미지다. 첫 화면을 차량 이미지로 바꾼 뒤로 페이지에는 보이지 않는다"
+  },
+  {
+    "group": "이전 판",
+    "name": "히어로 차량 이미지 (assets/hero/hero-b-car-1480·2960.webp)",
+    "author": "Codex 리디자인 작업에서 만든 히어로 이미지 (출처 확인 중)",
+    "source_url": "",
+    "license": "자체 작업 (출처 확인 중)",
+    "note": "이전 판 첫 화면 이미지다. 2026-10-21 배송기사 히어로로 바꾼 뒤로 페이지에는 보이지 않는다(파일은 assets/hero 에 남아 있다). Codex 리디자인 작업에서 만든 히어로 이미지이고, 화면은 NEXT UI다. 차량은 콘셉트 이미지이며 실제 차량 사진이나 제조사 자료가 아니다"
+  }
+]

@@ -1,0 +1,184 @@
+/* ② #roles '배송 흐름' — 스크롤 장면 전환 (2026-10-21 승인 시안 docs/proposals-v4/roles-2-sticky.html v2 이식)
+ * 왼쪽 6컬럼(1~6) = 장면 하나가 sticky(상단 메뉴 아래 --sp-5 띄워 시작, 마지막 블록 아래 변에서 무대 아래 변이 같이 끝난다).
+ *   스크롤에 따라 차 안 → 문 앞 → 전달 후 크로스페이드(js/front/roles.js 가 .is-on 을 옮긴다)
+ * 7~8컬럼 = 비움. 오른쪽 4컬럼(9~12) = 단계 블록(작은 번호 · 단계 이름 · 필요한 정보 · 상황 · NEXT 화면 · 근거 꼬리표)
+ * 핵심 가치 위계(V5_EDIT_PLAN 1장): 문 앞(핵심 1) 블록이 머무는 길이가 가장 길고(무대 높이 × 1.2), 전달 후(핵심 2) 1.0, 차 안(보조) 0.8
+ * 모든 규칙은 #roles 범위. 토큰은 css/tokens.css, 공통 틀(.wrap .head-row .h2 .lead .iph .cmp .ev 상단 메뉴)은 css/show.css
+ * 머리(.head-row > .sec-label / .head-main > h2)는 건드리지 않는다: show.css 끝 '아이브로우·제목 상측 정렬' 규칙이 그 선택자를 쓴다 */
+
+#roles {
+  /* sticky 무대 전체 높이: 메뉴 아래 --sp-5 띄우고 화면 아래에도 --sp-5. 아주 큰 화면에서는 폭 비율로 멈춘다.
+     (시안 v2 파일 끝의 :root --sticky-h 82% 줄은 시안의 .rs 값에 가려 실제 화면·캡처에 적용되지 않았다. 승인된 화면 그대로 이 값을 쓴다) */
+  --sticky-top: calc(var(--nav-h) + var(--sp-5));
+  --sticky-h: clamp(440px, min(calc(100svh - var(--nav-h) - 2 * var(--sp-5)), 58vw), 1500px);
+  --thumb-w: clamp(64px, 7vw, 180px);
+  --name: clamp(22px, 2.0833vw, 60px);           /* 단계 이름(1440 30px). 섹션 제목 --fs-h2 보다 한 단계 아래 */
+  padding: var(--gap-block) 0 var(--gap-row);
+}
+#roles .rs-lead { max-width: none; }
+
+#roles .rs-scroll {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  margin-top: var(--gap-inner);
+}
+/* 왼쪽 열은 오른쪽 블록 전체 높이만큼 늘어나고, 그 안에서 무대가 sticky 로 붙는다 → 마지막 블록 아래 변에서 무대 아래 변이 같이 끝난다 */
+#roles .rs-left { grid-column: 1 / 7; position: relative; }
+#roles .rs-right { grid-column: 9 / -1; }
+#roles .rs-sticky {
+  position: sticky;
+  top: var(--sticky-top);
+  height: var(--sticky-h);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+/* 현재 단계(작게): 번호 · 단계 · 정보 단위 */
+#roles .rs-steps { display: flex; gap: var(--sp-5); font-size: var(--fs-caption); line-height: var(--lh-body); }
+#roles .rs-steps button {
+  display: inline-flex; align-items: center; gap: var(--sp-2);
+  padding: 0; border: 0; background: none;
+  color: var(--mute); font-weight: var(--w-regular);
+  transition: color var(--dur-crossfade) var(--ease-out);
+}
+#roles .rs-steps .n {
+  display: inline-grid; place-items: center;
+  width: 1.6em; height: 1.6em; border-radius: 50%;
+  border: 1px solid var(--line);
+  font-size: .86em; font-weight: var(--w-strong); font-variant-numeric: tabular-nums; letter-spacing: 0;
+  transition: background-color var(--dur-crossfade) var(--ease-out), color var(--dur-crossfade) var(--ease-out), border-color var(--dur-crossfade) var(--ease-out);
+}
+#roles .rs-steps b { font-weight: var(--w-strong); }
+#roles .rs-steps button[aria-current="step"] { color: var(--ink); }
+#roles .rs-steps button[aria-current="step"] .n { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+
+/* 무대: 장면 셋이 겹쳐 있고 .is-on 만 보인다(크로스페이드) */
+#roles .rs-stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  border-radius: var(--radius-stage);
+  overflow: hidden;
+  background: var(--paper-2);
+  isolation: isolate;
+}
+#roles .rs-scene {
+  position: absolute; inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .5s var(--ease-out), visibility 0s linear .5s;
+}
+#roles .rs-scene.is-on { opacity: 1; visibility: visible; transition: opacity .5s var(--ease-out), visibility 0s; }
+@media (prefers-reduced-motion: reduce) { #roles .rs-scene, #roles .rs-scene.is-on { transition: none; } }
+#roles .rs-scene--car { background: var(--night); }
+#roles .rs-scene--car .cmp { position: absolute; inset: 0; }
+#roles .rs-scene-name {
+  position: absolute; z-index: 3;
+  bottom: var(--sp-5);
+  font-size: var(--fs-caption); line-height: var(--lh-title); font-weight: var(--w-strong);
+}
+#roles .rs-scene--car .rs-scene-name { left: var(--sp-5); color: var(--on-night-mute); }
+/* 폰 장면: 이름은 오른쪽 위(폰 왼쪽 · 확대 조각 오른쪽 아래와 대각으로 균형) */
+#roles .rs-scene--door .rs-scene-name,
+#roles .rs-scene--after .rs-scene-name { right: var(--sp-5); top: var(--sp-5); bottom: auto; color: var(--ink-2); }
+
+/* 장면 안 정면 아이폰: 무대 높이의 86%, 위아래 7% 여백으로 화면 전체가 보인다(맥락).
+   확대 조각이 같은 높이에서 약 1.8배로 겹쳐 핵심 영역만 키운다(돋보기) */
+#roles .rs-phone { position: absolute; left: 7%; top: 7%; height: 86%; }
+
+/* 크롭 확대 조각: 캡처 한 장을 잘라 보인다. UI 좌표 기준
+   --iw = UI 폭(390 폰, 1280 센터) · --x0 --y0 = 자를 왼쪽 위 · --cw --ch = 자를 크기 */
+#roles .rs-crop {
+  position: absolute; z-index: 2;
+  aspect-ratio: var(--cw) / var(--ch);
+  overflow: hidden;
+  background: var(--card);
+  border-radius: clamp(10px, 1vw, 26px);
+  box-shadow: var(--shadow-device);
+}
+#roles .rs-crop img {
+  position: absolute; max-width: none; height: auto;
+  width: calc(var(--iw) / var(--cw) * 100%);
+  left: calc(var(--x0) / var(--cw) * -100%);
+  top: calc(var(--y0) / var(--ch) * -100%);
+  user-select: none; pointer-events: none;
+}
+#roles .rs-scene--car .rs-crop {
+  right: var(--sp-5); bottom: var(--sp-5); width: 56%;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.06), 2px 4px 8px rgba(0,0,0,.30), 18px 30px 60px -18px rgba(0,0,0,.65);
+}
+/* 원본 영역(폰 안 무대 y 28~45%, 31~45%)은 가리지 않고 그 바로 아래 오른쪽에 확대 조각을 둔다.
+   조각은 폰 아래쪽(운송장·버튼)만 덮는다 → 원본 테두리 → 확대 조각 순서로 읽힌다 */
+#roles .rs-scene--door .rs-crop,
+#roles .rs-scene--after .rs-crop { right: 4%; width: 70%; top: 50%; }
+/* 확대 조각 원본 자리 표시: 폰 화면 위 같은 영역에 얇은 테두리(사방). UI 를 다시 그리지 않는다 */
+#roles .rs-src {
+  position: absolute; z-index: 1;
+  left: calc(5.303% + var(--x0) / 390 * 89.3939%);
+  width: calc(var(--cw) / 390 * 89.3939%);
+  top: calc(2.1963% + (95.6075% - 89.3939% * 844 / 390 * 1056 / 2140) / 2 + var(--y0) / 390 * 89.3939% * 1056 / 2140);
+  height: calc(var(--ch) / 390 * 89.3939% * 1056 / 2140);
+  outline: 1.5px solid var(--ink);
+  outline-offset: 3px;
+  border-radius: 6px;
+  pointer-events: none;
+}
+
+/* ---------- 오른쪽 단계 블록 ---------- */
+#roles .rs-block {
+  display: block;
+  padding-top: var(--sp-7);
+}
+#roles .rs-block:first-child { padding-top: calc(var(--fs-caption) * 1.6 + var(--sp-3)); }   /* 첫 블록 = 무대 윗변(단계 표시 아래)과 같은 높이 */
+/* 위계 1: 머무는 길이. 문 앞(핵심 1) > 전달 후(핵심 2) > 차 안(보조) */
+#roles .rs-block--car { min-height: calc(var(--sticky-h) * 0.8); }
+#roles .rs-block--door { min-height: calc(var(--sticky-h) * 1.2); }
+#roles .rs-block--after { min-height: var(--sticky-h); }
+/* 위계 2: 글자. 핵심 두 단계는 이름·필요한 정보가 크고, 보조(차 안)는 한 단계 작다 */
+#roles .rs-block--car { --name: clamp(19px, 1.6667vw, 48px); }   /* 1440 24px */
+#roles .rs-block--car .rs-need { font-size: clamp(14px, 1.1111vw, 32px); color: var(--ink-2); }
+
+/* 데스크톱에서는 왼쪽 무대가 장면을 맡으므로 썸네일을 숨긴다(900 미만에서만 보인다) */
+#roles .rs-thumb { display: none; }
+#roles .rs-thumb .iph { width: 100%; height: auto; }
+#roles .rs-thumb .rs-crop { position: relative; width: 100%; border-radius: 8px; box-shadow: var(--shadow-panel); }
+
+#roles .rs-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0 var(--sp-3); }
+#roles .rs-num { font-size: var(--fs-caption); font-weight: var(--w-strong); color: var(--mute); font-variant-numeric: tabular-nums; letter-spacing: 0; }
+#roles .rs-name { font-size: var(--name); line-height: var(--lh-title); font-weight: var(--w-strong); color: var(--ink); }
+#roles .rs-dev { font-size: var(--fs-caption); color: var(--mute); }
+
+#roles .rs-need { margin-top: var(--sp-3); font-size: clamp(15px, 1.3889vw, 40px); line-height: var(--lh-title); font-weight: var(--w-strong); color: var(--ink); word-break: keep-all; }   /* 1440 20px */
+#roles .rs-dl { margin-top: var(--sp-5); }
+#roles .rs-dl > div { padding: var(--sp-3) 0; border-top: 1px solid var(--line); }
+#roles .rs-dl dt { font-size: var(--fs-caption); line-height: var(--lh-body); font-weight: var(--w-strong); color: var(--mute); }
+#roles .rs-dl dd { margin-top: var(--sp-1); font-size: clamp(13px, 0.9722vw, 28px); line-height: var(--lh-body); color: var(--ink-2); word-break: keep-all; }   /* 1440 14px */
+#roles .rs-dl .ev:first-child { margin-top: 0; }
+/* 줄 나눔은 의미 덩어리(.sg) 사이에서만. 덩어리 안에서는 끊지 않는다 → 4자 이하 꼬리가 생기지 않는다 */
+#roles .sg { display: inline-block; white-space: nowrap; }
+#roles .nb { white-space: nowrap; }   /* 괄호 묶음은 900 미만에서도 안에서 끊지 않는다 */
+/* 상황·NEXT 화면 두 절은 데스크톱에서 절마다 한 줄 */
+#roles .rs-dl dd > .sg { display: block; }
+/* 근거 꼬리표: 알약 열 | 글 열. 알약 길이가 달라도(문헌 / 원문 사례) 글 시작점이 한 세로줄에 선다 */
+#roles .rs-dl dd.rs-evs { display: grid; grid-template-columns: max-content minmax(0, 1fr); column-gap: var(--sp-2); row-gap: var(--sp-2); align-items: baseline; }
+#roles .rs-evs .ev { display: contents; }
+#roles .rs-evs .ev b { margin-right: 0; justify-self: start; font-size: var(--fs-caption); }
+#roles .rs-evs .ev > span { font-size: var(--fs-caption); line-height: var(--lh-body); color: var(--mute); word-break: keep-all; }
+#roles .rs-note { margin-top: var(--sp-3); font-size: var(--fs-caption); line-height: var(--lh-body); color: var(--mute); word-break: keep-all; }
+
+#roles .rs-sync { margin-top: var(--gap-inner); font-size: var(--fs-caption); line-height: var(--lh-body); color: var(--mute); word-break: keep-all; }
+#roles .rs-close { margin-top: var(--gap-row); max-width: none; font-size: var(--fs-lead); line-height: var(--lh-body); color: var(--ink); word-break: keep-all; }
+
+/* ---------- 900 미만: 무대 없이 블록만 쌓고, 썸네일을 키운다 ---------- */
+@media (max-width: 900px) {
+  #roles .rs-left { display: none; }
+  #roles .rs-left, #roles .rs-right { grid-column: 1 / -1; }
+  #roles .rs-block { --thumb-w: 34vw; min-height: 0; padding-top: var(--gap-inner); }
+  #roles .rs-block:first-child { padding-top: 0; }
+  #roles .rs-thumb { display: block; width: var(--thumb-w); margin: 0 0 var(--sp-4); }
+  #roles .sg, #roles .rs-dl dd > .sg { white-space: normal; display: inline; }
+  /* 덩어리 줄바꿈을 푼 대신 줄 길이를 고르게 맞춰 '카드'·'사례' 같은 4자 이하 꼬리 줄을 없앤다(320~900 검수 0건) */
+  #roles .rs-need, #roles .rs-dl dd, #roles .rs-evs .ev > span, #roles .rs-note, #roles .rs-sync, #roles .rs-close { text-wrap: balance; }
+}

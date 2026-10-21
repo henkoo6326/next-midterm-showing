@@ -1,0 +1,133 @@
+/* Shared m-* hooks: parent variants may override these tokens after this file. */
+@font-face{font-family:NextMobileWanted;src:url('../assets/WantedSans-Regular.ttf');font-weight:400;font-display:swap}
+@font-face{font-family:NextMobileWanted;src:url('../assets/WantedSans-SemiBold.ttf');font-weight:600;font-display:swap}
+#phone .m-app{--m-paper:#fff;--m-ink:#182b37;--m-sub:#536775;--m-line:#dce4eb;--m-dark:#202d38;--m-accent:#246bce;--m-soft:#eaf2ff;display:flex;flex-direction:column;width:100%;height:100%;min-height:0;overflow:hidden;background:var(--m-paper);color:var(--m-ink);font-family:NextMobileWanted,Wanted,sans-serif}
+#phone .m-app *{box-sizing:border-box}
+#phone .m-header{display:flex;align-items:baseline;gap:12px;padding:12px 22px 18px;flex-shrink:0}
+#phone .m-header>span{font-size:13px;font-weight:600;color:var(--m-accent)}
+#phone .m-header h1{font-size:27px;letter-spacing:-1px;margin:0}
+#phone .m-header small{margin-left:auto;font-size:11px;color:var(--m-sub)}
+#phone .m-content{flex:1;min-height:0;height:auto;padding:0 22px 20px;overflow:auto;overscroll-behavior:contain}
+#phone .m-app button{font:inherit;cursor:pointer;min-height:44px}
+#phone .m-app button:disabled{cursor:default;opacity:.5}
+#phone .m-app button:focus-visible{outline:3px solid var(--m-accent);outline-offset:2px}
+#phone .m-button{display:block;width:100%;padding:12px 15px;margin:10px 0;border:1px solid var(--m-line);background:var(--m-paper);color:var(--m-ink);border-radius:8px;text-align:center;font-size:14px}
+#phone .m-current{padding:21px;border-radius:14px;background:var(--m-dark);color:#fff}
+#phone .m-current h2{font-size:31px;line-height:1.25;letter-spacing:-1px;margin:10px 0 14px}
+#phone .m-current p{font-size:14px;line-height:1.5;margin:0 0 9px;color:#e0e8f0}
+#phone .m-primary{display:block;width:100%;padding:13px 12px;border:0;background:var(--m-accent);color:#fff;border-radius:8px;margin-top:20px;font-weight:600}
+#phone .m-feature-row{display:flex;gap:10px;padding:10px 0}
+#phone .m-feature-row .m-button{display:flex;align-items:center;justify-content:center;gap:8px;font-size:13px}
+#phone .m-app .hmi-icon{width:21px;height:21px;flex-shrink:0}
+#phone .m-section-title,#phone .m-settings h2{font-size:18px;line-height:1.4;margin:12px 0}
+#phone .m-area{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid var(--m-line);padding:17px 0;font-size:15px}
+#phone .m-area small{display:block;font-size:12px;color:var(--m-sub);margin-top:6px;line-height:1.5}
+#phone .m-area b{white-space:nowrap;font-size:14px}
+#phone .m-note,#phone .m-empty{color:var(--m-sub);font-size:12px;line-height:1.65;margin:16px 0}
+#phone .m-nav{display:flex;align-items:stretch;flex-shrink:0;background:var(--m-dark);border-radius:30px;margin:10px 14px 16px;padding:6px;gap:3px}
+#phone .m-nav-item{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px 2px;border:0;border-radius:23px;background:transparent;color:#e0e8f0;font-size:12px;line-height:1.3}
+#phone .m-nav-item[aria-current=page]{background:var(--m-accent);color:#fff}
+#phone .m-filters{display:flex;gap:6px;padding-bottom:10px}
+#phone .m-filters .m-button{font-size:12px;padding:8px 4px}
+#phone .m-filters [aria-pressed=true]{background:var(--m-soft);border-color:var(--m-accent);color:var(--m-accent)}
+#phone .m-group h3{font-size:16px;margin:12px 0 0;padding:14px 0;border-bottom:1px solid var(--m-line)}
+#phone .m-group h3 small{float:right;font-size:12px;font-weight:400;color:var(--m-sub)}
+#phone .m-row{display:flex;width:100%;gap:12px;align-items:center;justify-content:space-between;text-align:left;padding:17px 0;background:transparent;color:var(--m-ink);border:0;border-bottom:1px solid var(--m-line)}
+#phone .m-row-main{display:flex;flex-direction:column;gap:7px;min-width:0;overflow-wrap:anywhere}
+#phone .m-row strong{font-size:26px;font-weight:600}
+#phone .m-row strong small{font-size:14px;margin-left:4px}
+#phone .m-row span{font-size:14px;line-height:1.4}
+#phone .m-row small,#phone .m-transmission{font-size:12px;color:var(--m-sub)}
+#phone .m-result{font-size:13px;color:var(--m-ink)}
+#phone .m-warning{font-size:12px;color:#8b4a0b}
+#phone .m-record-status{display:flex;flex-direction:column;gap:10px;border-block:1px solid var(--m-line);padding:18px 0}
+#phone .m-settings h3{font-size:16px;margin:24px 0 10px}
+#phone .m-settings p{font-size:13px;line-height:1.65;color:var(--m-sub)}
+#phone .m-depth-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 20px;font-size:12px;color:var(--m-sub);flex-shrink:0}
+#phone .m-depth-bar .m-button{width:auto;padding:5px 0;border:0;margin:0}
+#phone .m-legacy{display:flex;flex-direction:column;flex:1;min-height:0;overflow:hidden}
+#phone .m-legacy>.p-body{flex:1;min-height:0;height:auto;overflow:auto}
+#phone .m-legacy>.p-actions{flex-shrink:0}
+#phone .m-legacy>.home-bar{display:none}
+body:has(#modal[open]) #phone .m-nav,body:has(#modal[open]) #phone .m-depth-bar{visibility:hidden;pointer-events:none}
+
+/* Geometry ownership: no page-level main/nav or absolute legacy action layout. */
+#phone .m-app{position:relative;inset:auto;flex:1 1 0;align-self:stretch;min-width:0;max-width:none;max-height:100%;margin:0;padding:0;isolation:isolate;font-size:14px;line-height:1.5;text-align:left;letter-spacing:normal}
+#phone .m-app .m-status{position:static;flex:0 0 32px;display:flex;align-items:center;justify-content:space-between;width:100%;margin:0;padding:8px 22px 0;font-size:11px;line-height:16px;color:var(--m-sub)}
+#phone .m-app .m-header{position:static;inset:auto;width:100%;max-width:none;margin:0;padding:12px 22px 18px;min-height:64px}
+#phone .m-app .m-content{position:relative;inset:auto;display:block;flex:1 1 0;align-self:stretch;width:100%;max-width:none;min-width:0;min-height:0;height:auto;margin:0;padding:0 22px 20px;overflow:auto;overflow-x:hidden;overscroll-behavior:contain;scrollbar-width:thin}
+#phone .m-app .m-content :where(h2,h3,p,figure,dl,dt,dd){margin:0;letter-spacing:normal}
+#phone .m-app .m-content h2{font-size:24px;line-height:1.3;font-weight:600}
+#phone .m-app .m-content h3{font-size:16px;line-height:1.4}
+#phone .m-app .m-content .m-current{width:100%;min-height:0;margin:0;padding:20px;overflow-wrap:anywhere}
+#phone .m-app .m-content .m-current h2{margin:8px 0 12px;font-size:30px;line-height:1.25;letter-spacing:-1px}
+#phone .m-app .m-content .m-current p{margin:0 0 8px;font-size:14px;line-height:1.5}
+#phone .m-app .m-content .m-note,#phone .m-app .m-content .m-empty{margin:16px 0;font-size:12px;line-height:1.65}
+#phone .m-app .m-content .m-section-title{font-size:18px;margin:14px 0 4px}
+#phone .m-app .m-content .m-group h3{margin:12px 0 0}
+#phone .m-app .m-content .m-settings h2{margin:0 0 12px;font-size:20px}
+#phone .m-app .m-content .m-settings h3{margin:24px 0 10px}
+#phone .m-app .m-nav{position:static;inset:auto;display:flex;flex:0 0 auto;align-self:stretch;width:auto;min-width:0;max-width:none;min-height:68px;margin:8px 14px 14px;padding:6px;gap:3px;overflow:hidden}
+#phone .m-app .m-nav-item{position:static;flex:1 1 0;width:0;min-width:0;min-height:56px;margin:0;padding:7px 2px;font-size:12px;line-height:16px}
+#phone .m-app :is(.hmi-icon,.next-icon){display:inline-block;width:24px;height:24px;flex:0 0 24px;margin:0;vertical-align:middle}
+#phone .m-app .m-depth-bar{position:static;flex:0 0 48px;width:100%;min-width:0;margin:0;padding:0 22px}
+#phone .m-app .m-legacy{position:relative;inset:auto;display:flex;flex-direction:column;flex:1 1 0;width:100%;min-width:0;min-height:0;height:auto;max-height:100%;margin:0;padding:0;overflow:hidden}
+#phone .m-app .m-legacy>.p-status{position:static;flex:0 0 30px;width:100%;height:30px;margin:0;padding:6px 22px;font-size:11px;line-height:18px}
+#phone .m-app .m-legacy>.p-top{position:static;flex:0 0 40px;width:auto;height:40px;min-height:0;margin:0 22px;padding:0;border:0;font-size:14px;line-height:20px}
+#phone .m-app .m-legacy>.p-body{position:static;inset:auto;flex:1 1 0;width:100%;max-width:none;min-width:0;min-height:0;height:auto;margin:0;padding:12px 22px 20px;overflow:auto;overflow-x:hidden;overscroll-behavior:contain}
+#phone .m-app .m-legacy>.p-actions{position:static;inset:auto;display:block;flex:0 0 auto;align-self:stretch;width:100%;max-width:none;height:auto;min-height:0;margin:0;padding:10px 22px 8px;background:var(--surface);border-top:1px solid var(--line)}
+#phone .m-app .m-legacy>.p-actions:empty{display:none}
+#phone .m-app .m-legacy>.p-actions>button{display:block;width:100%;margin:0 0 6px;min-height:44px}
+#phone .m-app .m-legacy>.p-actions>button:last-child{margin-bottom:0}
+#phone .m-app .m-legacy .p-address{margin:0;padding:0 0 18px}
+#phone .m-app .m-legacy .p-address h2{font-size:64px;line-height:1.05;letter-spacing:-2px;margin:0 0 14px}
+#phone .m-app .m-legacy .p-address h2 small{font-size:23px;letter-spacing:0}
+#phone .m-app .m-legacy .request-panel{margin:10px 0 0;padding:15px}
+#phone .m-app .m-legacy .request-panel strong{font-size:22px;line-height:1.4;overflow-wrap:anywhere}
+#phone .m-app .m-legacy .request-panel .label{margin:0 0 6px;font-size:12px;line-height:1.5}
+#phone .m-app .m-legacy .helper{margin:12px 0;font-size:14px;line-height:1.6}
+#phone .m-app .m-legacy .a-phone-location{margin:0 0 16px}
+#phone .m-app>.p-error,#phone .m-app .m-legacy>.p-error{flex:0 0 auto;max-height:80px;overflow:auto;margin:0;padding:8px 22px;font-size:12px;line-height:1.5}
+#phone .m-app [hidden]{display:none!important}
+#phone .m-app[data-mobile-depth="2"] .p-top [data-action="list"]{display:none}
+/* EV values are demonstrative; the connection notice is a separate line. */
+#phone .m-app .m-vehicle-card{display:block;width:100%;margin:16px 0 0;padding:16px;border:1px solid var(--m-line);border-radius:12px;background:var(--m-paper);color:var(--m-ink);text-align:left}
+#phone .m-app .m-vehicle-card-head{display:flex;align-items:center;gap:8px;font-size:14px}
+#phone .m-app .m-vehicle-card-head small{margin-left:auto;font-size:10px;color:var(--m-sub)}
+#phone .m-app .m-vehicle-card-values{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:10px 0 5px}
+#phone .m-app .m-vehicle-card-values>b{font-size:30px;line-height:1.2;font-weight:600}
+#phone .m-app .m-vehicle-card-values>b small{font-size:16px;margin-left:2px}
+#phone .m-app .m-vehicle-card-values>span{font-size:12px}
+#phone .m-app .m-vehicle-card-note{display:block;color:var(--m-sub);font-size:11px;line-height:1.5}
+#phone .m-app .m-back{display:inline-flex;align-items:center;min-height:44px;margin:0 0 8px;padding:0;background:transparent;color:var(--m-ink);border:0;font-size:14px}
+#phone .m-app .m-vehicle-heading{display:flex;align-items:center;justify-content:space-between;gap:8px}
+#phone .m-app .m-demo-label{display:inline-block;padding:4px 8px;border-radius:5px;background:var(--m-soft);color:var(--m-ink);font-size:11px;line-height:1.4}
+#phone .m-app .m-vehicle-connection{margin:10px 0 20px;color:var(--m-sub);font-size:12px;line-height:1.5}
+#phone .m-app .m-vehicle-hero{padding:20px 18px 12px;border-radius:16px;background:#edf1f3;color:#182b37;overflow:hidden}
+#phone .m-app .m-vehicle-hero>p{font-size:12px;line-height:1.5}
+#phone .m-app .m-battery-value{font-size:82px;font-weight:400;line-height:1.1;letter-spacing:-4px;margin:7px 0 14px}
+#phone .m-app .m-battery-value small{font-size:34px;letter-spacing:-1px;margin-left:4px}
+#phone .m-app .m-battery-track{width:100%;height:8px;border-radius:8px;overflow:hidden;background:#cdd7dd}
+#phone .m-app .m-battery-track span{display:block;height:100%;border-radius:8px;background:#246bce}
+#phone .m-app .m-vehicle-image{display:block;position:static;width:100%;height:150px;max-width:100%;margin:4px 0 0;object-fit:contain}
+#phone .m-app .m-vehicle-hero .m-vehicle-image-note{font-size:10px;color:#536775;text-align:center}
+#phone .m-app .m-vehicle-facts{margin:16px 0 0}
+#phone .m-app .m-vehicle-facts>div{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0;border-bottom:1px solid var(--m-line)}
+#phone .m-app .m-vehicle-facts dt{font-size:12px;color:var(--m-sub)}
+#phone .m-app .m-vehicle-facts dd{font-size:18px;font-weight:600;line-height:1.4;text-align:right}
+#phone .m-app .m-vehicle-facts dd small{font-size:13px;font-weight:400}
+body:has(#modal[open]) #phone .m-app .m-nav,body:has(#modal[open]) #phone .m-app .m-depth-bar{visibility:hidden;pointer-events:none}
+
+#phone .m-app .m-vehicle-chevron{margin-left:auto}
+#phone .m-app .m-vehicle-hero{padding:16px 0 10px;border-radius:0;background:transparent;color:var(--m-ink)}
+#phone .m-app .m-vehicle-connection{margin:0 0 10px}
+#phone .m-app .m-vehicle-image-note{margin-top:0}
+/* The simulated system status stays above the in-app back row at depth 2. */
+body[data-app=delivery] #phone .m-app[data-mobile-depth="2"]{position:relative}
+body[data-app=delivery] #phone .m-app[data-mobile-depth="2"] .m-depth-bar{margin-top:32px}
+body[data-app=delivery] #phone .m-app[data-mobile-depth="2"] .m-legacy>.p-status{position:absolute;top:0;left:0;right:0;height:32px;padding:12px 22px 0;z-index:1}
+
+/* Approved low-poly illustration belongs only to mobile. */
+.m-current .m-parcel-asset{float:right;width:64px;height:64px;object-fit:contain;margin:0 0 10px 12px;pointer-events:none}.m-current:after{content:"";display:table;clear:both}
+
+#phone .m-app .m-legacy>.p-status{display:none}

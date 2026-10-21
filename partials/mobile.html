@@ -1,0 +1,88 @@
+<!-- ⑦ #mobile 모바일 정보 순위와 결과 기록 (v4: docs/proposals-v3/mobile-a.html 벤토 + record-vedvibes-2 카드 두 장)
+     main.js 가 #mobile 안에 넣고 js/devices/mobile.js init(root) 를 부른다
+     구성: 머리 행(라벨 · 핵심 판단 제목 · 사용 상황 / 필요한 정보 / 역할 줄) → 벤토 6장
+       ① 위 넓은 밝은 타일(1순위 동과 호수, 정면 아이폰을 타일 아래에서 자름)
+       ② 왼쪽 밝은 타일(2순위 같은 1203호의 다른 요청)   ③ 오른쪽 어두운 타일(3순위 나중에 배송: 보류 시트 · 남은 업무 조각)
+       ④ 왼쪽 밝은 카드(결과 기록 · 사진 저장: 아이폰 + '배송 대기 · 사진 저장됨' 줄 · 아래 알림 두 조각 확대, '직접 해 보기' → #try)
+       ⑤ 오른쪽 어두운 카드(전달 기록 → 전송 상태: 기록 탭 아이폰 + 1203호 기록 카드 조각, 전송 실패 / 배송사 수신 줄 조각)
+       ⑥ 아래 낮은 타일(배치 이유 · 스타일 규칙)
+     모든 화면은 현재 NEXT UI 캡처다(새로 조판한 UI 글자 없음). 확대 조각은 같은 상태를 4배로 찍은 assets/mobile/*@4x.png 를 CSS 로 잘라 키운다.
+     누를 수 있는 요소는 ④의 '직접 해 보기'(#try 로 이동) 하나다. 아이폰 프레임은 pointer-events:none -->
+<div class="mob">
+  <header class="mob-head">
+    <p class="mob-label">기기별 설계 · 모바일</p>
+    <h2 class="mob-title" id="mobile-title" data-reveal>호수와 그 배송의 요청을 함께 보고,<br>그 배송만 기록합니다</h2>
+    <p class="mob-lead" data-reveal><span class="mob-k-inline">사용 상황</span>물품을 들고 문 앞에 서서 한 손으로 화면을 볼 때<br><span class="mob-k-inline">필요한 정보</span>호수, 그 배송의 요청, 기록 상태와 남은 업무<br><span class="mob-k-inline">역할</span>세 기기 중 배송 기록을 마치는 기준 기기</p>
+  </header>
+
+  <div class="mob-bento">
+    <!-- ① 1순위 -->
+    <article class="mob-tile mob-t1" aria-labelledby="mob-t1-h">
+      <figure class="mob-ph" role="img" aria-label="휴대폰 배송 상세 화면의 윗부분. 104동 · 현재 배송, 상동호수공원 북측 104동, 큰 글자 1203호, 바로 아래 연한 파란 칸에 전달 요청 문 앞에 놓아주세요">
+        <span class="mob-ph__under" aria-hidden="true"></span>
+        <span class="mob-ph__screen" aria-hidden="true"><img src="assets/mobile/phone_45000@4x.png?v=uk1021b" width="1560" height="3376" alt="" decoding="async"></span>
+        <img class="mob-ph__frame" src="assets/mobile/iphone-front@2x.webp" width="2112" height="4280" alt="" aria-hidden="true" decoding="async">
+      </figure>
+      <div class="mob-copy">
+        <p class="mob-rank"><b>1순위</b><span>동과 호수</span></p>
+        <h3 class="mob-say" id="mob-t1-h"><em>1203호,</em> 지금 처리할<br>주소가 먼저입니다</h3>
+        <p class="mob-cap">들고 있는 물품과 문 앞 호수를<br>먼저 맞춰 보도록 맨 위에 둡니다</p>
+      </div>
+    </article>
+
+    <!-- ② 2순위 -->
+    <article class="mob-tile mob-t2" aria-labelledby="mob-t2-h">
+      <div class="mob-copy">
+        <p class="mob-rank"><b>2순위</b><span>그 배송의 요청</span></p>
+        <h3 class="mob-say" id="mob-t2-h"><em>같은 1203호의 두 배송,</em><br>요청은 다를 수 있습니다</h3>
+        <p class="mob-cap">요청을 호수가 아닌 배송 건에 붙여<br>두 건을 섞지 않게 했습니다</p>
+        <p class="ev"><b>원문 사례</b>보배드림 2026 기사 댓글 · 요청이 계단 이용·보관 위치를 바꾼 사례</p>
+        <p class="ev"><b>설계 가설</b>함께 보면 다시 찾는 일이 줄어든다</p>
+      </div>
+      <figure class="mob-ph" role="img" aria-label="같은 1203호의 다른 배송 상세. 상동호수공원 북측 104동, 1203호, 전달 요청 벨을 누르지 말아주세요">
+        <span class="mob-ph__under" aria-hidden="true"></span>
+        <span class="mob-ph__screen" aria-hidden="true"><img src="assets/captures/manual_10_reopen-deferred-A024_phone.png" width="780" height="1688" alt="" loading="lazy" decoding="async"></span>
+        <img class="mob-ph__frame" src="assets/mockups/iphone-front.webp" width="1056" height="2140" alt="" aria-hidden="true" decoding="async">
+      </figure>
+    </article>
+
+    <!-- ③ 3순위 · 나중에 배송 -->
+    <article class="mob-tile mob-tile--night mob-t3" aria-labelledby="mob-t3-h">
+      <div class="mob-copy">
+        <p class="mob-rank"><b>3순위</b><span>결과 기록 또는 나중에 배송</span></p>
+        <h3 class="mob-say" id="mob-t3-h"><em>나중에 배송은</em><br>실패도 반송도 아닙니다</h3>
+        <p class="mob-cap"><span class="mob-cap__l">호수와 요청을 확인한 뒤 누르는 버튼이라 맨 아래에 둡니다</span><span class="mob-cap__l">사유는 선택, 보류한 배송은 남은 업무에서 다시 엽니다</span></p>
+        <p class="ev"><b>설계 가설</b>미룬 배송을 기억에 맡기지 않도록 남은 업무에 남긴다, 현장 검증 전</p>
+      </div>
+      <figure class="mob-frag mob-frag--sheet">
+        <figcaption class="mob-frag__tag">나중에 배송</figcaption>
+        <div class="mob-crop" role="img" aria-label="운송장 9000-0000-4024 · 나중에 배송 시트. 사유는 선택 사항입니다. 보류해도 배송 실패나 반송으로 처리하지 않습니다. 사유 (선택) 물품을 찾지 못함, 보류하고 다음 배송 버튼">
+          <img src="assets/mobile/manual_07_defer-reason_phone@4x.png?v=uk1021b" width="1560" height="3376" alt="" loading="lazy" decoding="async">
+        </div>
+      </figure>
+      <figure class="mob-frag mob-frag--hold">
+        <figcaption class="mob-frag__tag">남은 업무</figcaption>
+        <div class="mob-crop" role="img" aria-label="남은 업무의 보류 배송 1건. 상동호수공원 북측 · 104동 1203호, 벨을 누르지 말아주세요, 운송장 9000-0000-4024, 보류 · 물품을 찾지 못함, 배송 다시 열기">
+          <img src="assets/mobile/manual_09_review-remaining_phone@4x.png?v=uk1021b" width="1560" height="3376" alt="" loading="lazy" decoding="async">
+        </div>
+      </figure>
+    </article>
+
+    <!-- ④⑤ 결과 기록 카드 두 장(사진 저장 / 전달 기록·전송 상태)은 2026-10-21 사용자 요청으로 삭제 -->
+    <!-- ⑥ 배치 이유 · 스타일 규칙 -->
+    <article class="mob-tile mob-t4" aria-label="배치 이유와 스타일 규칙">
+      <div class="mob-why">
+        <p class="mob-lab">배치 이유</p>
+        <p class="mob-reason">한 손에 들고 보는 화면이라 호수와 요청은 위에 크게, <br>기록과 보류 버튼은 아래에 모았습니다</p>
+      </div>
+      <div>
+        <p class="mob-lab">스타일 규칙</p>
+        <ul class="mob-rules">
+          <li><strong>가장 큰 글자는 호수</strong><span>'1203' 64px, 단위 '호'는 23px</span></li>
+          <li><strong>요청은 연한 파란 칸 하나</strong><span>호수 바로 아래, 버튼과 같은 폭, <span style="white-space:nowrap">22px 굵게</span></span></li>
+          <li><strong>채운 파랑은 지금 할 일</strong><span>'배송 사진 촬영' 또는 '전달 저장 · 다음 배송'</span></li>
+        </ul>
+      </div>
+    </article>
+  </div>
+</div>

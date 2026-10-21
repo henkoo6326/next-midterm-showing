@@ -1,0 +1,172 @@
+/* ⑧ #sources 마무리와 출처 (v4, 시안 B: docs/proposals-v3/closing-sources.html)
+ * 담당 closing. 모든 선택자는 #sources 안으로 제한한다(다른 섹션에 영향 없음).
+ * 크기는 vw 기준 clamp(최소, Nvw, N×25.6px) — 1366~2560 데스크톱에서 같은 비율.
+ * 양옆 마진은 .wrap(--margin) 그대로, #roles 와 같다.
+ * 사용자 피드백: 왼쪽 박스 글자가 너무 굵고 큼 → 워드마크는 새 로고(가는 선), 한 줄 카피는 400 굵기·작게 */
+
+#sources {
+  --cls-cap: clamp(13px, 0.9vw, 23px);
+  --cls-small: clamp(14px, 0.98vw, 25px);
+  --cls-body: clamp(15px, 1.1vw, 28px);
+  --cls-line: clamp(19px, 1.65vw, 42px);
+  --cls-radius: clamp(16px, 1.4vw, 36px);
+  --cls-gap: clamp(24px, 2.4vw, 61px);
+}
+
+/* ---------- 마무리: 밝은 타일(8) + 어두운 타일(4) ---------- */
+#sources .cls-top {
+  display: grid;
+  grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
+  column-gap: var(--gutter);
+  align-items: stretch;
+}
+#sources .cls-tile { border-radius: var(--cls-radius); }
+
+#sources .cls-tile--light {
+  position: relative;
+  overflow: hidden;
+  min-height: clamp(380px, 36vw, 922px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(170px, 15.5vw, 397px);
+  column-gap: clamp(24px, 2.4vw, 61px);
+  padding: clamp(36px, 4vw, 102px) clamp(32px, 3.6vw, 92px);
+  background: var(--card);
+  box-shadow: 1px 1px 2px rgba(18, 20, 23, .06);
+}
+#sources .cls-copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--cls-gap);
+}
+#sources .cls-mark { margin: 0; line-height: 0; color: var(--ink); }
+/* 새 로고(사용자 제공 SVG 의 패스 그대로, 색만 잉크 단색). 비율 1516:187 */
+#sources .cls-logo { display: block; width: clamp(220px, 24vw, 614px); height: auto; aspect-ratio: 1516 / 187; }
+#sources .cls-line {
+  margin-top: clamp(20px, 2vw, 51px);
+  font-size: var(--cls-line);
+  line-height: 1.4;
+  font-weight: var(--w-regular);
+  letter-spacing: var(--tracking);
+  color: var(--ink);
+  word-break: keep-all;
+}
+#sources .cls-line .pre { color: var(--mute); }
+#sources .cls-act { display: flex; flex-wrap: wrap; align-items: center; gap: clamp(12px, 1.2vw, 31px) clamp(20px, 1.6vw, 41px); }
+#sources .cls-act .btn {
+  min-height: clamp(44px, 3.2vw, 82px);
+  padding: 0 clamp(20px, 1.6vw, 41px);
+  font-size: var(--cls-body);
+}
+#sources .cls-act .link-text { font-size: var(--cls-body); }
+
+/* 폰: 행 높이에 끼지 않고(absolute) 타일 아래 경계에서 잘린다. 태그는 폰 밖 왼쪽에서 1203호 높이를 짚는다 */
+#sources .cls-phone-cell { position: relative; }
+/* 아래 기준으로 놓는다: '배송 사진 촬영' 버튼 바로 아래(캡처 y 1385/1688, 폰 높이 기준 폭의 1.6333배 지점)가
+ * 타일 아래 경계와 맞도록. 남는 아래 부분 = 폭 × 0.3932, 여기에 타일 아래 패딩을 더해 내린다(다음 버튼 줄이 반쯤 보이지 않게) */
+#sources .cls-phone {
+  --cls-phone-w: clamp(170px, 15.5vw, 397px);
+  position: absolute;
+  left: 0;
+  top: auto;
+  bottom: calc(-1 * clamp(36px, 4vw, 102px) - 0.3932 * var(--cls-phone-w));
+  width: 100%;
+  height: auto;
+}
+#sources .cls-phone .iph-body { box-shadow: var(--shadow-panel); }
+#sources .cls-phone-tag {
+  position: absolute;
+  z-index: 1;
+  right: calc(100% + clamp(8px, 0.8vw, 20px));
+  top: 25%;
+  padding: 0.35em 0.85em;
+  border-radius: var(--radius-chip);
+  background: var(--ink);
+  color: var(--paper);
+  font-size: var(--cls-cap);
+  font-weight: var(--w-strong);
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+#sources .cls-tile--night {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--cls-gap);
+  padding: clamp(28px, 3.2vw, 82px) clamp(24px, 2.8vw, 72px);
+  background: var(--night);
+  color: var(--on-night);
+}
+#sources .cls-scope-label { font-size: var(--cls-cap); font-weight: var(--w-strong); line-height: 1.6; color: var(--on-night); }
+#sources .cls-scope ol { margin: clamp(16px, 2vw, 51px) 0 0; padding: 0; list-style: none; }
+#sources .cls-scope li { padding: clamp(10px, 1.1vw, 28px) 0; border-top: 1px solid var(--line-night); line-height: 1.5; }
+#sources .cls-scope li b { display: block; font-size: var(--cls-cap); font-weight: var(--w-strong); color: var(--on-night-mute); }
+#sources .cls-scope li span { display: block; margin-top: 2px; font-size: var(--cls-body); color: var(--on-night); word-break: keep-all; }
+#sources .cls-scope-note { font-size: var(--cls-cap); line-height: 1.6; color: var(--on-night-mute); word-break: keep-all; }
+/* 다음 기사 테스트에서 확인할 것(v5): 첫 줄은 라벨, 둘째 줄은 확인 항목 */
+#sources .cls-scope-note b { font-weight: var(--w-strong); color: var(--on-night); }
+
+/* ---------- 출처: 4열 압축 목록 ---------- */
+#sources .cls-src { margin-top: clamp(56px, 5.6vw, 143px); }
+#sources .cls-src-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px var(--gutter);
+  padding-bottom: clamp(10px, 1.2vw, 31px);
+  border-bottom: 1px solid var(--ink);
+}
+#sources .cls-src-title { margin: 0; font-size: var(--cls-cap); font-weight: var(--w-strong); line-height: 1.6; }
+#sources .cls-src-head p { font-size: var(--cls-cap); color: var(--mute); }
+#sources .cls-cols {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  margin-top: clamp(16px, 2vw, 51px);
+}
+#sources .cls-col { min-width: 0; }
+#sources .cls-col h4 { margin: 0; padding-bottom: clamp(4px, 0.6vw, 15px); font-size: var(--cls-cap); font-weight: var(--w-strong); line-height: 1.6; color: var(--ink); }
+#sources .cls-col h4 small { margin-left: 0.4em; font-size: inherit; font-weight: var(--w-regular); color: var(--mute); font-variant-numeric: tabular-nums; }
+#sources .cls-col ul { margin: 0; padding: 0; list-style: none; }
+#sources .cls-col ul + h4 { margin-top: clamp(16px, 1.6vw, 41px); }
+#sources .cls-col li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1em;
+  padding: clamp(3px, 0.32vw, 8px) 0;
+  border-top: 1px solid var(--line);
+  font-size: var(--cls-cap);
+  line-height: 1.6;
+  white-space: nowrap;
+}
+#sources .cls-col li span { min-width: 0; overflow: hidden; text-overflow: ellipsis; color: var(--ink-2); }
+#sources .cls-col li small { flex: none; font-size: inherit; color: var(--mute); }
+/* 이 출처를 페이지 어디에 썼는지 한 단어(v5). 파랑 없이 회색 */
+#sources .cls-col li .cls-use { font-weight: var(--w-regular); color: var(--mute); }
+
+/* ---------- 전체 표(펼침) ---------- */
+#sources .cls-more { margin-top: clamp(24px, 2.4vw, 61px); }
+#sources .cls-more > summary { list-style: none; display: inline-flex; cursor: pointer; font-size: var(--cls-body); min-height: clamp(44px, 3.2vw, 82px); padding: 0 clamp(20px, 1.6vw, 41px); }
+#sources .cls-more > summary::-webkit-details-marker { display: none; }
+#sources .cls-more > summary:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+#sources .cls-chev { width: 0.9em; height: 0.9em; transition: transform var(--dur-crossfade) var(--ease-out); }
+#sources .cls-more[open] > summary .cls-chev { transform: rotate(180deg); }
+#sources .cls-more .src { margin-top: clamp(24px, 3.2vw, 82px); }
+
+@media (max-width: 900px) {
+  #sources .cls-top { grid-template-columns: 1fr; row-gap: var(--gutter); }
+  #sources .cls-tile--light { grid-template-columns: 1fr; min-height: 0; }
+  #sources .cls-phone-cell { display: none; }
+  #sources .cls-logo { width: 62vw; }
+  #sources .cls-line { font-size: clamp(19px, 5vw, 26px); }
+  #sources .cls-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 32px; }
+}
+@media (max-width: 600px) {
+  #sources .cls-cols { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #sources .cls-chev { transition: none; }
+}

@@ -1,0 +1,145 @@
+/* PV5 prototype drawing units, not native panel resolutions.
+   Center 16:9 is official; cluster 2:1 is provisional. See pv5-research.md.
+   Load after a.css, day-ui.css and design-variants.css. */
+body[data-app=delivery] #center { width:1280px; height:720px; }
+body[data-app=delivery] #cluster { width:800px; height:400px; }
+body[data-app=delivery] .center-shell > .screen-window { aspect-ratio:16 / 9; }
+body[data-app=delivery] .cluster-shell > .screen-window { aspect-ratio:2 / 1; }
+/* Compare physical active areas, not equal-width device mockups. */
+body[data-app=delivery] .cluster-block { width:60%; margin:24px auto 0; }
+body[data-app=delivery] .workspace[data-view=cluster] { max-width:1280px; }
+body[data-app=delivery] .workspace[data-view=cluster] .cluster-block { margin:0 auto; }
+body[data-app=delivery] .cluster-block .device-title { flex-wrap:wrap; gap:6px 12px; }
+
+/* Fixed header/footer; the middle track takes the remaining height.
+   No scaleX/scaleY, map viewBox changes, or replacement interaction layer. */
+body[data-app=delivery] #center .nx-a {
+  width:1280px; height:720px; display:grid;
+  grid-template-rows:62px minmax(0,1fr) 124px;
+}
+body[data-app=delivery] #center .nx-a.is-driving { grid-template-rows:62px minmax(0,1fr) 72px; }
+body[data-app=delivery] #center .nx-a.day-center { grid-template-rows:62px minmax(0,1fr) 96px; }
+body[data-app=delivery] #center .nx-a > .a-top,
+body[data-app=delivery] #center .nx-a > .c-body,
+body[data-app=delivery] #center .nx-a > footer {
+  height:auto; min-height:0; margin:0;
+}
+body[data-app=delivery] #center .nx-a > .c-body { overflow:hidden; }
+body[data-app=delivery] #center .nx-a > footer { position:static; padding:12px 27px; }
+body[data-app=delivery] #center .a-top { gap:16px; }
+body[data-app=delivery] #center .a-top .a-service { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+body[data-app=delivery] #center .a-top time { flex-shrink:0; }
+
+/* Preserve each variant's map/panel side and map controls. Reflow panel content. */
+body[data-app=delivery] #center .a-delivery.c-primary { top:16px; bottom:16px; padding:18px 22px; overflow:auto; }
+body[data-app=delivery] #center .a-building-name { margin-top:6px; }
+body[data-app=delivery] #center .a-building-number { font-size:68px; margin:6px 0 14px; }
+body[data-app=delivery] #center .a-building-entry { padding-top:14px; }
+body[data-app=delivery] #center .a-building-entry strong { font-size:23px; }
+body[data-app=delivery] #center .a-entry-source { margin:8px 0 12px 37px; }
+body[data-app=delivery] #center .a-building-count { padding-top:12px; }
+body[data-app=delivery] #center .a-building-count b { margin-top:4px; }
+body[data-app=delivery] #center .a-building-progress { margin-top:8px; }
+body[data-app=delivery] #center .a-phone-handoff,
+body[data-app=delivery] #center .a-preview-detail { margin-top:12px; padding-top:12px; }
+body[data-app=delivery] #center .a-turn { top:20px; height:auto; padding:24px; }
+body[data-app=delivery] #center .a-turn b { font-size:68px; }
+body[data-app=delivery] #center .a-turn p { font-size:22px; line-height:1.35; }
+body[data-app=delivery] #center .a-arrival { bottom:20px; padding:18px 24px; }
+body[data-app=delivery] #center .a-arrival strong { font-size:21px; }
+body[data-app=delivery] #center .a-arrival p { margin-top:8px; }
+body[data-app=delivery] #center .a-delivery-rail { height:96px; min-width:0; }
+body[data-app=delivery] #center .a-stop-switch button { min-height:44px; }
+
+/* All workday phases, including empty assignments and offline/review warnings. */
+body[data-app=delivery] #center .day-panel { top:16px; bottom:16px; padding:20px 24px; overflow:auto; }
+body[data-app=delivery] #center .day-panel h2 { font-size:34px; line-height:1.2; margin:8px 0 14px; }
+body[data-app=delivery] #center .day-hero-count { font-size:82px; margin:8px 0 14px; }
+body[data-app=delivery] #center .day-building-list > div { padding:11px 0; font-size:22px; }
+body[data-app=delivery] #center .day-parcel { width:70px; height:60px; }
+body[data-app=delivery] #center .day-metrics { margin:18px 0 14px; padding:16px 0; }
+body[data-app=delivery] #center .day-metrics b { font-size:34px; }
+body[data-app=delivery] #center .day-route-cards { gap:8px; }
+body[data-app=delivery] #center .day-route { padding:10px 13px; }
+body[data-app=delivery] #center .day-route.selected { padding:9px 12px; }
+body[data-app=delivery] #center .day-route-order { margin:6px 0; }
+body[data-app=delivery] #center .day-route-numbers { margin-top:4px; }
+body[data-app=delivery] #center .day-route-numbers strong { font-size:26px; }
+body[data-app=delivery] #center .day-bottom { gap:14px; }
+body[data-app=delivery] #center .day-bottom > div { min-width:0; }
+body[data-app=delivery] #center .day-bottom button { min-height:48px; }
+body[data-app=delivery] #center .day-bottom .day-note { margin:4px 0; }
+
+/* Legacy review/saved/loading fallback returned by the A renderer. */
+body[data-app=delivery] #center > .c-top { height:64px; }
+body[data-app=delivery] #center > .c-body { height:608px; min-height:0; }
+body[data-app=delivery] #center > .c-bottom { height:48px; }
+body[data-app=delivery] #center .c-plan { height:100%; }
+body[data-app=delivery] #center .c-review { min-height:0; padding:28px 36px; gap:32px; }
+body[data-app=delivery] #center .c-review > div { min-height:0; overflow:auto; }
+body[data-app=delivery] #center .c-review h2 { font-size:40px; }
+body[data-app=delivery] #center .c-review .big-number { font-size:88px; margin:16px 0; }
+body[data-app=delivery] #center .c-review .helper { font-size:19px; }
+body[data-app=delivery] #center .map { height:100%; }
+
+/* Rebuilt compact cluster. Explicit reset of global main/footer page styles. */
+body[data-app=delivery] #cluster .a-cluster {
+  width:800px; height:400px; padding:0 24px; display:grid;
+  grid-template-rows:48px minmax(0,1fr) 60px;
+}
+body[data-app=delivery] #cluster .a-cluster header {
+  height:auto; min-width:0; gap:12px; font-size:14px;
+}
+body[data-app=delivery] #cluster .a-cluster header > span { min-width:0; }
+body[data-app=delivery] #cluster .a-cluster header time { flex-shrink:0; }
+body[data-app=delivery] #cluster .day-telemetry { display:inline-block; font-size:10px; margin-left:8px; }
+body[data-app=delivery] #cluster .a-cluster main {
+  width:100%; max-width:none; height:auto; min-height:0; margin:0; padding:12px 0;
+  display:grid; grid-template-columns:42% minmax(0,58%);
+}
+body[data-app=delivery] #cluster .a-c-speed {
+  min-width:0; grid-template-columns:minmax(0,190px) 40px;
+  gap:0 12px; padding:0; justify-content:start; align-content:center;
+}
+body[data-app=delivery] #cluster .a-c-speed > strong { font-size:138px; letter-spacing:-5px; }
+body[data-app=delivery] #cluster .a-c-speed > span { font-size:16px; }
+body[data-app=delivery] #cluster .a-c-speed > b { width:40px; height:44px; font-size:24px; margin-top:6px; }
+body[data-app=delivery] #cluster .a-c-nav { min-width:0; min-height:210px; padding:14px 0 14px 24px; }
+body[data-app=delivery] #cluster .a-c-nav > span { font-size:14px; }
+body[data-app=delivery] #cluster .a-c-nav > div { gap:14px; margin-top:18px; }
+body[data-app=delivery] #cluster .a-c-nav svg { width:54px; height:54px; flex-shrink:0; }
+body[data-app=delivery] #cluster .a-c-nav h2 { font-size:48px; letter-spacing:-1.5px; line-height:1.15; overflow-wrap:anywhere; }
+body[data-app=delivery] #cluster .a-c-nav h2 small { font-size:22px; margin-left:5px; }
+body[data-app=delivery] #cluster .a-c-nav p { font-size:18px; line-height:1.4; margin:16px 0 0; overflow-wrap:anywhere; }
+body[data-app=delivery] #cluster .a-c-park { font-size:48px; width:54px; flex-shrink:0; }
+body[data-app=delivery] #cluster .a-cluster footer {
+  height:auto; min-width:0; padding:0; margin:0; gap:12px; font-size:14px;
+  justify-content:flex-start; line-height:1.4;
+}
+body[data-app=delivery] #cluster .a-cluster footer > span { white-space:nowrap; }
+body[data-app=delivery] #cluster .a-cluster footer svg { width:22px; }
+body[data-app=delivery] #cluster .a-c-charge { width:60px; margin-right:8px; flex-shrink:0; }
+/* Fallback cluster during legacy rendering, without touching phone styles. */
+body[data-app=delivery] #cluster .cl-top { height:48px; padding:14px 24px; font-size:14px; }
+body[data-app=delivery] #cluster .cl-main { height:292px; grid-template-columns:42% minmax(0,58%); }
+body[data-app=delivery] #cluster .cl-speed { padding-left:24px; }
+body[data-app=delivery] #cluster .cl-speed strong { font-size:124px; }
+body[data-app=delivery] #cluster .cl-direction { min-width:0; padding-left:24px; gap:14px; }
+body[data-app=delivery] #cluster .cl-direction h2 { font-size:42px; }
+body[data-app=delivery] #cluster .cl-direction p { font-size:18px; }
+body[data-app=delivery] #cluster .cl-turn-content { gap:14px; }
+body[data-app=delivery] #cluster .cl-turn-content > svg { width:54px; height:54px; }
+body[data-app=delivery] #cluster .cl-bottom { height:60px; margin:0 24px; gap:14px; font-size:14px; }
+body[data-app=delivery] #cluster .battery-bar { width:60px; }
+body[data-app=delivery] #cluster .cluster-loading { height:100%; display:grid; place-content:center; gap:16px; text-align:center; }
+
+/* Pre-launch vehicle home uses the same source dimensions. */
+body[data-app=delivery] #center .entry-center { height:100%; padding:36px 44px; }
+body[data-app=delivery] #center .entry-center img { height:330px; max-width:100%; object-fit:contain; }
+body[data-app=delivery] #cluster .entry-cluster {
+  height:100%; padding:28px; display:grid;
+  grid-template-columns:1fr 1fr; grid-template-rows:1fr auto; gap:16px 24px;
+}
+body[data-app=delivery] #cluster .entry-cluster > strong { font-size:112px; }
+body[data-app=delivery] #cluster .entry-cluster > b { font-size:38px; }
+body[data-app=delivery] #cluster .entry-cluster > p { grid-column:1 / -1; font-size:18px; }

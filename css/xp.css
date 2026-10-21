@@ -1,0 +1,317 @@
+/* ③ 1인칭 3D 체험 + 첫 배송지 도착 (#xp). 어두운 판(--night) 위 스테이지 하나.
+ * 금지: 왼쪽 세로 테두리 강조, 이탤릭, 글래스모피즘, 블루·보라 그라데이션. 강조색은 --accent 한 가지(현재 단계·펄스·다음 체험 주요 행동) */
+
+#xp { padding: 0; }
+
+/* 시작 전 머리 글: 무대 왼쪽 아래 오버레이(DESIGN_V2 2.3). 진행 중에는 시작 화면과 함께 사라진다 */
+.xp-intro {
+  position: absolute; left: var(--margin); bottom: clamp(32px, 4.4vw, 48px); right: var(--margin);
+  text-align: left; pointer-events: none;
+}
+.xp-intro-label { font-size: var(--t-s); font-weight: var(--w-strong); color: var(--on-night-mute); }
+.xp-intro-title { margin-top: var(--sp-2); font-size: var(--fs-h2, clamp(28px, 2.6vw, 52px)); line-height: var(--lh-title); font-weight: var(--w-strong); color: var(--on-night); }
+.xp-steps { display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-5); margin-top: var(--sp-4); font-size: var(--t-s); color: var(--on-night-mute); }
+.xp-steps li { display: inline-flex; align-items: center; gap: var(--sp-2); }
+.xp-steps b {
+  display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%;
+  border: 1px solid var(--on-night-mute); font-size: var(--t-xs); font-weight: var(--w-strong); color: var(--on-night);
+}
+.xp-steps li[aria-current="step"] { color: var(--on-night); }
+.xp-steps li[aria-current="step"] b { border-color: var(--accent); background: var(--accent); color: #fff; }
+.xp-steps li.is-done b { border-color: var(--on-night-mute); color: var(--on-night); }
+@media (max-width: 900px) {
+  .xp-intro { bottom: var(--sp-4); }
+  .xp-steps { display: none; }
+}
+
+/* ---------- 스테이지 ---------- */
+.xp-stage {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - var(--nav-h));
+  height: calc(100svh - var(--nav-h));
+  min-height: 460px; /* 위 상한(1200px)은 없앴다: 2560×1440 에서 무대 아래 140px 어두운 띠가 남았다(fix-xp-copy). 모든 크기에서 메뉴 아래 한 화면 */
+  overflow: hidden;
+  background: var(--night);
+  color: var(--on-night);
+  isolation: isolate;
+  -webkit-user-select: none;
+  user-select: none;
+}
+/* #roles → #xp 들어가기(DESIGN_V2 1.8): 무대가 좌우 --margin 안쪽·모서리 20px 카드에서 전폭으로. 스크롤 위치에 묶여 빈 화면 시간이 없다.
+   크기를 바꾸지 않고 clip-path 로 잘라 WebGL 캔버스 크기 재계산이 없다. 지원하지 않거나 모션 줄이기면 처음부터 전폭 */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .xp-stage {
+      animation: xp-card-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 100%;
+      view-timeline-name: --xp-card;
+    }
+    /* 무대 위 모서리 요소(시연 배지·도구)는 카드 가장자리와 같이 움직여 잘리지 않는다(통합 검수 D4). 끝 위치는 전폭 때와 같다 */
+    .xp-badge, .xp-tools {
+      animation: xp-ride-left linear both;
+      animation-timeline: --xp-card;
+      animation-range: entry 0% entry 100%;
+    }
+    .xp-tools { animation-name: xp-ride-right; }
+  }
+}
+@keyframes xp-card-in {
+  from { clip-path: inset(0 var(--margin) round 20px); }
+  to { clip-path: inset(0 0 round 0); }
+}
+@keyframes xp-ride-left { from { translate: var(--margin) 0; } to { translate: 0 0; } }
+@keyframes xp-ride-right { from { translate: calc(-1 * var(--margin)) 0; } to { translate: 0 0; } }
+body[data-present="1"] .xp-stage { height: calc(100svh - var(--nav-h) - var(--present-h, 40px)); } /* 발표 막대 높이(show.css)만큼 */
+@media (max-width: 900px) {
+  .xp-stage { height: max(62.5vw, 340px); min-height: 0; }
+}
+.xp-viewport { position: absolute; inset: 0; transition: filter var(--dur-enter) var(--ease); }
+.xp-viewport > .xp-css, .xp-viewport > .xp-gl { position: absolute; inset: 0; }
+.xp-viewport > .xp-css { pointer-events: none; }
+.xp-viewport > .xp-gl { display: block; touch-action: manipulation; }
+.xp-stage.is-idle .xp-viewport { filter: blur(8px) brightness(0.55); }
+.xp-stage.is-target-hover .xp-gl { cursor: pointer; }
+
+/* 아래쪽 자막 가독성용 어둠(무채색) */
+.xp-shade {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 32%;
+  background: linear-gradient(to top, rgba(13, 16, 19, 0.72), rgba(13, 16, 19, 0));
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--dur-swap) var(--ease);
+}
+.xp-stage.has-caption .xp-shade { opacity: 1; }
+
+/* CSS3D 화면 상자(기기 화면). 꺼진 화면은 검정 덮개 */
+.xp-screen { position: absolute; overflow: hidden; background: #000; will-change: transform; } /* 카메라·폰이 움직이는 동안 iframe 을 매 프레임 다시 래스터하지 않게 */
+.xp-screen .xp-layer { position: absolute; inset: 0; transition-property: opacity; transition-timing-function: var(--ease); }
+.xp-screen .xp-layer--auto { opacity: 0; }
+.xp-screen iframe { pointer-events: none; }
+.xp-power { position: absolute; inset: 0; background: #000; opacity: 1; transition-property: opacity; transition-timing-function: var(--ease); pointer-events: none; }
+/* 시작 전(흐림 아래) 꺼진 화면은 순검정 대신 어두운 유리 톤: 흐린 대시 위에 검은 구멍처럼 떠 보이지 않게(fix-xp-copy). 시동·켜짐 연출은 그대로(체험하기를 누르면 검정 → 기존 페이드로 켜짐) */
+.xp-stage.is-idle .xp-power { background: linear-gradient(160deg, #2b3137 0%, #1a1e22 55%, #14171a 100%); }
+
+/* ---------- 시작 화면 ----------
+ * 장 이동으로 도착하면 장 머리 아래에 무대 윗부분만 보인다(1366×768 에서 무대 위 391px).
+ * 그래서 CTA 묶음을 무대 세로 40% 쯤(시각 중심)에 둔다. 위 여백 1 : 아래 여백 1.5 */
+.xp-start {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: var(--sp-4);
+  text-align: center;
+  transition: opacity var(--dur-enter) var(--ease), visibility 0s linear var(--dur-enter);
+}
+.xp-start::before { content: ''; flex: 1 1 0; }
+.xp-start::after { content: ''; flex: 1.5 1 0; }
+.xp-stage:not(.is-idle) .xp-start { opacity: 0; visibility: hidden; pointer-events: none; }
+.xp-cta {
+  min-width: 220px; min-height: 64px; padding: 0 var(--sp-7);
+  border: 0; border-radius: var(--radius-chip);
+  background: var(--accent); color: #fff;
+  font-size: var(--t-m); font-weight: var(--w-strong); line-height: 1;
+  transition: background-color var(--dur-swap) var(--ease), opacity var(--dur-swap) var(--ease);
+}
+.xp-cta:hover:not(:disabled) { background: var(--accent-hover, #11519E); }
+.xp-cta:disabled { opacity: 0.45; cursor: progress; }
+.xp-cta:focus-visible { outline: 3px solid var(--on-night); outline-offset: 4px; }
+.xp-sound { color: var(--on-night); font-size: var(--t-s); }
+.xp-load { display: flex; flex-direction: column; align-items: center; gap: var(--sp-2); }
+.xp-load[hidden] { display: none; }
+.xp-load-bar { width: 200px; height: 2px; background: var(--line-night); overflow: hidden; border-radius: 1px; }
+.xp-load-bar span { display: block; height: 100%; width: 100%; background: var(--on-night); transform-origin: 0 0; transform: scaleX(0); transition: transform 0.3s linear; }
+.xp-load-label { font-size: var(--t-xs); color: var(--on-night-mute); font-variant-numeric: tabular-nums; }
+.xp-fail { display: flex; flex-direction: column; align-items: center; gap: var(--sp-3); }
+.xp-fail[hidden] { display: none; }
+.xp-stage.is-failed .xp-tools { display: none; } /* 실패하면 '3D 없이 보기' 하나만 */
+.xp-fail-title { font-size: var(--t-m); line-height: var(--lh-title); font-weight: var(--w-strong); }
+.xp-fail-note { font-size: var(--t-s); color: var(--on-night-mute); max-width: 28em; }
+.xp-sound[hidden] { display: none; }
+.xp-stage:focus { outline: none; }
+.xp-stage:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.xp-hint [hidden] { display: none; }
+
+/* ---------- 버튼 ---------- */
+.xp-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--sp-2);
+  min-height: 40px; padding: 0 var(--sp-4);
+  border: 1px solid rgba(242, 242, 239, 0.32); border-radius: var(--radius-chip);
+  background: rgba(13, 16, 19, 0.72); color: var(--on-night);
+  font-size: var(--t-s); font-weight: var(--w-strong); line-height: 1;
+  transition: background-color var(--dur-swap) var(--ease), border-color var(--dur-swap) var(--ease);
+}
+.xp-btn:hover { border-color: var(--on-night); }
+.xp-btn--sm { min-height: 32px; padding: 0 var(--sp-3); font-size: var(--t-xs); }
+.xp-btn--primary { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+.xp-btn--primary:hover { background: #fff; }
+.xp-btn[aria-pressed="true"] { border-color: var(--on-night); }
+.xp-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* 도구(소리·다시 체험·건너뛰기)는 무대 오른쪽 위. 장 이동으로 도착해 무대 아래가 화면 밖이어도 보인다(v2: 오른쪽 진행 막대 없음) */
+.xp-tools {
+  position: absolute; right: clamp(16px, 2vw, 32px); top: clamp(16px, 2vw, 28px);
+  display: flex; gap: var(--sp-2); z-index: 5;
+}
+.xp-tools [hidden] { display: none; }
+
+/* ---------- 입력 안내 ---------- */
+.xp-hint {
+  position: absolute; left: 50%; top: clamp(16px, 2.4vw, 32px); transform: translateX(-50%);
+  display: flex; align-items: center; gap: var(--sp-3);
+  padding: var(--sp-2) var(--sp-2) var(--sp-2) var(--sp-4);
+  border-radius: var(--radius-chip);
+  background: rgba(13, 16, 19, 0.78); border: 1px solid var(--line-night);
+  white-space: nowrap; z-index: 5;
+  opacity: 0; transition: opacity var(--dur-swap) var(--ease);
+}
+.xp-hint.is-on { opacity: 1; }
+.xp-hint[hidden] { display: none; }
+/* 입력 안내(가운데 위)와 겹치지 않게: 폭이 좁으면 안내를 도구 아래 줄로 */
+@media (max-width: 1180px) { .xp-hint { top: calc(clamp(16px, 2vw, 28px) + 44px); } }
+.xp-hint p { font-size: var(--t-s); font-weight: var(--w-strong); }
+.xp-hint p::before {
+  content: ''; display: inline-block; width: 8px; height: 8px; margin-right: var(--sp-2); border-radius: 50%;
+  background: var(--accent); vertical-align: 1px;
+  animation: xp-dot 1.6s var(--ease) infinite;
+}
+@keyframes xp-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+/* 두 번째 경로 안내 칩: 입력 안내 바로 아래 가운데 */
+.xp-route-note {
+  position: absolute; left: 50%; top: calc(clamp(16px, 2.4vw, 32px) + 60px); transform: translate(-50%, -4px);
+  max-width: calc(100% - 32px);
+  padding: var(--sp-2) var(--sp-4);
+  border-radius: var(--radius-chip);
+  background: var(--paper); color: var(--ink);
+  font-size: var(--t-s); font-weight: var(--w-strong); line-height: var(--lh-title); text-align: center;
+  z-index: 6; pointer-events: none;
+  opacity: 0; transition: opacity var(--dur-swap) var(--ease), transform var(--dur-swap) var(--ease);
+}
+.xp-route-note.is-on { opacity: 1; transform: translate(-50%, 0); }
+.xp-route-note[hidden] { display: none; }
+@media (max-width: 1180px) { .xp-route-note { top: calc(clamp(16px, 2vw, 28px) + 44px + 60px); } }
+@media (max-width: 600px) { .xp-route-note { top: 112px; } }
+
+/* ---------- 자막 ---------- */
+.xp-caption {
+  position: absolute; left: 50%; bottom: clamp(64px, 7vw, 96px); transform: translate(-50%, 8px);
+  width: min(46em, calc(100% - 32px));
+  display: grid; grid-template-columns: auto 1fr; column-gap: var(--sp-3); row-gap: 2px; align-items: baseline;
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--radius);
+  background: rgba(13, 16, 19, 0.82);
+  opacity: 0; transition: opacity var(--dur-swap) var(--ease), transform var(--dur-swap) var(--ease);
+  pointer-events: none; z-index: 4;
+}
+.xp-caption.is-on { opacity: 1; transform: translate(-50%, 0); }
+.xp-cap-speaker { font-size: var(--t-xs); font-weight: var(--w-strong); color: var(--on-night-mute); white-space: nowrap; }
+.xp-cap-text { font-size: clamp(16px, 1.25vw, 22px); line-height: var(--lh-title); font-weight: var(--w-strong); word-break: keep-all; text-wrap: balance; } /* 짧은 꼬리('주세요'만 남는 줄) 방지 */
+.xp-cap-source { grid-column: 2; font-size: var(--t-xs); color: var(--on-night-mute); }
+.xp-caption[data-kind="sfx"] .xp-cap-text { font-size: var(--t-s); font-weight: var(--w-regular); color: var(--on-night-mute); }
+.xp-caption[data-kind="sfx"] { grid-template-columns: 1fr; }
+.xp-caption[data-kind="sfx"] .xp-cap-speaker, .xp-caption[data-kind="sfx"] .xp-cap-source { display: none; }
+
+/* ---------- 끝: 첫 배송지 정차 장면 오른쪽 아래 버튼 줄(아래 32px, 오른쪽 끝 = 12컬럼 오른쪽 여백) ----------
+   가운데 축에는 대시 비상등 스위치, 왼쪽 아래에는 핸들 허브 배지가 있어 버튼이 3D 요소를 덮었다(통합 검수 D2-04).
+   센터 화면 아래 오른쪽은 송풍구 끝과 민무늬 대시뿐이라 화면 영역·스위치와 겹치지 않는다. 카메라는 그대로 */
+.xp-end {
+  position: absolute; right: var(--margin); bottom: 32px;
+  display: flex; gap: var(--sp-2); flex-wrap: wrap; justify-content: flex-end;
+  z-index: 6;
+  animation: xp-end-in var(--dur-enter) var(--ease) both;
+}
+.xp-end[hidden] { display: none; }
+@keyframes xp-end-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+.xp-end .xp-btn { min-height: 48px; padding: 0 var(--sp-5); font-size: var(--t-s); text-decoration: none; background: var(--night-2); }
+.xp-end .xp-btn--primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.xp-end .xp-btn--primary:hover { background: var(--accent-hover, #11519E); border-color: var(--accent-hover, #11519E); }
+
+/* 시연 표식: 오른쪽 위 도구 버튼과 같은 알약(--night-2 바탕, 높이 32px). 글자는 최소 캡션 14px 600(DESIGN_V2 1.1, 통합 검수 D2-11) */
+.xp-badge {
+  position: absolute; left: clamp(16px, 2vw, 32px); top: clamp(16px, 2vw, 28px);
+  display: inline-flex; align-items: center; min-height: 32px; padding: 0 var(--sp-3);
+  border: 1px solid rgba(242, 242, 239, 0.32); border-radius: var(--radius-chip);
+  background: var(--night-2); color: var(--on-night);
+  font-size: var(--fs-caption, 14px); font-weight: var(--w-strong); line-height: 1; z-index: 3;
+}
+
+/* 무대 아래 주석 단락은 없앴다(통합 검수 D6). 연출 범위·자산 출처는 #sources 의 '시연 범위'·'기술 상세'·'자산 출처'에만 둔다.
+   무대 바닥이 바로 #try 위 어두운 띠로 이어진다 */
+
+@media (max-width: 600px) {
+  .xp-cta { min-width: 168px; min-height: 52px; font-size: 20px; }
+  .xp-caption { bottom: 56px; }
+  .xp-hint { top: 56px; max-width: calc(100% - 16px); white-space: normal; } /* 위 줄은 도구 */
+  .xp-hint button { display: none; }
+  .xp-end { left: 16px; right: 16px; bottom: 16px; justify-content: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .xp-viewport, .xp-start, .xp-caption, .xp-hint, .xp-shade, .xp-route-note { transition: none; }
+  .xp-end { animation: none; }
+  .xp-hint p::before { animation: none; }
+}
+
+/* 끝 문구(v5 6항): 정차 장면에서 다음 할 일(휴대폰에서 1203호 요청 확인·전달 기록). 파랑 없음, 등장은 .xp-end 애니메이션을 그대로 따른다.
+   버튼과 같은 줄에 두면 왼쪽으로 길어져 대시 가운데 비상등 스위치를 덮는다(v5 xp-copy plan1440_xp_end.png).
+   그래서 버튼 줄 바로 위, 오른쪽 끝에 맞춘 두 줄 카드로 둔다(위치 → 할 일). 센터 화면 아래 송풍구 끝·민무늬 대시 위 */
+.xp-end-note {
+  position: absolute; right: 0; bottom: calc(100% + var(--sp-2));
+  width: max-content; max-width: calc(100vw - 32px);
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--radius); background: var(--night-2); color: var(--on-night);
+  font-size: var(--t-s); font-weight: var(--w-strong); line-height: var(--lh-title);
+  word-break: keep-all; pointer-events: none;
+}
+.xp-end-note span { display: block; }
+.xp-end-note span:first-child { color: var(--on-night-mute); }
+/* 낮은 화면(1366×768)에서 카드 위끝이 센터 화면 테두리에 닿지 않게 */
+@media (max-height: 820px) { .xp-end-note { padding-block: var(--sp-2); } }
+@media (max-width: 600px) { .xp-end-note { left: 0; right: 0; width: auto; max-width: none; text-align: center; } }
+
+/* ---------- 1440 초과: 무대 위 글·버튼을 화면 폭에 비례(fix-xp-copy) ----------
+ * #xp 는 v4 vw 체계에서 빠져 1920·2560 에서 px 상한에 묶였다(제목 60px = 2560 에서 2.34vw, 단계 15px = 0.59vw).
+ * 1440 의 크기를 기준 단위 --xpu(= 100vw/1440, 1440 이하에서는 1px)로 곱해, 1440 이하의 값은 그대로 두고 그 위에서는 같은 비율을 유지한다.
+ * 제목은 다른 섹션 h2 와 같은 3.25vw. 3D 장면·카메라·클릭 순서는 건드리지 않는다 */
+#xp { --xpu: max(1px, 100vw / 1440); }
+/* show.css 의 #xp 바탕(카드 확장 때 밝은 띠) 높이도 무대와 같게: 상한 없이(900px 이하는 show.css 값 그대로) */
+@media (min-width: 901px) { #xp { --xp-stage-h: max(460px, calc(100svh - var(--nav-h) - var(--present-h))); } }
+@media (min-width: 1441px) {
+  .xp-intro { bottom: calc(48 * var(--xpu)); }
+  .xp-intro-label { font-size: calc(14 * var(--xpu)); }
+  .xp-intro-title { margin-top: calc(8 * var(--xpu)); font-size: clamp(36px, 3.25vw, 96px); }
+  .xp-steps { gap: calc(8 * var(--xpu)) calc(24 * var(--xpu)); margin-top: calc(16 * var(--xpu)); font-size: calc(14 * var(--xpu)); }
+  .xp-steps li { gap: calc(8 * var(--xpu)); }
+  .xp-steps b { width: calc(22 * var(--xpu)); height: calc(22 * var(--xpu)); font-size: calc(12 * var(--xpu)); }
+
+  .xp-start { gap: calc(16 * var(--xpu)); }
+  .xp-cta { min-width: calc(220 * var(--xpu)); min-height: calc(64 * var(--xpu)); padding: 0 calc(48 * var(--xpu)); font-size: 1.7708vw; }
+  .xp-sound { font-size: calc(14 * var(--xpu)); }
+  .xp-load-bar { width: calc(200 * var(--xpu)); }
+  .xp-load-label { font-size: calc(12 * var(--xpu)); }
+  .xp-fail-title { font-size: 1.7708vw; }
+  .xp-fail-note { font-size: calc(14 * var(--xpu)); }
+
+  .xp-btn { gap: calc(8 * var(--xpu)); min-height: calc(40 * var(--xpu)); padding: 0 calc(16 * var(--xpu)); font-size: calc(14 * var(--xpu)); }
+  .xp-btn--sm { min-height: calc(32 * var(--xpu)); padding: 0 calc(12 * var(--xpu)); font-size: calc(12 * var(--xpu)); }
+  .xp-tools { right: calc(28.8 * var(--xpu)); top: calc(28 * var(--xpu)); gap: calc(8 * var(--xpu)); }
+  .xp-badge { left: calc(28.8 * var(--xpu)); top: calc(28 * var(--xpu)); min-height: calc(32 * var(--xpu)); padding: 0 calc(12 * var(--xpu)); font-size: calc(14 * var(--xpu)); }
+
+  .xp-hint { top: calc(32 * var(--xpu)); gap: calc(12 * var(--xpu)); padding: calc(8 * var(--xpu)) calc(8 * var(--xpu)) calc(8 * var(--xpu)) calc(16 * var(--xpu)); }
+  .xp-hint p { font-size: calc(14 * var(--xpu)); }
+  .xp-hint p::before { width: calc(8 * var(--xpu)); height: calc(8 * var(--xpu)); margin-right: calc(8 * var(--xpu)); }
+  .xp-route-note { top: calc(92 * var(--xpu)); padding: calc(8 * var(--xpu)) calc(16 * var(--xpu)); font-size: calc(14 * var(--xpu)); }
+
+  .xp-caption { bottom: calc(96 * var(--xpu)); column-gap: calc(12 * var(--xpu)); padding: calc(12 * var(--xpu)) calc(16 * var(--xpu)); }
+  .xp-cap-speaker, .xp-cap-source { font-size: calc(12 * var(--xpu)); }
+  .xp-cap-text { font-size: 1.25vw; }
+  .xp-caption[data-kind="sfx"] .xp-cap-text { font-size: calc(14 * var(--xpu)); }
+
+  /* 끝 버튼 줄·끝 문구는 3D 대시(센터 화면 테두리·비상등) 사이 빈 자리에 놓인다. 장면 크기는 무대 높이를 따르므로
+     폭 단위와 높이 단위(1440×900 무대 844px 기준) 중 작은 쪽을 쓴다: 1920·2560 에서 끝 문구 위끝이 센터 화면 테두리에 닿지 않게 */
+  #xp { --xpe: min(var(--xpu), max(1px, (100svh - var(--nav-h) - var(--present-h)) / 844)); }
+  .xp-end { bottom: calc(32 * var(--xpe)); gap: calc(8 * var(--xpe)); }
+  .xp-end .xp-btn { min-height: calc(48 * var(--xpe)); padding: 0 calc(24 * var(--xpe)); font-size: calc(14 * var(--xpe)); }
+  .xp-end-note { bottom: calc(100% + 8 * var(--xpe)); padding: calc(12 * var(--xpe)) calc(16 * var(--xpe)); font-size: calc(14 * var(--xpe)); }
+}
+@media (min-width: 1441px) and (max-height: 820px) { .xp-end-note { padding-block: calc(8 * var(--xpe)); } }

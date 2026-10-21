@@ -1,0 +1,87 @@
+/* 3D 체험(쇼잉) 전용 추가 상태 스타일. xp-states.js 와 짝. 현재 UI 의 색·글꼴·라운드를 그대로 따른다.
+ * 색: 잠금화면 알림 파랑 #1859e5 / 기기 강조 파랑 #1762bd / 배송 도우미 패널 하늘색 #9ed8ff·#c5e7ff (vehicle-assistant.css 값) */
+
+/* 잠금화면: 연결 전 안내 카드를 숨기고 시계·날짜만 */
+body.xp-lock-quiet #phone .entry-notification { visibility: hidden; }
+
+/* 알림 카드 등장 */
+#phone .entry-notification.xp-notify-in { animation: xp-notify-in 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+@keyframes xp-notify-in {
+  from { opacity: 0; transform: translateY(-28px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+
+/* 눌림 반응 */
+.xp-pressed { transform: scale(0.97); filter: brightness(0.93); transition: transform 0.12s ease-out, filter 0.12s ease-out; }
+
+/* 클릭 지점 펄스(현재 UI 강조 파랑)
+   box-shadow 를 애니메이션하면 매 프레임 리페인트가 생기고, 원근 변환(matrix3d) 위의 iframe 은 그때마다 지도까지
+   다시 래스터화돼 화면이 1.6초 주기로 미세하게 흔들려 보인다(사용자 확인 2026-10-20). 그래서 고정된 링을 별도 합성
+   레이어(::after)로 두고 transform·opacity 만 움직인다. 버튼 배치·색은 바꾸지 않는다 */
+.xp-pulse { position: relative; }
+.xp-pulse::after {
+  content: ''; position: absolute; inset: -2px; border-radius: inherit; pointer-events: none;
+  box-shadow: 0 0 0 4px rgba(23, 98, 189, 0.5);
+  will-change: transform, opacity; transform: translateZ(0);
+  animation: xp-ring 1.6s ease-out infinite;
+}
+@keyframes xp-ring {
+  0% { opacity: 1; transform: translateZ(0) scale(1, 1); }
+  70% { opacity: 0; transform: translateZ(0) scale(1.05, 1.28); }
+  100% { opacity: 0; transform: translateZ(0) scale(1.05, 1.28); }
+}
+.nda-choices button.xp-pulse::after { box-shadow: 0 0 0 4px rgba(158, 216, 255, 0.5); }
+
+/* 듣고 있습니다: 받아쓰기 줄 + 파형 */
+#center .nda-voice-controls .xp-transcript {
+  margin: 0; min-height: 34px; max-width: 100%;
+  font-size: 22px; line-height: 1.5; font-weight: 600; letter-spacing: -0.4px; color: #fff; text-align: center;
+  word-break: keep-all;
+}
+#center .nda-voice-controls .xp-transcript::after {
+  content: ''; display: inline-block; width: 2px; height: 1.05em; margin-left: 3px; vertical-align: -3px;
+  background: #9ed8ff; animation: xp-caret 1s steps(1) infinite; will-change: opacity;
+}
+@keyframes xp-caret { 50% { opacity: 0; } }
+#center .xp-wave { display: flex; align-items: center; justify-content: center; gap: 4px; height: 24px; }
+#center .xp-wave i { display: block; width: 4px; height: 24px; border-radius: 2px; background: #9ed8ff; transform-origin: 50% 50%; animation: xp-wave 0.9s ease-in-out infinite; will-change: transform; }
+#center .xp-wave i:nth-child(1) { animation-delay: -0.1s; }
+#center .xp-wave i:nth-child(2) { animation-delay: -0.45s; }
+#center .xp-wave i:nth-child(3) { animation-delay: -0.2s; }
+#center .xp-wave i:nth-child(4) { animation-delay: -0.6s; }
+#center .xp-wave i:nth-child(5) { animation-delay: -0.3s; }
+#center .xp-wave i:nth-child(6) { animation-delay: -0.75s; }
+#center .xp-wave i:nth-child(7) { animation-delay: -0.15s; }
+@keyframes xp-wave { 0%, 100% { transform: scaleY(0.25); } 50% { transform: scaleY(1); } }
+#center .xp-listening .nda-mic { position: relative; }
+#center .xp-listening .nda-mic::after {
+  content: ''; position: absolute; inset: 0; border-radius: 50%; pointer-events: none;
+  box-shadow: 0 0 0 4px rgba(197, 231, 255, 0.5);
+  will-change: transform, opacity; transform: translateZ(0);
+  animation: xp-mic-ring 1.6s ease-out infinite;
+}
+@keyframes xp-mic-ring {
+  0% { opacity: 1; transform: translateZ(0) scale(1); }
+  70% { opacity: 0; transform: translateZ(0) scale(1.45); }
+  100% { opacity: 0; transform: translateZ(0) scale(1.45); }
+}
+
+/* AI 대기: 점 3개 */
+.xp-thinking p { display: flex; align-items: center; gap: 10px; color: #bdcfde; }
+.xp-dots { display: inline-flex; gap: 5px; }
+.xp-dots i { display: block; width: 7px; height: 7px; border-radius: 50%; background: #9ed8ff; animation: xp-dots 1.2s ease-in-out infinite; }
+.xp-dots i:nth-child(2) { animation-delay: 0.16s; }
+.xp-dots i:nth-child(3) { animation-delay: 0.32s; }
+@keyframes xp-dots { 0%, 80%, 100% { opacity: 0.25; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-4px); } }
+
+/* 덧붙인 메시지 등장 */
+.xp-added { animation: xp-add 0.3s ease-out both; }
+@keyframes xp-add { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .xp-pulse, .xp-pulse::after, .xp-wave i, .xp-dots i, .xp-added, #phone .entry-notification.xp-notify-in, #center .xp-listening .nda-mic, #center .xp-listening .nda-mic::after { animation: none !important; }
+}
+
+/* 도착·정차(xp-states.js arrived → body.xp-arrived): 표시는 바꾸지 않는다. 현재 UI 정차 화면(autoplay 40000)처럼 지나온 경로선을 그대로 둔다.
+   2026-10-20 xp-road 에서 경로선을 숨겼던 규칙은 통합 검수 R2-REQ-03(페이지의 다른 정차 캡처와 모습이 달라짐)에 따라 뺐다.
+   클래스는 검수 기록용 표식으로만 남긴다 */

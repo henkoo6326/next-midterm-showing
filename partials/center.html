@@ -1,0 +1,85 @@
+<!-- ⑥ #center 센터페시아 (소유: center 담당). 사용자 선택 시안 docs/proposals-v3/center-a.html 이식(2026-10-21), v5 편집(docs/V5_EDIT_PLAN.md 3-6)
+     main.js 가 #center 안에 넣고 js/devices/center.js init(root) 를 부른다
+     구성: 머리 행(제목 · 사용 상황 · 필요한 정보) → 벤토(01 정차 안내 = center-context 렌더 + 정차 캡처 + 확대 카드와 연결선, 왼쪽 8열 /
+           02 출발 전 · 방문 순서 묻기 · 03 출발 전 · 순서 고르기 밝은 타일, 오른쪽 4열) → 정보 1·2·3순위와 이유 · 배치 이유 · 스타일 규칙
+     모든 화면은 현재 NEXT UI 캡처(assets/captures, 2배)를 같은 배율로 잘라 쓴 설명 이미지다. 누를 수 있는 요소는 없다
+     정차 캡처 경로: assets/captures/center_40000.png (지난 경로선이 남은 캡처. 다음 캡처 재생성 때 같은 경로로 바뀐다) -->
+<div class="ctr">
+  <div class="ctr-wrap">
+    <header class="ctr-head">
+      <p class="ctr-label">기기별 설계 · 센터페시아</p>
+      <div class="ctr-head__main">
+        <h2 class="ctr-title" id="center-title" data-reveal>차를 세우면<br>들어갈 동과 입구부터 보여 줍니다</h2>
+        <p class="ctr-lead" data-reveal><span class="ctr-k-inline">사용 상황</span>단지에 차를 세우고 물품을 들고 들어갈 곳을 정할 때<br><span class="ctr-k-inline">필요한 정보</span>갈 동과 입구, 지도 위 현재 위치, 남은 배송 수</p>
+      </div>
+    </header>
+
+    <div class="ctr-bento">
+      <!-- 01 렌더(center-context) 아래에 클러스터·센터 캡처를 렌더 카메라 원근으로 깔고(center.js), 정차 카드를 들어 올려 확대한다 -->
+      <figure class="ctr-main" data-ctr-main>
+        <div class="ctr-stage" data-ctr-stage role="img" aria-label="대시보드 위 센터페시아 화면. 104동에 정차해 왼쪽 위 흰 카드에 상동호수공원 북측, 104동, 서쪽 공동현관, 남은 배송 4건. 그 카드를 확대한 조각이 떠 있다">
+          <div class="ctr-art" data-ctr-art aria-hidden="true"></div>
+        </div>
+        <div class="ctr-shade" aria-hidden="true"></div>
+        <svg class="ctr-link" data-ctr-link aria-hidden="true"></svg>
+        <div class="ctr-zoom" data-ctr-zoom aria-hidden="true">
+          <div class="ctr-crop ctr-crop--park">
+            <img src="assets/captures/center_40000.png" width="1280" height="720" alt="" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <figcaption class="ctr-main__cap">
+          <div class="ctr-step__head"><span class="ctr-n" aria-hidden="true">01</span><h3 class="ctr-step__name">정차 안내</h3></div>
+          <p class="ctr-say"><b>차를 세우면</b><br>104동 · 서쪽 공동현관 · 남은 배송 4건</p>
+          <p class="ev ev--night"><b>원문 사례</b>한국일보 2024 · 단지 입구에 세우고 손수레로 운반 · 입구 정보는 시연용 가상 값</p>
+        </figcaption>
+      </figure>
+
+      <figure class="ctr-step ctr-step--1">
+        <figcaption>
+          <div class="ctr-step__head"><span class="ctr-n" aria-hidden="true">02</span><h3 class="ctr-step__name">출발 전 · 방문 순서 묻기</h3></div>
+          <p class="ctr-say"><b>출발 전에</b><br>남은 방문 순서를 음성으로 묻습니다</p>
+        </figcaption>
+        <div class="ctr-crop ctr-crop--voice" role="img" aria-label="배송 도우미 패널. 어떤 배송 업무를 도와드릴까요, 남은 배송 순서 추천해줘, 배터리 상태 알려줘">
+          <img src="assets/captures/center_ai_listening.png" width="1280" height="720" alt="" loading="lazy" decoding="async">
+        </div>
+      </figure>
+
+      <figure class="ctr-step ctr-step--2">
+        <div class="ctr-crop ctr-crop--route" role="img" aria-label="배송 도우미 답변과 두 순서. 상동 북측에서 상동 남측, 상동 남측에서 상동 북측, 각각 이 순서 선택. 아래에 인식 완료">
+          <img src="assets/captures/center_ai_route_choices.png" width="1280" height="720" alt="" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="ctr-step__text">
+          <div class="ctr-step__head"><span class="ctr-n" aria-hidden="true">03</span><h3 class="ctr-step__name">출발 전 · 순서 고르기</h3></div>
+          <p class="ctr-say"><b>두 방문 순서 중</b><br>하나를 골라 출발합니다</p>
+          <p class="ctr-step__note">정해 둔 규칙으로 두 순서를 보여 줄 뿐, 경로를 계산하지 않습니다</p>
+        </figcaption>
+      </figure>
+    </div>
+
+    <div class="ctr-why">
+      <section aria-labelledby="ctr-rank-h" data-reveal>
+        <h3 class="ctr-why__k" id="ctr-rank-h">정보 1·2·3순위</h3>
+        <ol>
+          <li><span class="ctr-why__n">1</span><span>정차 뒤 동과 입구<small>내려서 들어갈 곳을 바로 정해야 해서</small></span></li>
+          <li><span class="ctr-why__n">2</span><span>지도 위 경로와 현재 위치<small>동·입구가 단지 안 어디인지 보여 줘서</small></span></li>
+          <li><span class="ctr-why__n">3</span><span>남은 배송과 방문 순서<small>다음 출발을 정할 때만 필요해서</small></span></li>
+        </ol>
+        <p class="ctr-why__note">주행 중에는 같은 카드 자리에 다음 회전과 거리를 보여 줍니다</p>
+      </section>
+      <section aria-labelledby="ctr-place-h" data-reveal>
+        <h3 class="ctr-why__k" id="ctr-place-h">배치 이유</h3>
+        <p class="ctr-why__say"><strong>지도를 크게 볼 수 있는 운전석 옆</strong>이라<br>지도와 동·입구를 맡고,<br>호수와 요청은 휴대폰에 둡니다</p>
+        <p class="ctr-why__note">입구가 등록되지 않은 동은 '등록된 입구 정보 없음'으로 표시해 추정하지 않습니다</p>
+      </section>
+      <section aria-labelledby="ctr-style-h" data-reveal>
+        <h3 class="ctr-why__k" id="ctr-style-h">스타일 규칙</h3>
+        <ul>
+          <li>카드는 하나, 왼쪽 위 고정</li>
+          <li>카드 안 가장 큰 글자가 1순위</li>
+          <li>주행 지도는 진행 방향이 위</li>
+          <li>파랑은 경로와 켜진 조작에만</li>
+        </ul>
+      </section>
+    </div>
+  </div>
+</div>

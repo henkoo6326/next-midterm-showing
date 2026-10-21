@@ -1,0 +1,95 @@
+{
+  "sfx-ev-start": {
+    "file": "assets/audio/sfx/ev-start.m4a",
+    "channel": "sfx",
+    "speaker": "효과음",
+    "text": "EV 시동음",
+    "source": "Mixkit 3201 Electric charge hum + 2574 Software interface start 합성 (Mixkit Sound Effects Free License)",
+    "durationMs": 1450,
+    "available": true
+  },
+  "sfx-vibrate": {
+    "file": "assets/audio/sfx/vibrate.m4a",
+    "channel": "sfx",
+    "speaker": "효과음",
+    "text": "휴대폰 진동",
+    "source": "Pixabay 96623 (원작 Breviceps, Freesound 515295 CC0 · Pixabay Content License)",
+    "durationMs": 972,
+    "available": true
+  },
+  "sfx-notify": {
+    "file": "assets/audio/sfx/notify.m4a",
+    "channel": "sfx",
+    "speaker": "효과음",
+    "text": "알림음",
+    "source": "Kenney Interface Sounds · confirmation_001 (CC0)",
+    "durationMs": 290,
+    "available": true
+  },
+  "sfx-tap": {
+    "file": "assets/audio/sfx/tap.m4a",
+    "channel": "sfx",
+    "speaker": "효과음",
+    "text": "화면 탭",
+    "source": "Kenney Interface Sounds · tick_004 (CC0)",
+    "durationMs": 52,
+    "available": true
+  },
+  "sfx-shutter": {
+    "file": "assets/audio/sfx/shutter.m4a",
+    "channel": "sfx",
+    "speaker": "효과음",
+    "text": "카메라 셔터",
+    "source": "Mixkit 1133 Camera shutter click (Mixkit Sound Effects Free License)",
+    "durationMs": 200,
+    "available": true
+  },
+  "voice-v1": {
+    "file": "assets/audio/voice/v1.mp3",
+    "channel": "voice",
+    "speaker": "NEXT 안내",
+    "text": "NEXT를 센터 화면에 열었어요. 오늘 배송은 상동호수공원 네 건입니다",
+    "source": "elevenlabs.io · 보이스 Anna Kim · eleven_v4 · 무료 플랜(비상업, 표기 필요)",
+    "durationMs": 5642,
+    "available": true
+  },
+  "voice-v2": {
+    "file": "assets/audio/voice/v2.mp3",
+    "channel": "voice",
+    "speaker": "NEXT 안내",
+    "text": "남은 배송은 네 건입니다. 상동 북측 다음 남측, 또는 남측 다음 북측으로 갈 수 있어요. 순서를 골라 주세요",
+    "source": "elevenlabs.io · 보이스 Anna Kim · eleven_v4 · 무료 플랜(비상업, 표기 필요)",
+    "durationMs": 9953,
+    "available": true
+  },
+  "voice-v3": {
+    "file": "assets/audio/voice/v3.mp3",
+    "channel": "voice",
+    "speaker": "NEXT 안내",
+    "text": "상동 북측 104동부터 안내합니다",
+    "source": "elevenlabs.io · 보이스 Anna Kim · eleven_v4 · 무료 플랜(비상업, 표기 필요)",
+    "durationMs": 3004,
+    "available": true
+  },
+  "source-0418": {
+    "file": "assets/audio/source/source-0418.m4a",
+    "channel": "voice",
+    "speaker": "기사",
+    "text": "상동 호수공원 어디로 가요?",
+    "source": "감스트GAMST · YouTube o-nMYZaeAnc · 4:18–4:20",
+    "durationMs": 1816,
+    "available": true,
+    "confirmNote": "Whisper medium 인식으로 지정 대사와 일치 확인"
+  },
+  "source-0434": {
+    "file": "assets/audio/source/source-0434.m4a",
+    "channel": "voice",
+    "speaker": "기사",
+    "text": "오케이, 감사드리고",
+    "source": "감스트GAMST · YouTube o-nMYZaeAnc · 4:34–4:37",
+    "durationMs": 1741,
+    "available": true,
+    "confirmed": true,
+    "confirmNote": "Whisper medium 인식 + 영상 댓글 문구 교차 확인(사람 청취 확인 아님)"
+  }
+}

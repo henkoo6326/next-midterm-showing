@@ -1,0 +1,76 @@
+<!-- ⑤ #cluster 클러스터 주요 기능과 설계 근거 (소유: cluster 담당)
+     구도: docs/DESIGN_V2.md 2.5 · 문구: docs/COPY_V2.md 7.1 · v4 피드백(REQUIREMENTS_v4 10번): 정보 순위 열 sticky
+     v5(docs/V5_EDIT_PLAN.md 3-5): 머리 행 = 사용 상황·필요한 정보 라벨형 두 줄, 배치 이유 한 문장 + 근거 꼬리표(.ev, show.css 공통)
+     모든 이미지는 설명용이다. 누를 수 있는 요소는 없다(js/devices/cluster.js 가 렌더 합성과 화면 조각을 채운다).
+     .cl-detail = 왼쪽(비교 + 주요 기능) / 오른쪽 근거 열(.cl-notes, sticky). 근거 열은 주요 기능 목록 하단에서 멈춘다 -->
+<div class="cl" data-cl>
+  <header class="cl-head cl-grid">
+    <p class="cl-label">기기별 설계 · 클러스터</p>
+    <h2 class="cl-title" id="cluster-title" data-reveal>다음 회전을 확인해도<br>속도와 기어는 같은 자리에</h2>
+    <p class="cl-lead" data-reveal><span class="cl-k-inline">사용 상황</span>주행 중 도로에서 잠깐 눈을 돌려 다음 회전과 속도를 볼 때<br><span class="cl-k-inline">필요한 정보</span>속도·기어, 다음 회전과 남은 거리</p>
+  </header>
+
+  <figure class="cl-band">
+    <div class="cl-band__stage" data-cl-band></div>
+    <figcaption class="cl-band__state">주행 중 · D</figcaption>
+  </figure>
+
+  <div class="cl-why cl-grid">
+    <p class="cl-k" data-reveal>배치 이유</p>
+    <p class="cl-why__text" data-reveal>운전 중 짧게 보는 자리라 차량 상태와 다음 회전만 두고, <br>바뀌는 칸은 가운데 하나로 제한했습니다</p>
+    <!-- 2026-10-21 사용자 요청: NHTSA 근거 줄 삭제, 그 높이만큼 여백 유지(같은 상자를 보이지 않게 남겨 폭마다 높이가 같다) -->
+    <p class="ev cl-why__ev" aria-hidden="true" style="visibility:hidden"><b>문헌</b>NHTSA 2013 자율 지침의 시선 기준(한 번 2초·누적 12초)을 참고, 충족 시험은 하지 않음</p>
+  </div>
+
+  <div class="cl-detail cl-grid">
+    <div class="cl-cmp" aria-labelledby="cl-cmp-title">
+      <h3 class="cl-visually-hidden" id="cl-cmp-title">주행과 정차 화면 비교</h3>
+      <ol class="cl-zones" aria-label="화면 구역과 정보 순위">
+        <li style="--x: 10.125%"><span class="cl-num">1</span>속도</li>
+        <li style="--x: 43.5%"><span class="cl-num">2</span>다음 회전</li>
+        <li style="--x: 70%"><span class="cl-num">3</span>주행 가능 거리</li>
+        <li style="--x: 92.125%"><span class="cl-num">1</span>기어</li>
+      </ol>
+      <div class="cl-lines" aria-hidden="true">
+        <i style="--x: 10.125%"></i><i style="--x: 43.5%"></i><i style="--x: 70%"></i><i style="--x: 92.125%"></i>
+      </div>
+
+      <div class="cl-state cl-state--drive">
+        <p class="cl-state__name">주행</p>
+        <p class="cl-state__val"><span>28&nbsp;km/h · D</span><span>목적지까지</span><span>240&nbsp;m 직진</span></p>
+      </div>
+      <div class="cl-shot cl-shot--drive" data-cl-shot="assets/captures/cluster_30000.png"
+           data-alt="주행 중 클러스터 화면. 왼쪽 28 km/h, 가운데 파란 직진 화살표와 240 m 목적지까지 직진, 오른쪽 주행 가능 213 km와 기어 D"></div>
+
+      <div class="cl-state cl-state--park">
+        <p class="cl-state__name">정차</p>
+        <p class="cl-state__val"><span>0&nbsp;km/h · P</span><span>104동 정차</span></p>
+      </div>
+      <div class="cl-shot cl-shot--park" data-cl-shot="assets/captures/cluster_40000.png"
+           data-alt="정차한 클러스터 화면. 왼쪽 0 km/h, 가운데 입구 아이콘과 104동 정차, 오른쪽 주행 가능 213 km와 기어 P"></div>
+
+      <p class="cl-cmp__cap">위 주행 28&nbsp;km/h · D, 아래 104동 정차 0&nbsp;km/h · P</p>
+    </div>
+
+    <div class="cl-feat">
+      <h3 class="cl-k" data-reveal>주요 기능</h3>
+      <ul class="cl-feat__list">
+        <li data-reveal><strong>속도와 기어</strong>큰 숫자와 R·N·D·P 세로 열</li>
+        <li data-reveal><strong>다음 회전</strong>파란 화살표와 남은 거리</li>
+        <li data-reveal><strong>정차·출발 표시</strong>정차한 동과 출발 준비</li>
+        <li data-reveal><strong>차량 상태</strong>주행 가능 거리·배터리·회생제동</li>
+      </ul>
+    </div>
+
+    <aside class="cl-notes" aria-label="클러스터 정보 1·2·3순위">
+      <h3 class="cl-notes__h" data-reveal>정보 1·2·3순위</h3>
+      <ol class="cl-rank">
+        <li data-reveal><span class="cl-num cl-num--lg" aria-hidden="true">1</span><div><strong>속도와 기어</strong><p>안내가 바뀌어도 찾지 않도록<br>주행·정차 모두 같은 자리에 둡니다</p></div></li>
+        <li data-reveal><span class="cl-num cl-num--lg" aria-hidden="true">2</span><div><strong>다음 회전과 남은 거리</strong><p>주행 중 기사가 다음에 할 행동</p></div></li>
+        <li data-reveal><span class="cl-num cl-num--lg" aria-hidden="true">3</span><div><strong>주행 가능 거리·배터리</strong><p>계속 보지만 바로 행동하지 않아<br>가운데에서 비켜 둡니다</p></div></li>
+      </ol>
+      <p class="cl-off" data-reveal><strong>올리지 않는 정보</strong>물품 목록, 배송 버튼, 긴 요청 문장</p>
+      <!-- 2026-10-21 사용자 요청: '스타일 규칙' 블록 삭제. 색·글자 크기 기준은 #system(디자인 시스템) 섹션 -->
+    </aside>
+  </div>
+</div>

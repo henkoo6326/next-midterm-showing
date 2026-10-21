@@ -1,0 +1,17 @@
+/* Playback controls only; intentionally outside .device / operational HMI. */
+.next-live-demo { margin:16px 0; padding:14px 18px; border:1px solid #b9cbd9; border-radius:6px; background:#eaf1f7; color:#18354b; font:14px/1.5 system-ui,'Apple SD Gothic Neo',sans-serif; }
+.next-live-demo * { box-sizing:border-box; }
+.next-live-demo .nld-heading { display:flex; align-items:baseline; flex-wrap:wrap; gap:8px 18px; margin-bottom:10px; }
+.next-live-demo .nld-heading strong { font-size:15px; }
+.next-live-demo [data-live-status] { color:#425e73; font-size:13px; }
+.next-live-demo .nld-controls { display:flex; align-items:center; flex-wrap:wrap; gap:10px; }
+.next-live-demo button { min-height:44px; border:1px solid #8ba7bb; background:#fff; color:#18354b; border-radius:4px; padding:8px 14px; font:inherit; cursor:pointer; }
+.next-live-demo [data-live-toggle] { min-width:92px; border-color:#1d567f; background:#1d567f; color:#fff; }
+.next-live-demo button:focus-visible,.next-live-demo input:focus-visible { outline:3px solid #126cc1; outline-offset:3px; }
+.next-live-demo .nld-scrub { display:flex; align-items:center; gap:10px; flex:1 1 240px; min-height:44px; }
+.next-live-demo .nld-scrub span { white-space:nowrap; font-size:12px; }
+.next-live-demo input[type=range] { flex:1; width:100%; min-width:80px; height:32px; accent-color:#1d567f; cursor:pointer; }
+.next-live-demo output { min-width:100px; text-align:right; font-variant-numeric:tabular-nums; font-size:13px; }
+.next-live-demo p { margin:9px 0 0; max-width:1100px; color:#425e73; font-size:12px; line-height:1.55; }
+@media(max-width:600px) { .next-live-demo { padding:12px; } .next-live-demo .nld-scrub { flex-basis:100%; order:3; } .next-live-demo output { margin-left:auto; } }
+@media(prefers-reduced-motion:reduce) { .next-live-demo * { scroll-behavior:auto; transition:none; } }

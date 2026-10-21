@@ -1,0 +1,222 @@
+{
+  "cluster-front": {
+    "png": "assets/mockups/cluster-front.png",
+    "webp": "assets/mockups/cluster-front.webp",
+    "w": 1634,
+    "h": 828,
+    "device": "cluster",
+    "screen": [
+      [
+        154.99,
+        55.88
+      ],
+      [
+        1466.69,
+        55.44
+      ],
+      [
+        1451.27,
+        705.0
+      ],
+      [
+        170.75,
+        705.0
+      ]
+    ],
+    "ui": [
+      800,
+      400
+    ],
+    "view": "front"
+  },
+  "center-34": {
+    "png": "assets/mockups/center-34.png",
+    "webp": "assets/mockups/center-34.webp",
+    "w": 1578,
+    "h": 884,
+    "device": "center",
+    "screen": [
+      [
+        238.03,
+        78.92
+      ],
+      [
+        1315.53,
+        62.31
+      ],
+      [
+        1301.06,
+        660.22
+      ],
+      [
+        255.26,
+        763.03
+      ]
+    ],
+    "ui": [
+      1280,
+      720
+    ],
+    "view": "34"
+  },
+  "phone-34": {
+    "png": "assets/mockups/phone-34.png",
+    "webp": "assets/mockups/phone-34.webp",
+    "w": 934,
+    "h": 1242,
+    "device": "phone",
+    "screen": [
+      [
+        294.99,
+        46.92
+      ],
+      [
+        741.2,
+        56.73
+      ],
+      [
+        731.07,
+        1029.67
+      ],
+      [
+        308.34,
+        1084.8
+      ]
+    ],
+    "ui": [
+      390,
+      844
+    ],
+    "view": "34"
+  },
+  "phone-front": {
+    "png": "assets/mockups/phone-front.png",
+    "webp": "assets/mockups/phone-front.webp",
+    "w": 909,
+    "h": 1135,
+    "device": "phone",
+    "screen": [
+      [
+        227.54,
+        50.62
+      ],
+      [
+        665.18,
+        50.64
+      ],
+      [
+        664.4,
+        992.14
+      ],
+      [
+        228.38,
+        992.16
+      ]
+    ],
+    "ui": [
+      390,
+      844
+    ],
+    "view": "front"
+  },
+  "lineup": {
+    "png": "assets/mockups/lineup.png",
+    "webp": "assets/mockups/lineup.webp",
+    "w": 1614,
+    "h": 506,
+    "device": "lineup",
+    "screen": [
+      [
+        630.63,
+        56.24
+      ],
+      [
+        1165.9,
+        56.28
+      ],
+      [
+        1165.97,
+        358.82
+      ],
+      [
+        630.64,
+        358.8
+      ]
+    ],
+    "screens": {
+      "cluster": {
+        "screen": [
+          [
+            80.58,
+            131.54
+          ],
+          [
+            530.75,
+            131.36
+          ],
+          [
+            530.78,
+            358.04
+          ],
+          [
+            80.4,
+            358.11
+          ]
+        ],
+        "ui": [
+          800,
+          400
+        ]
+      },
+      "center": {
+        "screen": [
+          [
+            630.63,
+            56.24
+          ],
+          [
+            1165.9,
+            56.28
+          ],
+          [
+            1165.97,
+            358.82
+          ],
+          [
+            630.64,
+            358.8
+          ]
+        ],
+        "ui": [
+          1280,
+          720
+        ]
+      },
+      "phone": {
+        "screen": [
+          [
+            1307.4,
+            70.43
+          ],
+          [
+            1453.33,
+            70.35
+          ],
+          [
+            1453.24,
+            382.83
+          ],
+          [
+            1307.47,
+            382.73
+          ]
+        ],
+        "ui": [
+          390,
+          844
+        ]
+      }
+    },
+    "view": "front"
+  }
+}

@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="ko" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NEXT 중간평가 쇼잉</title>
+<meta name="description" content="아파트를 혼자 배송하는 기사를 위한 클러스터·센터페시아·모바일 서비스 NEXT의 중간평가 쇼잉">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="data:,">
+<link rel="preload" href="ui/assets/WantedSans-Regular.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="ui/assets/WantedSans-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" as="image" fetchpriority="high" href="assets/hero/next-courier-pv5-1480.webp"
+      imagesrcset="assets/hero/next-courier-pv5-1480.webp 1480w, assets/hero/next-courier-pv5-1920.webp 1920w, assets/hero/next-courier-pv5-2960.webp 2960w" imagesizes="100vw">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/show.css">
+<link rel="stylesheet" href="css/roles.css">
+<link rel="stylesheet" href="css/hero.css?v=courier-20261021c">
+<!-- 섹션 담당 CSS (없으면 무시된다) -->
+<link rel="stylesheet" href="css/xp.css">
+<link rel="stylesheet" href="css/try.css">
+<link rel="stylesheet" href="css/dev-cluster.css">
+<link rel="stylesheet" href="css/dev-center.css">
+<link rel="stylesheet" href="css/dev-mobile.css">
+<link rel="stylesheet" href="css/sources.css">
+<link rel="stylesheet" href="css/system.css">
+<script type="importmap">
+{
+  "imports": {
+    "three": "./vendor/three/three.module.js",
+    "three/addons/": "./vendor/three/addons/"
+  }
+}
+</script>
+<script>document.documentElement.classList.remove('no-js');</script>
+<script>
+/* 새로고침은 항상 첫 화면(히어로)에서 시작한다(사용자 요청 2026-10-21).
+   주소의 #섹션은 링크로 처음 열었을 때만 따라가고, 새로고침이면 지운다. 브라우저의 스크롤 복원도 끈다.
+   main.js 보다 먼저 실행돼야 해서 일반 스크립트로 둔다 */
+(function () {
+  try {
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    var nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+    var reload = nav ? nav.type === 'reload' : (performance.navigation && performance.navigation.type === 1);
+    if (reload) {
+      if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+      window.scrollTo(0, 0);
+      addEventListener('load', function () { window.scrollTo(0, 0); }, { once: true });
+    }
+  } catch (e) { /* 실패해도 페이지는 정상 동작 */ }
+})();
+</script>
+<script type="module" src="js/main.js"></script>
+<script type="module" src="js/front/roles.js"></script>
+</head>
+<body>
+<a class="skip" href="#intro-main">본문으로 건너뛰기</a>
+
+<header class="topnav" data-topnav>
+  <div class="wrap topnav-in">
+    <a class="topnav-brand" href="#intro" aria-label="NEXT 처음으로">
+      <!-- 로고: assets/brand/next-logo.svg 의 path 그대로(원본 assets/brand/original). 채움 currentColor -->
+      <svg class="topnav-logo" viewBox="0.8 0.7 1514.4 186.2" aria-hidden="true" focusable="false"><g fill="currentColor"><path d="M446.964 1.62039L642.888 1.65621L704.523 1.68236C715.141 1.69204 741.713 -0.361608 750.815 5.62898C754.756 8.87941 755.065 14.1612 755.637 18.4283C759.181 45.0253 731.789 39.9216 713.653 39.9323L665.033 39.9429L518.924 39.9913C501.598 40.033 484.281 39.6631 466.979 39.7502C459.925 39.9081 456.696 39.972 451.338 44.5586C444.386 49.9789 447.229 70.411 456.093 71.6997C472.214 74.0439 494.527 73.0601 510.642 73.0611L674.008 73.0533C695.525 73.1521 717.012 72.7783 738.537 73.0078C761.814 73.2557 761.708 108.3 741.229 110.199C730.781 111.169 718.498 110.704 707.863 110.687L643.793 110.578L517.037 110.569C498.043 110.571 478.995 110.287 460.02 110.763C443.179 111.052 444.322 141.834 456.983 143.901C473.336 146.571 498.614 145.217 515.149 145.214L662.447 145.225C688.084 145.198 713.64 145.101 739.273 145.498C762.172 145.852 761.746 184.279 739.98 184.849C721.233 185.341 702.46 185.19 683.696 185.156L577.773 185.102L486.456 185.138C473.914 185.136 449.04 185.777 437.719 184.373C429.339 183.403 421.439 179.954 415.03 174.469C396.232 158.17 402.753 106.839 402.223 83.097C401.331 43.0898 396.742 4.7982 446.964 1.62039Z"/><path d="M23.8573 1.69105C35.4968 0.58046 48.5809 1.72011 60.3076 1.5342C94.6654 0.988107 117.754 20.6253 145.136 38.9282L243.428 104.519C261.921 116.879 289.564 139.814 311.749 143.096C327.195 145.38 330.156 133.791 330.438 121.088C331.233 85.2039 328.883 47.9852 330.71 12.1463C333.948 7.00773 335.229 5.71319 340.039 2.4066C348.98 1.15562 361.209 0.0169461 368.16 6.78407L368.531 7.15104C372.364 10.8604 372.637 21.7988 372.608 27.0109C372.343 73.8637 373.44 120.873 372.012 167.684C371.653 179.464 361.869 184.394 351.675 185.977C319.299 186.277 291.604 189.851 263.482 170.942C244.962 158.488 226.228 145.986 207.662 133.62L99.7371 61.6434C87.7907 53.6979 71.3671 42.7673 56.2931 45.4939C39.578 48.5178 42.812 71.9747 42.8914 84.3915L43.3165 139.657C43.423 151.464 47.4655 183.345 31.402 185.646C-3.8543 190.695 1.09253 171.41 1.11674 145.995L1.18839 95.7017L1.20389 50.43C1.1274 29.2069 -3.57353 5.92619 23.8573 1.69105Z"/><path d="M794.28 1.56132C809.094 1.27278 824.877 0.431373 839.304 4.22015C884.454 16.0764 914.877 71.4799 960.918 71.3608C1021.13 71.2049 1040 -7.59836 1126.05 1.44901C1131.02 1.97283 1135.98 3.44554 1139.18 7.53351C1142.74 12.0572 1143.04 19.5089 1142.39 25.0647C1141.36 33.8797 1136.86 38.9824 1127.97 40.2557C1119.22 41.5086 1110.58 40.0978 1101.73 41.9888C1077.66 47.1312 1043.21 77.821 1023.21 93.5474C1040.73 107.249 1059.33 120.499 1076.97 133.489C1098.33 149.22 1113.67 141.451 1134.58 147.787C1144.58 150.817 1149.86 180.697 1128.37 185.875C1113.32 186.318 1097.78 187.014 1083.12 183.015C1039.24 171.041 1005.93 115.702 961.073 115.796C903.18 115.917 882.421 194.252 797.127 185.837C792.13 185.345 786.708 183.906 783.474 179.774C779.766 175.02 779.863 166.198 780.531 160.407C781.528 151.795 786.456 146.742 795.045 145.534C804.088 144.261 812.919 145.853 822.098 143.833C844.339 138.934 880.397 108.591 899.23 93.5687C885.277 81.5701 866.677 69.6809 853.596 58.5644C828.256 37.0246 815.427 44.3775 787.957 37.7663C778.672 35.5296 773.065 6.88769 794.28 1.56132Z"/><path d="M1181.73 1.53128L1395.72 1.7172C1429.15 1.70268 1463.14 0.173794 1496.5 1.66975C1499.9 1.82273 1504.05 1.88471 1506.98 3.80766C1507.11 3.89674 1507.25 3.99065 1507.39 4.08166C1510.32 6.03076 1512.33 8.22678 1513.58 11.5711C1515.47 16.6554 1515.8 25.9836 1513.5 30.9062C1511.65 34.9099 1507.54 38.0025 1503.34 39.1731C1494.99 41.496 1483.3 40.1172 1474.61 40.0852C1457.67 40.0223 1371.59 37.6791 1362.78 41.0641C1362.56 41.1474 1362.34 41.2394 1362.13 41.3275C1356.88 49.9595 1360.32 124.849 1359.6 142.801C1358.78 163.36 1367.25 197.604 1324.43 183.562C1313.7 180.046 1316.54 160.564 1316.27 150.321C1315.35 116.174 1318.46 80.323 1315.2 46.3828C1314.32 36.9587 1290.48 39.7309 1283.2 39.7764L1218.21 40.0571C1209.14 40.0775 1179.48 41.6248 1173 36.462C1161.88 27.6083 1163.92 5.42754 1181.73 1.53128Z"/></g></svg>
+    </a>
+    <nav class="topnav-list" aria-label="페이지 구성" data-group-nav>
+      <a href="#roles" data-group="service" data-key="1">서비스</a>
+      <a href="#xp" data-group="experience" data-key="2">체험</a>
+      <a href="#cluster" data-group="devices" data-key="3">기기별 설계</a>
+      <a href="#sources" data-group="sources" data-key="4">출처</a>
+    </nav>
+    <p class="topnav-present" data-present-status aria-live="polite" hidden></p>
+  </div>
+</header>
+
+<main>
+
+  <!-- ① 서비스 소개 히어로 v5 (2026-10-21 정식 반영). 전면 사진 위 왼쪽 흰 글 · 아래 메타/캡션. 스타일은 css/hero.css(#intro 범위)
+       이미지: 운전석 앞유리 너머 배송기사 콘셉트 이미지(생성 도구 보정) + 실제 NEXT UI 캡처 원근 합성.
+       작업 원본·과정 기록은 ../assets/hero/retouch-2026-10-21(PROCESS.md, PROCESS-v2.md), 출처는 assets/credits.json -->
+  <section id="intro" class="sec-intro" data-group="service" data-label="서비스" aria-labelledby="intro-title">
+    <div class="wrap hero">
+      <div class="hero-copy" id="intro-main">
+        <p class="hero-label">아파트 단지를 혼자 배송하는 기사를 위한 NEXT</p>
+        <h1 id="intro-title" class="hero-title"><span>차에서는 갈 곳을,</span><span>문 앞에서는 할 일을</span></h1>
+        <p class="hero-desc">차량에서는 다음 동과 입구를 안내하고,<br> 휴대폰에서는 배송별 요청을 확인하고 전달 결과를 기록합니다.</p>
+        <div class="hero-actions">
+          <a class="btn btn--primary" href="#xp">배송 과정 체험하기</a>
+          <a class="hero-link" href="#cluster">화면 살펴보기</a>
+        </div>
+      </div>
+      <figure class="hero-visual">
+        <img src="assets/hero/next-courier-pv5-1480.webp"
+             srcset="assets/hero/next-courier-pv5-1480.webp 1480w, assets/hero/next-courier-pv5-1920.webp 1920w, assets/hero/next-courier-pv5-2960.webp 2960w"
+             sizes="100vw" width="2960" height="1648" fetchpriority="high" decoding="async"
+             alt="빈 차량 실내의 PV5 참고 클러스터와 센터페시아에 NEXT 정차 화면이 보이고, 앞유리 너머 배송기사가 택배를 들고 아파트 단지를 걷는다">
+      </figure>
+      <p class="hero-meta">계원예대 2B.IxD 중간평가 · 2026-10-21 · 고해은</p>
+      <p class="hero-cap">차량 콘셉트 이미지 · 화면은 NEXT UI 합성 · 차량 제조사와 무관</p>
+    </div>
+  </section>
+
+  <!-- ② 배송 흐름 (V5_EDIT_PLAN 3-2 · 2026-10-21 시안 roles-2-sticky v2 이식, docs/proposals-v4/roles-2-sticky.html).
+       배송 한 건이 차 안 → 문 앞 → 전달 후로 가며 확인할 정보의 단위가 바뀐다.
+       왼쪽 6컬럼 = 장면 하나가 sticky(상단 메뉴 아래 간격, 마지막 블록 아래 변에서 함께 끝난다), 스크롤에 따라 크로스페이드.
+       오른쪽 4컬럼(9~12) = 단계 블록(번호 · 단계 이름 · 필요한 정보 · 상황 · NEXT 화면 · 근거 꼬리표). 900 미만은 블록마다 썸네일.
+       스타일 css/roles.css(#roles 범위), 장면 전환 js/front/roles.js, 렌더 합성은 main.js 의 compose.js -->
+  <section id="roles" class="sec-roles" data-group="service" data-label="배송 흐름" aria-labelledby="roles-title">
+    <div class="wrap">
+      <div class="head-row">
+        <p class="sec-label">배송 흐름</p>
+        <div class="head-main">
+          <h2 id="roles-title" class="h2" data-reveal>배송이 진행되면 확인할 정보의 단위가 바뀝니다</h2>
+          <p class="lead rs-lead" data-reveal>기사는 단지에 차를 세우고, 물품을 들고 동과 입구를 찾아 들어가 문 앞에서 전달하고 기록합니다.<br class="br-d"> 한국교통연구원 2022 실태조사에서 1.5톤 미만 택배 집·배송기사 312명 중 98.1%가 동승자 없이 일했습니다.<br class="br-d"> NEXT는 이 일을 한 사람이 번갈아 한다는 전제에서, 단계마다 지금 필요한 정보만 앞에 두도록 설계했습니다.</p>
+        </div>
+      </div>
+
+      <div class="rs-scroll">
+        <!-- 왼쪽 6컬럼: sticky 무대 -->
+        <div class="rs-left">
+          <div class="rs-sticky">
+            <nav class="rs-steps" aria-label="배송 한 건의 세 단계">
+              <button type="button" data-go="0" aria-current="step"><span class="n">1</span><b>차 안</b><span>동·입구</span></button>
+              <button type="button" data-go="1"><span class="n">2</span><b>문 앞</b><span>호수·요청</span></button>
+              <button type="button" data-go="2"><span class="n">3</span><b>전달 후</b><span>기록 상태</span></button>
+            </nav>
+            <div class="rs-stage">
+              <figure class="rs-scene rs-scene--car is-on" data-scene="0">
+                <div class="cmp" data-compose="center-context" data-place="cover" data-pos="52 50" data-focus
+                     data-ui-cluster="assets/front/cap/cluster_40000.webp" data-ui-center="assets/front/cap/center_40000.webp"
+                     role="img" aria-label="조수석 쪽에서 본 대시보드. 정차한 센터 화면 왼쪽 위 카드에 상동호수공원 북측, 104동, 서쪽 공동현관, 남은 배송 4건"></div>
+                <!-- 정차 카드 확대: center_40000(2560×1440 = UI 1280×720 의 2배) UI 24,24 ~ 334,239 -->
+                <div class="rs-crop" style="--iw:1280; --x0:24; --y0:24; --cw:310; --ch:215" aria-hidden="true"><img src="assets/front/cap/center_40000.webp" width="2560" height="1440" alt="" decoding="async" loading="lazy"></div>
+                <figcaption class="rs-scene-name">104동 정차 안내</figcaption>
+              </figure>
+              <figure class="rs-scene rs-scene--door" data-scene="1">
+                <div class="iph rs-phone">
+                  <span class="iph-body" aria-hidden="true"></span>
+                  <div class="iph-screen"><img src="assets/front/cap/phone_45000.webp" width="390" height="844" decoding="async" loading="lazy"
+                       alt="휴대폰 배송 상세. 104동 현재 배송, 1203호, 전달 요청 문 앞에 놓아주세요, 운송장 9000-0000-4023"></div>
+                  <img class="iph-frame" src="assets/mockups/iphone-front.webp" width="1056" height="2140" alt="" decoding="async" loading="lazy">
+                  <span class="rs-src" style="--x0:14; --y0:196; --cw:366; --ch:172" aria-hidden="true"></span>
+                </div>
+                <!-- 1203호 + 전달 요청 확대: phone_45000 UI 14,196 ~ 380,368 -->
+                <div class="rs-crop" style="--iw:390; --x0:14; --y0:196; --cw:366; --ch:172" aria-hidden="true"><img src="assets/front/cap/phone_45000.webp" width="780" height="1688" alt="" decoding="async" loading="lazy"></div>
+                <figcaption class="rs-scene-name">1203호 배송 상세</figcaption>
+              </figure>
+              <figure class="rs-scene rs-scene--after" data-scene="2">
+                <div class="iph rs-phone">
+                  <span class="iph-body" aria-hidden="true"></span>
+                  <div class="iph-screen"><img src="assets/front/cap/manual_09_review-remaining_phone.webp" width="390" height="844" decoding="async" loading="lazy"
+                       alt="휴대폰 남은 업무 화면. 남은 배송 1건, 전달 기록 3, 전송 대기·실패 3, 보류 배송 1건 104동 1203호 벨을 누르지 말아주세요, 보류 · 물품을 찾지 못함, 배송 다시 열기"></div>
+                  <img class="iph-frame" src="assets/mockups/iphone-front.webp" width="1056" height="2140" alt="" decoding="async" loading="lazy">
+                  <span class="rs-src" style="--x0:14; --y0:232; --cw:366; --ch:145" aria-hidden="true"></span>
+                </div>
+                <!-- 끝낸 일·남은 일·전송 대기 + 보류 배송 확대: manual_09 UI 14,232 ~ 380,377 -->
+                <div class="rs-crop" style="--iw:390; --x0:14; --y0:232; --cw:366; --ch:145" aria-hidden="true"><img src="assets/front/cap/manual_09_review-remaining_phone.webp" width="780" height="1688" alt="" decoding="async" loading="lazy"></div>
+                <figcaption class="rs-scene-name">남은 업무 화면</figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+
+        <!-- 오른쪽 4컬럼(9~12): 단계 블록 -->
+        <ol class="rs-right">
+          <li class="rs-block rs-block--car is-on" data-step="0">
+            <div class="rs-thumb" aria-hidden="true">
+              <div class="rs-crop" style="--iw:1280; --x0:24; --y0:24; --cw:310; --ch:215"><img src="assets/front/cap/center_40000.webp" width="2560" height="1440" alt="" decoding="async" loading="lazy"></div>
+            </div>
+            <div class="rs-head"><span class="rs-num">1/3</span><h3 class="rs-name">차 안</h3><span class="rs-dev">클러스터 · 센터페시아</span></div>
+            <div>
+              <p class="rs-need">다음 회전과 거리, 정차 뒤 갈 동과 입구</p>
+              <dl class="rs-dl">
+                <div><dt>상황</dt><dd><span class="sg">운전 중에는 화면을 짧게만 볼 수 있고,</span> <span class="sg">차를 세운 곳과 입구가 다를 수 있습니다</span></dd></div>
+                <div><dt>NEXT 화면</dt><dd><span class="sg">클러스터는 가운데 칸에 다음 회전,</span> <span class="sg">센터페시아는 정차하면 동·입구 카드</span></dd></div>
+                <div><dt>근거</dt><dd class="rs-evs">
+                  <p class="ev"><b>원문 사례</b><span><span class="sg">한국일보 2024 ·</span> <span class="sg">단지 입구에 세우고 손수레로 운반</span></span></p>
+                  <p class="ev"><b>설계 가설</b><span><span class="sg">정차 뒤 동·입구를 먼저 보여 주면</span> <span class="sg">다시 찾는 일이 줄어든다</span></span></p>
+                  <p class="ev"><b>문헌</b><span><span class="sg">NHTSA 2013 시선 기준<span class="nb">(한 번 2초·누적 12초)</span> 참고,</span> <span class="sg">충족 시험 없음</span></span></p>
+                </dd></div>
+              </dl>
+            </div>
+          </li>
+          <li class="rs-block rs-block--door" data-step="1">
+            <div class="rs-thumb" aria-hidden="true">
+              <div class="iph"><span class="iph-body"></span><div class="iph-screen"><img src="assets/front/cap/phone_45000.webp" width="390" height="844" alt="" decoding="async" loading="lazy"></div><img class="iph-frame" src="assets/mockups/iphone-front.webp" width="1056" height="2140" alt="" decoding="async" loading="lazy"></div>
+            </div>
+            <div class="rs-head"><span class="rs-num">2/3</span><h3 class="rs-name">문 앞</h3><span class="rs-dev">휴대폰</span></div>
+            <div>
+              <p class="rs-need">지금 처리하는 배송의 호수와 그 배송의 요청</p>
+              <dl class="rs-dl">
+                <div><dt>상황</dt><dd><span class="sg">같은 호수에 배송이 둘이면 요청이 다를 수 있고,</span> <span class="sg">요청에 따라 놓는 자리와 이동 방법이 바뀝니다</span></dd></div>
+                <div><dt>NEXT 화면</dt><dd><span class="sg">호수를 가장 큰 글자로,</span> <span class="sg">바로 아래 칸에 그 배송의 요청</span></dd></div>
+                <div><dt>근거</dt><dd class="rs-evs">
+                  <p class="ev"><b>원문 사례</b><span><span class="sg">보배드림 2026 기사 댓글 ·</span> <span class="sg">요청에 따라 계단 이용·보관</span></span></p>
+                  <p class="ev"><b>설계 가설</b><span><span class="sg">호수와 요청을 함께 보면</span> <span class="sg">다시 찾는 일이 줄어든다</span></span></p>
+                </dd></div>
+              </dl>
+            </div>
+          </li>
+          <li class="rs-block rs-block--after" data-step="2">
+            <div class="rs-thumb" aria-hidden="true">
+              <div class="iph"><span class="iph-body"></span><div class="iph-screen"><img src="assets/front/cap/manual_09_review-remaining_phone.webp" width="390" height="844" alt="" decoding="async" loading="lazy"></div><img class="iph-frame" src="assets/mockups/iphone-front.webp" width="1056" height="2140" alt="" decoding="async" loading="lazy"></div>
+            </div>
+            <div class="rs-head"><span class="rs-num">3/3</span><h3 class="rs-name">전달 후</h3><span class="rs-dev">휴대폰</span></div>
+            <div>
+              <p class="rs-need">이 배송에서 끝낸 일과 남은 일, 미룬 배송</p>
+              <dl class="rs-dl">
+                <div><dt>상황</dt><dd><span class="sg">사진 저장, 전달 기록, 배송사 수신은 서로 다른 일이고,</span> <span class="sg">바로 전달하지 못하는 배송도 생깁니다</span></dd></div>
+                <div><dt>NEXT 화면</dt><dd><span class="sg">사진 저장·전달 기록·전송 상태를 따로 적고,</span> <span class="sg">보류한 배송은 남은 업무에서 다시 엽니다</span></dd></div>
+                <div><dt>근거</dt><dd class="rs-evs">
+                  <p class="ev"><b>원문 사례</b><span><span class="sg">쿠팡 플렉스 앱 리뷰 2023 ·</span> <span class="sg">회수했는데 기록은 미회수인 사례</span></span></p>
+                  <p class="ev"><b>설계 가설</b><span><span class="sg">사진·전달·전송을 나눠 적고 보류를 남기면</span> <span class="sg">남은 일을 덜 혼동한다</span></span></p>
+                </dd></div>
+              </dl>
+              <p class="rs-note">배송사 전송은 연결하지 않았고, 화면의 전송 실패는 시연 응답</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+
+      <p class="rs-sync" data-reveal>시연에서는 세 화면에 같은 시점을 맞춰 보여 주며, 떨어진 기기 사이 동기화는 구현하지 않았습니다</p>
+      <p class="rs-close" data-reveal>작업 기록의 기준은 휴대폰이고, 세 화면이 <br class="br-d">모두 있어야만 배송할 수 있게 만들지 않았습니다</p>
+    </div>
+  </section>
+
+  <!-- ③ 3D 체험 + 첫 배송지 도착: main.js 가 partials/xp.html 을 넣고 js/xp/experience.js init(root) 호출 -->
+  <section id="xp" class="sec-module sec-xp" data-group="experience" data-label="3D 체험" aria-label="1인칭 3D 체험"
+           data-partial="partials/xp.html" data-module="js/xp/experience.js" data-night
+           data-fallback-title="3D 체험을 불러오지 못했습니다" data-fallback-next="try" data-fallback-next-label="직접 기록으로 이동"></section>
+
+  <!-- ④ 모바일 사진·배송 기록 직접 체험: partials/try.html + js/try/try.js -->
+  <section id="try" class="sec-module sec-try" data-group="experience" data-label="직접 기록" aria-label="문 앞 배송 기록 직접 체험"
+           data-partial="partials/try.html" data-module="js/try/try.js"
+           data-fallback-title="직접 기록 화면을 불러오지 못했습니다" data-fallback-next="cluster" data-fallback-next-label="기기별 설계로 이동"></section>
+
+  <!-- ⑤ 클러스터: partials/cluster.html + js/devices/cluster.js -->
+  <section id="cluster" class="sec-module sec-device" data-group="devices" data-label="클러스터" aria-label="기기별 설계 · 클러스터"
+           data-partial="partials/cluster.html" data-module="js/devices/cluster.js"
+           data-fallback-title="이 기기 화면을 불러오지 못했습니다" data-fallback-next="center" data-fallback-next-label="다음 기기로 이동"></section>
+
+  <!-- ⑥ 센터페시아: partials/center.html + js/devices/center.js -->
+  <section id="center" class="sec-module sec-device" data-group="devices" data-label="센터페시아" aria-label="기기별 설계 · 센터페시아"
+           data-partial="partials/center.html" data-module="js/devices/center.js"
+           data-fallback-title="이 기기 화면을 불러오지 못했습니다" data-fallback-next="mobile" data-fallback-next-label="다음 기기로 이동"></section>
+
+  <!-- ⑦ 모바일: partials/mobile.html + js/devices/mobile.js -->
+  <section id="mobile" class="sec-module sec-device" data-group="devices" data-label="모바일" aria-label="기기별 설계 · 모바일"
+           data-partial="partials/mobile.html" data-module="js/devices/mobile.js"
+           data-fallback-title="이 기기 화면을 불러오지 못했습니다" data-fallback-next="system" data-fallback-next-label="디자인 시스템으로 이동"></section>
+
+  <!-- ⑦-2 디자인 시스템(컬러·타이포·로고·UI KIT): partials/system.html, 스타일 css/system.css(#system 범위). 모듈 스크립트 없음 -->
+  <section id="system" class="sec-module sec-system" data-group="devices" data-label="디자인 시스템" aria-labelledby="system-title"
+           data-partial="partials/system.html"
+           data-fallback-title="디자인 시스템을 불러오지 못했습니다" data-fallback-next="sources" data-fallback-next-label="출처로 이동"></section>
+
+  <!-- ⑧ 마무리와 출처 (v4 시안 B · docs/proposals-v3/closing-sources.html). 스타일 css/sources.css(#sources 안으로 제한) -->
+  <section id="sources" class="sec-sources" data-group="sources" data-label="출처" aria-labelledby="sources-title">
+    <div class="wrap">
+      <div class="cls-top">
+        <div class="cls-tile cls-tile--light">
+          <div class="cls-copy">
+            <div>
+              <h2 id="sources-title" class="cls-mark"><svg class="cls-logo" viewBox="0 0 1516 187" fill="currentColor" role="img" aria-label="NEXT" focusable="false"><path d="M446.964 1.62039L642.888 1.65621L704.523 1.68236C715.141 1.69204 741.713 -0.361608 750.815 5.62898C754.756 8.87941 755.065 14.1612 755.637 18.4283C759.181 45.0253 731.789 39.9216 713.653 39.9323L665.033 39.9429L518.924 39.9913C501.598 40.033 484.281 39.6631 466.979 39.7502C459.925 39.9081 456.696 39.972 451.338 44.5586C444.386 49.9789 447.229 70.411 456.093 71.6997C472.214 74.0439 494.527 73.0601 510.642 73.0611L674.008 73.0533C695.525 73.1521 717.012 72.7783 738.537 73.0078C761.814 73.2557 761.708 108.3 741.229 110.199C730.781 111.169 718.498 110.704 707.863 110.687L643.793 110.578L517.037 110.569C498.043 110.571 478.995 110.287 460.02 110.763C443.179 111.052 444.322 141.834 456.983 143.901C473.336 146.571 498.614 145.217 515.149 145.214L662.447 145.225C688.084 145.198 713.64 145.101 739.273 145.498C762.172 145.852 761.746 184.279 739.98 184.849C721.233 185.341 702.46 185.19 683.696 185.156L577.773 185.102L486.456 185.138C473.914 185.136 449.04 185.777 437.719 184.373C429.339 183.403 421.439 179.954 415.03 174.469C396.232 158.17 402.753 106.839 402.223 83.097C401.331 43.0898 396.742 4.7982 446.964 1.62039Z"/><path d="M23.8573 1.69105C35.4968 0.58046 48.5809 1.72011 60.3076 1.5342C94.6654 0.988107 117.754 20.6253 145.136 38.9282L243.428 104.519C261.921 116.879 289.564 139.814 311.749 143.096C327.195 145.38 330.156 133.791 330.438 121.088C331.233 85.2039 328.883 47.9852 330.71 12.1463C333.948 7.00773 335.229 5.71319 340.039 2.4066C348.98 1.15562 361.209 0.0169461 368.16 6.78407L368.531 7.15104C372.364 10.8604 372.637 21.7988 372.608 27.0109C372.343 73.8637 373.44 120.873 372.012 167.684C371.653 179.464 361.869 184.394 351.675 185.977C319.299 186.277 291.604 189.851 263.482 170.942C244.962 158.488 226.228 145.986 207.662 133.62L99.7371 61.6434C87.7907 53.6979 71.3671 42.7673 56.2931 45.4939C39.578 48.5178 42.812 71.9747 42.8914 84.3915L43.3165 139.657C43.423 151.464 47.4655 183.345 31.402 185.646C-3.8543 190.695 1.09253 171.41 1.11674 145.995L1.18839 95.7017L1.20389 50.43C1.1274 29.2069 -3.57353 5.92619 23.8573 1.69105Z"/><path d="M794.28 1.56132C809.094 1.27278 824.877 0.431373 839.304 4.22015C884.454 16.0764 914.877 71.4799 960.918 71.3608C1021.13 71.2049 1040 -7.59836 1126.05 1.44901C1131.02 1.97283 1135.98 3.44554 1139.18 7.53351C1142.74 12.0572 1143.04 19.5089 1142.39 25.0647C1141.36 33.8797 1136.86 38.9824 1127.97 40.2557C1119.22 41.5086 1110.58 40.0978 1101.73 41.9888C1077.66 47.1312 1043.21 77.821 1023.21 93.5474C1040.73 107.249 1059.33 120.499 1076.97 133.489C1098.33 149.22 1113.67 141.451 1134.58 147.787C1144.58 150.817 1149.86 180.697 1128.37 185.875C1113.32 186.318 1097.78 187.014 1083.12 183.015C1039.24 171.041 1005.93 115.702 961.073 115.796C903.18 115.917 882.421 194.252 797.127 185.837C792.13 185.345 786.708 183.906 783.474 179.774C779.766 175.02 779.863 166.198 780.531 160.407C781.528 151.795 786.456 146.742 795.045 145.534C804.088 144.261 812.919 145.853 822.098 143.833C844.339 138.934 880.397 108.591 899.23 93.5687C885.277 81.5701 866.677 69.6809 853.596 58.5644C828.256 37.0246 815.427 44.3775 787.957 37.7663C778.672 35.5296 773.065 6.88769 794.28 1.56132Z"/><path d="M1181.73 1.53128L1395.72 1.7172C1429.15 1.70268 1463.14 0.173794 1496.5 1.66975C1499.9 1.82273 1504.05 1.88471 1506.98 3.80766C1507.11 3.89674 1507.25 3.99065 1507.39 4.08166C1510.32 6.03076 1512.33 8.22678 1513.58 11.5711C1515.47 16.6554 1515.8 25.9836 1513.5 30.9062C1511.65 34.9099 1507.54 38.0025 1503.34 39.1731C1494.99 41.496 1483.3 40.1172 1474.61 40.0852C1457.67 40.0223 1371.59 37.6791 1362.78 41.0641C1362.56 41.1474 1362.34 41.2394 1362.13 41.3275C1356.88 49.9595 1360.32 124.849 1359.6 142.801C1358.78 163.36 1367.25 197.604 1324.43 183.562C1313.7 180.046 1316.54 160.564 1316.27 150.321C1315.35 116.174 1318.46 80.323 1315.2 46.3828C1314.32 36.9587 1290.48 39.7309 1283.2 39.7764L1218.21 40.0571C1209.14 40.0775 1179.48 41.6248 1173 36.462C1161.88 27.6083 1163.92 5.42754 1181.73 1.53128Z"/></svg></h2>
+              <p class="cls-line" data-reveal><span class="pre">배송 한 건마다</span> 요청을 확인하고,<br><span class="pre">끝낸 일과 미룬 일을</span> 따로 남깁니다</p>
+            </div>
+            <div class="cls-act">
+              <a class="btn btn--primary" href="#xp">다시 체험하기</a>
+              <a class="link-text" href="#intro">처음으로</a>
+            </div>
+          </div>
+          <div class="cls-phone-cell" aria-hidden="true">
+            <div class="iph cls-phone">
+              <span class="cls-phone-tag">문 앞 · 1203호</span>
+              <span class="iph-body"></span>
+              <div class="iph-screen"><img src="assets/front/cap/phone_45000.webp" width="780" height="1688" loading="lazy" decoding="async" alt=""></div>
+              <img class="iph-frame" src="assets/mockups/iphone-front.graphite.webp" width="1056" height="2140" loading="lazy" decoding="async" alt="">
+            </div>
+          </div>
+        </div>
+        <div class="cls-tile cls-tile--night cls-scope">
+          <div>
+            <h3 class="cls-scope-label">시연 범위</h3>
+            <ol>
+              <li><b>시연값</b><span>배정 4건·호수·요청·경로 시간과<br>차량 수치는 시연용 값</span></li>
+              <li><b>규칙 기반</b><span>두 방문 순서는 정해 둔 규칙,<br>음성 받아쓰기는 녹음에 맞춘 연출</span></li>
+              <li><b>브라우저 저장</b><span>사진·전달 기록은 이 브라우저에만 저장,<br>서버로 보내지 않음</span></li>
+              <li><b>연결하지 않음</b><span>배송사 전송, 떨어진 기기 사이 동기화</span></li>
+            </ol>
+          </div>
+          <p class="cls-scope-note"><b>다음 기사 테스트에서 확인할 것</b><br>요청을 다시 찾는 횟수 · 미룬 배송 누락 · 기록 부담</p>
+        </div>
+      </div>
+
+      <div class="cls-src">
+        <div class="cls-src-head">
+          <h3 class="cls-src-title">출처</h3>
+          <p>항목 오른쪽은 연도·라이선스·출처 종류 · 자체 = 자체 제작</p>
+        </div>
+        <div class="cls-cols">
+          <div class="cls-col">
+            <h4>문헌·보고서<small>3</small></h4>
+            <ul>
+              <li><span>한국교통연구원 택배기사 실태조사 <small class="cls-use">「1인 업무」</small></span><small>2022</small></li>
+              <li><span>Archives of Design Research 38(2)</span><small>2025</small></li>
+              <li><span>NHTSA 운전 주의분산 가이드라인 <small class="cls-use">「시선」</small></span><small>2013</small></li>
+            </ul>
+            <h4>기사·인터뷰<small>8</small></h4>
+            <ul>
+              <li><span>CLO / LoTIS 택배기사의 하루</span><small>2017</small></li>
+              <li><span>국민일보 한 택배 기사의 하루</span><small>2024</small></li>
+              <li><span>한국일보 차량 진입과 손수레 <small class="cls-use">「입구」</small></span><small>2024</small></li>
+              <li><span>비즈한국</span><small>2024</small></li>
+              <li><span>보배드림 자유게시판 <small class="cls-use">「요청」</small></span><small>2026</small></li>
+              <li><span>쿠팡 플렉스 App Store 리뷰 <small class="cls-use">「기록 상태」</small></span><small>2023</small></li>
+              <li><span>디시 아르바이트 갤러리</span><small>2017</small></li>
+              <li><span>오마이뉴스</span><small>2023</small></li>
+            </ul>
+            <h4>공식 문서<small>3</small></h4>
+            <ul>
+              <li><span>Google Route Optimization 개요</span><small>문서</small></li>
+              <li><span>Google Time windows</span><small>문서</small></li>
+              <li><span>MDN SpeechRecognitionErrorEvent</span><small>문서</small></li>
+            </ul>
+          </div>
+          <div class="cls-col">
+            <h4>3D<small>7</small></h4>
+            <ul>
+              <li><span>운전석 3D 모델 cockpit_v8</span><small>자체</small></li>
+              <li><span>라이트맵 Blender Cycles 굽기</span><small>자체</small></li>
+              <li><span>휴대폰 모델 phone.glb</span><small>자체</small></li>
+              <li><span>첫 배송지 주행 장면 구성</span><small>자체</small></li>
+              <li><span>팔·손·소매 MakeHuman</span><small>CC0</small></li>
+              <li><span>three.js r180</span><small>MIT</small></li>
+              <li><span>Draco 디코더</span><small>Apache 2.0</small></li>
+            </ul>
+            <h4>환경·재질 Poly Haven<small>8</small></h4>
+            <ul>
+              <li><span>창밖·조명 Learner Park</span><small>CC0</small></li>
+              <li><span>Asphalt 02</span><small>CC0</small></li>
+              <li><span>Patterned Concrete Pavers</span><small>CC0</small></li>
+              <li><span>Concrete Floor 01</span><small>CC0</small></li>
+              <li><span>Leafy Grass</span><small>CC0</small></li>
+              <li><span>Leather Red 02</span><small>CC0</small></li>
+              <li><span>Leather White</span><small>CC0</small></li>
+              <li><span>Jogging Melange</span><small>CC0</small></li>
+            </ul>
+            <h4>지도·글꼴<small>2</small></h4>
+            <ul>
+              <li><span>© OpenStreetMap contributors</span><small>ODbL</small></li>
+              <li><span>Wanted Sans 400 · 600</span><small>OFL</small></li>
+            </ul>
+          </div>
+          <div class="cls-col">
+            <h4>소리<small>6</small></h4>
+            <ul>
+              <li><span>원본 음성 두 구간 · 감스트GAMST</span><small>인용</small></li>
+              <li><span>안내 음성 V1·V2·V3 · elevenlabs.io</span><small>무료 플랜</small></li>
+              <li><span>휴대폰 진동 · Pixabay</span><small>Pixabay</small></li>
+              <li><span>알림음·탭음 · Kenney</span><small>CC0</small></li>
+              <li><span>카메라 셔터 · Mixkit</span><small>Mixkit</small></li>
+              <li><span>EV 시동음 · Mixkit</span><small>Mixkit</small></li>
+            </ul>
+            <h4>화면·이미지<small>7</small></h4>
+            <ul>
+              <li><span>NEXT 세 기기 프로토타입</span><small>자체</small></li>
+              <li><span>NEXT 로고</span><small>자체</small></li>
+              <li><span>히어로 차량 이미지</span><small>콘셉트</small></li>
+              <li><span>포장 예시·차량 컨셉 이미지</span><small>자체 생성</small></li>
+              <li><span>운전석 맥락 렌더</span><small>자체</small></li>
+              <li><span>정면 휴대폰 프레임</span><small>자체</small></li>
+              <li><span>기기 화면 캡처</span><small>자체</small></li>
+            </ul>
+          </div>
+          <div class="cls-col">
+            <h4>레퍼런스<small>17</small></h4>
+            <ul>
+              <li><span>Polestar 4 디지털 계기판</span><small>Polestar</small></li>
+              <li><span>밝은 EV 센터 디스플레이</span><small>Dribbble</small></li>
+              <li><span>Crack</span><small>Behance</small></li>
+              <li><span>Money Mind</span><small>Behance</small></li>
+              <li><span>Apple 차세대 CarPlay</span><small>TechSpot</small></li>
+              <li><span>Car Platform Concept</span><small>Behance</small></li>
+              <li><span>Social Concept Application</span><small>Behance</small></li>
+              <li><span>Accuro</span><small>Behance</small></li>
+              <li><span>McLaren Artura 계기판</span><small>Car Watch</small></li>
+              <li><span>SLPX</span><small>Dribbble</small></li>
+              <li><span>알림 구성 보드</span><small>Pinterest</small></li>
+              <li><span>롯데렌터카 G car</span><small>웹</small></li>
+              <li><span>로터스자동차코리아</span><small>웹</small></li>
+              <li><span>Pensatori Irrazionali</span><small>웹</small></li>
+              <li><span>Plus X · CJ대한통운, B box</span><small>Plus X</small></li>
+              <li><span>Plus X · British Council, CGV</span><small>Plus X</small></li>
+              <li><span>Plus X · 에어프레미아 외 2</span><small>Plus X</small></li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="cls-more" data-sources-full>
+          <summary class="btn btn--line"><span>출처 전체 보기</span><svg class="cls-chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 6l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></summary>
+        <div class="src">
+          <section class="src-group" aria-labelledby="src-read">
+            <h3 class="src-label" id="src-read">사실과 설계 판단</h3>
+            <div class="src-body">
+              <p class="src-text">이 페이지는 근거 수준을 관련 설명 가까이에 문헌·원문 사례·설계 가설로 짧게 표시하고, 세부 출처와 구현 범위는 아래에 모았습니다. 정보 순위는 빈도를 잰 결과가 아니라 재기획서(2026-10-18)에서 정한 설계 순서입니다.</p>
+            </div>
+          </section>
+
+          <section class="src-group" aria-labelledby="src-scope">
+            <h3 class="src-label" id="src-scope">시연 범위</h3>
+            <div class="src-body">
+              <table class="tbl tbl--scope">
+                <thead><tr><th scope="col">구분</th><th scope="col">항목</th><th scope="col">실제 상태</th></tr></thead>
+                <tbody>
+                  <tr><td>시연값</td><td>배정 4건, 호수, 요청, 운송장 번호</td><td>가상 값입니다. 내부 번호(A-023 등)가 실제 송장에 있다고 가정하지 않습니다</td></tr>
+                  <tr><td>시연값</td><td>104동·105동, 104동 서쪽 공동현관</td><td>가상 식별자와 가상 안내입니다. 105동 입구는 등록하지 않았고 주차 가능 여부는 확인하지 않았습니다</td></tr>
+                  <tr><td>시연값</td><td>경로 시간·거리</td><td>합성 값입니다. 실제 교통이나 최단 경로를 뜻하지 않습니다</td></tr>
+                  <tr><td>시연값</td><td>속도·기어·배터리·주행 가능 거리·외기온·누적거리</td><td>차량 신호와 연결하지 않은 시연 값입니다</td></tr>
+                  <tr><td>규칙 기반</td><td>배송 도우미의 두 방문 순서</td><td>정해 둔 규칙으로 두 순서를 보여 줍니다. 외부 AI·최적화·교통 API를 연결하지 않았습니다. 3D 체험은 북측 먼저 순서로만 이어집니다</td></tr>
+                  <tr><td>규칙 기반</td><td>3D 체험의 음성</td><td>기사 대사는 지정 영상의 원본 녹음이고, 받아쓰기는 녹음 길이에 맞춘 연출입니다. 마이크로 실제 인식하지 않습니다</td></tr>
+                  <tr><td>규칙 기반</td><td>지도 경로선</td><td>도로·공원·호수·건물 형상은 OpenStreetMap 좌표이고, 경로선은 차도를 이어 그린 도식입니다</td></tr>
+                  <tr><td>규칙 기반</td><td>3D 체험의 주행 장면</td><td>도로·단지 배치와 건물은 코드로 만들고 바닥에 Poly Haven 실사 텍스처(CC0)를 입힌 가상 장면입니다. 실제 상동 지역의 거리 모습이 아닙니다</td></tr>
+                  <tr><td>브라우저 저장</td><td>직접 찍거나 고른 사진, 전달 기록</td><td>방문자 브라우저에만 저장하고 서버로 보내지 않습니다. '직접 기록 지우기'로 지울 수 있습니다</td></tr>
+                  <tr><td>연결하지 않음</td><td>배송사 전송·수신</td><td>배송사 서버가 없어 전달을 기록해도 '전송 대기'로 남습니다. '전송 실패 · 시연' '배송사 수신 · 시연'은 시연 응답입니다</td></tr>
+                  <tr><td>연결하지 않음</td><td>차량 조작, 업무 종료</td><td>공조·음량은 화면 상태만 바뀝니다. 근태 시스템이나 배송사 마감과 연동하지 않습니다</td></tr>
+                  <tr><td>검증하지 않음</td><td>효과와 실사용</td><td>기사 테스트, 실차 주행, 떨어진 기기 사이의 동기화는 하지 않았습니다. 시간 절감·안전성 효과는 확인 전입니다</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="src-group" aria-labelledby="src-tech">
+            <h3 class="src-label" id="src-tech">기술 상세</h3>
+            <div class="src-body">
+              <dl class="src-dl">
+                <div><dt>기기 화면</dt><dd>3D 안과 이 페이지의 기기 화면은 현재 NEXT UI 복사본을 그대로 띄운 것입니다. 쇼잉을 위해 더한 것은 알림 본문, 음성 받아쓰기, 대기 점 같은 상태뿐입니다.</dd></div>
+                <div><dt>세 기기 연결</dt><dd>같은 출처의 세 화면에 같은 시점을 적용해 맞췄습니다. 실제로 떨어진 기기 사이의 동기화는 검증하지 않았습니다.</dd></div>
+                <div><dt>타임라인</dt><dd>기기 화면의 주행·정차 상태는 현재 UI의 연결 시연(122초 타임라인, 주행 시간 6배 압축)에서 가져왔습니다. 3D 체험의 첫 배송지 주행은 이 연결 시연의 출발~정차 구간을 짧게 줄여 재생합니다.</dd></div>
+                <div><dt>저장 위치</dt><dd>직접 기록은 현재 UI의 저장 방식 그대로 localStorage(next-postload-v4)와 IndexedDB(next-postload-photos-v1)에 남습니다.</dd></div>
+                <div data-src-camera><dt>카메라</dt><dd>브라우저 카메라 권한으로 열고, 카메라 화면을 닫거나 체험 구간을 벗어나면 끕니다. 권한이 없거나 카메라가 없으면 파일 선택으로 이어갑니다.</dd></div>
+                <div><dt>세 기기 공통</dt><dd>글꼴 Wanted Sans, NEXT용 채움형 아이콘, OpenStreetMap 벡터 지도. 화면 크기 800×400, 1280×720, 390×844는 설계 캔버스이며 실제 디스플레이 사양이 아닙니다.</dd></div>
+                <div><dt>3D 조명</dt><dd>실내 밝기는 Blender Cycles로 미리 구운 라이트맵 3장이고, 반사 환경은 창밖과 같은 learner_park HDRI(CC0)입니다. 가죽·대시보드·천장의 표면 결은 Poly Haven 재질(CC0)에서 노멀·러프니스만 가져왔습니다.</dd></div>
+                <div><dt>페이지 이미지</dt><dd>첫 화면 차량 이미지는 Codex 리디자인 작업에서 만든 콘셉트 이미지이고, 그 안의 화면은 NEXT UI입니다. 실제 차량 사진이 아닙니다. 배송 흐름의 차 안 장면은 3D 체험과 같은 자체 모델·조명·창밖으로 따로 렌더한 정지 이미지에 현재 NEXT UI 캡처를 원근에 맞춰 겹쳤습니다. 휴대폰 프레임은 devices.css(MIT) 구성을 참고해 팀이 새로 그렸습니다.</dd></div>
+              </dl>
+            </div>
+          </section>
+
+          <section class="src-group" aria-labelledby="src-std">
+            <h3 class="src-label" id="src-std">설계 참고 기준</h3>
+            <div class="src-body">
+              <p class="src-text">주행 중 화면에 올릴 정보를 줄일 때 미국 NHTSA 자율 가이드라인(2013, 78 FR 24818)의 기준값, 한 번에 눈을 떼는 시간 2초 이하·누적 12초 이하를 참고했습니다. NEXT가 이 기준을 충족했다는 시험 결과는 없고, 실제 운전 중 조작 실험은 하지 않았습니다.</p>
+            </div>
+          </section>
+
+          <section class="src-group" aria-labelledby="src-refs">
+            <h3 class="src-label" id="src-refs">문헌·기사</h3>
+            <div class="src-body">
+              <h4 class="src-sub">문헌·보고서</h4>
+              <ol class="refs">
+                <li>한국교통연구원 · 2022 택배 집·배송기사 실태조사. 게시 2023.04.06, PDF 판권 2022년 12월. 조사 2022.10.24~11.18, 1.5톤 미만 집·배송기사 312명 방문 면접. 인쇄면 23쪽 표 Ⅲ-25(동승자 없음 98.1%), 표 Ⅲ-24(집하 1.5시간, 배송 6.7시간, 기타 근로 2.1시간). 98.1%는 2022 표본 312명의 동승자 없음 비율이며 2026년 전수 통계가 아닙니다
+                  <a href="https://www.koti.re.kr/user/bbs/frghtSrvTwoView.do?bbs_no=55465" rel="noopener" target="_blank">게시 페이지</a></li>
+                <li>A Human-AI Collaborative Model Involving Humanoid Robots to Alleviate the Physical and Mental Burden of Delivery Workers · Archives of Design Research 38(2), 269–299, 2025년 5월. DOI 10.15187/adr.2025.05.38.2.269. Table 9~11(현직 기사 10명 파일럿 인터뷰, 2024.4.13~16)
+                  <a href="https://aodr.org/xml/45250/45250.pdf" rel="noopener" target="_blank">원문 PDF</a></li>
+                <li>NHTSA, “Visual-Manual NHTSA Driver Distraction Guidelines for In-Vehicle Electronic Devices”, 78 FR 24818, 2013.4.26. 자율 준수(nonbinding, voluntary) 지침. 2초 이하·누적 12초 이하 권고 문장은 본문 24821쪽, 2026.10.20 원문 확인
+                  <a href="https://www.federalregister.gov/documents/2013/04/26/2013-09883/visual-manual-nhtsa-driver-distraction-guidelines-for-in-vehicle-electronic-devices" rel="noopener" target="_blank">Federal Register</a></li>
+              </ol>
+              <h4 class="src-sub">기사·인터뷰·보도</h4>
+              <ol class="refs">
+                <li>양석훈 · 택배기사의 하루를 쫓다 · CLO / LoTIS, 2017.11.24. CJ 파주대리점 기사 1명 인터뷰 <a href="https://www.lotis.or.kr/news/2447" rel="noopener" target="_blank">원문</a></li>
+                <li>이가현 · “다들 저보고 곧 죽을 것 같대요” 한 택배 기사의 하루 · 국민일보, 2024.11.25 (동행 11.12) <a href="https://www.kmib.co.kr/article/view.asp?arcid=0020765968" rel="noopener" target="_blank">원문</a></li>
+                <li>오세운 · 한국일보, 2024-05-02 04:30. 차량 진입과 손수레 운반 사례 <a href="https://www.hankookilbo.com/News/Read/A2024050112100003049" rel="noopener" target="_blank">원문</a></li>
+                <li>박해나 · 비즈한국, 2024-06-26 16:07 <a href="https://bizhankook.com/articles/27843.html" rel="noopener" target="_blank">원문</a></li>
+                <li>보배드림 자유게시판 No=3413976, 댓글 2026-06-26 08:18 <a href="https://bobaedream.co.kr/view?No=3413976&amp;code=freeb" rel="noopener" target="_blank">원문</a></li>
+                <li>쿠팡 플렉스 한국 App Store 리뷰(공덕내기 2023-12-06, ooBMWoo 2023-02-16, 유ㅗ튜어퍼어눙 2023-04-11) <a href="https://apps.apple.com/kr/app/%EC%BF%A0%ED%8C%A1-%ED%94%8C%EB%A0%89%EC%8A%A4-%EC%89%AC%EC%9A%B4-%EB%B0%B0%EC%86%A1-%EC%95%8C%EB%B0%94/id1453798946?platform=iphone&amp;see-all=reviews" rel="noopener" target="_blank">원문</a></li>
+                <li>디시 아르바이트 갤러리 no=2294686, 2017-06-19 (출처성 주의) <a href="https://gall.dcinside.com/board/view/?id=arbeit&amp;no=2294686" rel="noopener" target="_blank">원문</a></li>
+                <li>김하영 · 오마이뉴스(다음 게재), 2023-06-25 16:18 (OP 근무자 관찰, 기사 발언으로 세지 않음) <a href="https://v.daum.net/v/20230625161801335" rel="noopener" target="_blank">원문</a></li>
+              </ol>
+              <h4 class="src-sub">공식 문서</h4>
+              <ol class="refs">
+                <li>Google Route Optimization 개요 (본문 확인 2026.10.20). NEXT는 이 API를 연결하지 않았습니다 <a href="https://developers.google.com/maps/documentation/route-optimization/overview" rel="noopener" target="_blank">문서</a></li>
+                <li>Google Time windows (본문 확인 2026.10.20) <a href="https://developers.google.com/maps/documentation/route-optimization/concepts/time-windows" rel="noopener" target="_blank">문서</a></li>
+                <li>MDN SpeechRecognitionErrorEvent.error <a href="https://developer.mozilla.org/en-US/docs/Web/API/SpeechRecognitionErrorEvent/error" rel="noopener" target="_blank">문서</a></li>
+              </ol>
+              <h4 class="src-sub">내부 기획 문서</h4>
+              <ol class="refs">
+                <li>NEXT 재기획서(2026-10-18), 하루 흐름 정리(day-flow, 2026-10-20), 콕핏·음성·모바일 구조 개발 노트(2026-10-20). 비공개 과제 문서</li>
+              </ol>
+              <p class="src-note">링크는 원문 위치입니다. LoTIS·국민일보 원문은 2026.10.18 검토 기록을 따릅니다</p>
+            </div>
+          </section>
+
+          <section class="src-group" aria-labelledby="src-assets">
+            <h3 class="src-label" id="src-assets">자산 출처·라이선스</h3>
+            <div class="src-body">
+              <div data-credits><p class="src-note">자산 목록을 불러오는 중</p></div>
+            </div>
+          </section>
+
+          <section class="src-group" aria-labelledby="src-ref">
+            <h3 class="src-label" id="src-ref">레퍼런스</h3>
+            <div class="src-body">
+              <p class="src-note src-note--top">구성 원리만 참고했습니다. 이미지·브랜드·코드는 가져오지 않았고 분석용 사본은 게재하지 않습니다</p>
+              <table class="tbl tbl--refs">
+                <thead><tr><th scope="col">레퍼런스</th><th scope="col">참고한 구성</th><th scope="col">쓴 곳</th></tr></thead>
+                <tbody>
+                  <tr><td>Polestar 4 디지털 계기판 이미지, Polestar 중국 <a href="https://www.polestar.cn/zh-cn/polestar-4/infotainment/" rel="noopener" target="_blank">링크</a> · <a href="https://kr.pinterest.com/pin/621778292358772687/" rel="noopener" target="_blank">핀</a></td><td>위쪽 무지 여백, 핸들 림 아치 안의 클러스터</td><td>서비스 소개, 클러스터</td></tr>
+                  <tr><td>밝은 EV 센터 디스플레이, Benjamin Zehrfeldt <a href="https://dribbble.com/z-designlab" rel="noopener" target="_blank">Dribbble</a> · <a href="https://kr.pinterest.com/pin/621778292358853712/" rel="noopener" target="_blank">핀</a></td><td>바깥은 밝게 날리고 화면이 가장 큰 대비가 되는 운전석 1인칭</td><td>서비스 소개, 센터페시아</td></tr>
+                  <tr><td>Crack, Sanghee Park 외 <a href="https://www.behance.net/gallery/174133993" rel="noopener" target="_blank">Behance</a> · <a href="https://kr.pinterest.com/pin/621778292358991426/" rel="noopener" target="_blank">핀</a> · <a href="https://kr.pinterest.com/pin/621778292358991600/" rel="noopener" target="_blank">핀</a></td><td>어두운 패널과 밝은 패널의 대비, 패널 경계를 넘는 폰, 패널 안 조작 부분 크롭</td><td>배송 흐름, 모바일</td></tr>
+                  <tr><td>Money Mind, Christina Zamriy <a href="https://www.behance.net/gallery/179113527" rel="noopener" target="_blank">Behance</a> · <a href="https://kr.pinterest.com/pin/621778292358991437/" rel="noopener" target="_blank">핀</a></td><td>패널 경계를 넘는 기기 높이 비율(30% 이하)</td><td>배송 흐름, 직접 기록</td></tr>
+                  <tr><td>Apple 차세대 CarPlay 이미지, TechSpot 2024-06-11 <a href="https://www.techspot.com/news/103343-apple-radically-upgraded-carplay-power-every-screen-supported.html" rel="noopener" target="_blank">링크</a> · <a href="https://kr.pinterest.com/pin/621778292358884783/" rel="noopener" target="_blank">핀</a></td><td>실내는 어둡게 누르고 화면만 밝게 남기기</td><td>배송 흐름</td></tr>
+                  <tr><td>Car Platform Concept Application, yuhang lu <a href="https://www.behance.net/gallery/82707749" rel="noopener" target="_blank">Behance</a> · <a href="https://kr.pinterest.com/pin/621778292358822575/" rel="noopener" target="_blank">핀</a></td><td>명도가 바뀌는 경계에 걸친 기기, 무채색 실내 속 컬러 화면, 같은 자리 안내선</td><td>직접 기록, 센터페시아, 클러스터</td></tr>
+                  <tr><td>Social Concept Application, yuhang lu <a href="https://www.behance.net/gallery/93164379" rel="noopener" target="_blank">Behance</a> · <a href="https://kr.pinterest.com/pin/621778292358913629/" rel="noopener" target="_blank">핀</a></td><td>정면 화면과 라벨, 가는 지시선</td><td>모바일</td></tr>
+                  <tr><td>Accuro, Titiran Design 외 <a href="https://www.behance.net/gallery/253995939" rel="noopener" target="_blank">Behance</a> · <a href="https://kr.pinterest.com/pin/621778292358853809/" rel="noopener" target="_blank">핀</a></td><td>목록에서 지금 항목만 밝게, 꺾은 선으로 한 점 짚기</td><td>상단 메뉴, 직접 기록, 모바일</td></tr>
+                  <tr><td>McLaren Artura 계기판 시승기 사진, Car Watch <a href="https://car.watch.impress.co.jp/docs/news/impression/1509083.html" rel="noopener" target="_blank">링크</a> · <a href="https://kr.pinterest.com/pin/621778292358884787/" rel="noopener" target="_blank">핀</a></td><td>크기 대비 하나로 만드는 위계</td><td>클러스터</td></tr>
+                  <tr><td>SLPX, RonDesignLab <a href="https://dribbble.com/shots/27712211" rel="noopener" target="_blank">Dribbble</a> · <a href="https://kr.pinterest.com/pin/621778292358853758/" rel="noopener" target="_blank">핀</a></td><td>조작 부분만 크게 자르고, 재질은 가장자리에만, 초점은 한 요소에</td><td>모바일</td></tr>
+                  <tr><td>알림 구성 보드(원작자 미상) <a href="https://kr.pinterest.com/pin/621778292359010065/" rel="noopener" target="_blank">핀</a></td><td>같은 축 위에서 상태를 작은 것에서 큰 것으로</td><td>센터페시아</td></tr>
+                  <tr><td>롯데렌터카 G car <a href="https://www.greencar-gcar.co.kr/" rel="noopener" target="_blank">링크</a></td><td>기기는 같은 자리, 지금 단계 글만 진하게</td><td>직접 기록</td></tr>
+                  <tr><td>로터스자동차코리아 <a href="https://www.lotuscars.co.kr/" rel="noopener" target="_blank">링크</a></td><td>넓은 장면 위에는 상태 단어 하나, 설명은 장면 밖으로</td><td>클러스터, 센터페시아</td></tr>
+                  <tr><td>Pensatori Irrazionali <a href="https://pensatori-irrazionali.com/" rel="noopener" target="_blank">링크</a></td><td>안쪽 카드에서 전체 화면으로 들어가기, 같은 머리 행 반복</td><td>3D 체험 진입, 기기별 설계</td></tr>
+                  <tr><td>Plus X · CJ대한통운 <a href="https://www.plus-ex.com/source/iframe/portfolio/cjkx.html" rel="noopener" target="_blank">링크</a> · B box <a href="https://www.plus-ex.com/source/iframe/portfolio/bbox.html" rel="noopener" target="_blank">링크</a></td><td>무지 밝은 판과 두 겹 그림자, 관계를 먼저 보이고 상세는 뒤로</td><td>페이지 공통, 배송 흐름</td></tr>
+                  <tr><td>Plus X · British Council Words <a href="https://www.plus-ex.com/source/iframe/portfolio/british.html" rel="noopener" target="_blank">링크</a> · CGV iPad <a href="https://www.plus-ex.com/source/iframe/portfolio/cgv_ipad.html" rel="noopener" target="_blank">링크</a></td><td>번호와 선으로 순서 잇기, 같은 크기 반복은 피함</td><td>모바일, 센터페시아</td></tr>
+                  <tr><td>Plus X · 에어프레미아, MUSINSA 2.0, 우티 <a href="https://www.plus-ex.com/experience" rel="noopener" target="_blank">포트폴리오</a></td><td>테 없는 평면 화면, 패널 안 잘린 폰과 크기 차이, 장식 없는 목록</td><td>클러스터, 센터페시아, 모바일, 출처</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+        </details>
+      </div>
+
+      <footer class="colophon">
+        <p>NEXT · 계원예대 2B.IxD 중간평가 2026-10-21 · 고해은</p>
+        <p>NEXT는 계원예대 2B.IxD 과제이며 위 브랜드·제조사·서비스와 관계가 없습니다</p>
+      </footer>
+    </div>
+  </section>
+</main>
+</body>
+</html>

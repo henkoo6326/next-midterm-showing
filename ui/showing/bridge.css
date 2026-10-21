@@ -1,0 +1,40 @@
+/* 쇼잉 임베드 전용 주입 CSS (ui-bridge.js 가 iframe 문서에 넣는다)
+ * 목적: ?gallery=<device> 로 연 delivery-app.html 에서 기기 캔버스만 iframe 좌상단 (0,0)에 원래 크기로 남긴다.
+ * 원본 복사본 파일은 고치지 않는다. 기기 화면 안의 배치·스타일은 건드리지 않는다.
+ *
+ * 확인한 사실(2026-10-20, 복사본 서빙):
+ * - gallery 만으로도 머리말·보기 탭·다른 기기는 숨겨진다(development/studies.css).
+ * - autoplay=1 이면 재생 컨트롤 .next-live-demo 가 기기 위에 남아 캔버스가 166px(센터)·185px(클러스터)·253px(폰) 아래로 밀린다.
+ * - entry=notification 이면 알림 시연 패널 .entry-console 이 남아 165px(센터·클러스터)·248px(폰) 아래로 밀린다.
+ * - 수동 모드(gallery 만)는 이미 (0,0)이다.
+ * 아래 규칙은 이 셸 요소들을 숨긴다. .entry-console 안의 버튼은 숨겨져도 handle.click() 으로 누를 수 있다. */
+
+html,
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+}
+
+.next-live-demo,
+.entry-console,
+.masthead,
+.design-switch,
+.intro,
+.demo-console,
+.prototype-note,
+#day-steps,
+.device-title,
+.continuity,
+.run-record,
+#storage-error,
+body > main > footer {
+  display: none !important;
+}
+
+body > main,
+body > main > .workspace {
+  margin: 0 !important;
+  padding: 0 !important;
+}

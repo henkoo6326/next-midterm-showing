@@ -1,0 +1,95 @@
+{
+  "w": 1056,
+  "h": 2140,
+  "body": {
+    "x": 23.0,
+    "y": 14.0,
+    "w": 1010.0,
+    "h": 2112.0,
+    "radius": 177.0
+  },
+  "screen": {
+    "x": 56.0,
+    "y": 47.0,
+    "w": 944,
+    "h": 2046,
+    "radius": 144
+  },
+  "island": {
+    "x": 382.0,
+    "y": 82.0,
+    "w": 292,
+    "h": 85,
+    "radius": 42.5,
+    "inFrame": true
+  },
+  "css": {
+    "note": "프레임 컨테이너 기준 백분율. 화면 상자는 left/top/width/height 로, 모서리는 border-radius 로 그대로 쓴다",
+    "screenLeftPct": 5.303,
+    "screenTopPct": 2.1963,
+    "screenWidthPct": 89.3939,
+    "screenHeightPct": 95.6075,
+    "screenRadiusPctOfScreenWidth": 15.2542,
+    "islandLeftPct": 36.1742,
+    "islandTopPct": 3.8318,
+    "islandWidthPct": 27.6515,
+    "islandHeightPct": 3.972,
+    "aspect": "1056 / 2140"
+  },
+  "uiFit": {
+    "ui": {
+      "w": 390,
+      "h": 844,
+      "ratio": 0.46209
+    },
+    "screenRatio": 0.46139,
+    "iphone15ProRatio": 0.46127,
+    "ratioDiffUiVs15ProPct": 0.177,
+    "ratioDiffUiVsScreenPct": 0.151,
+    "mode": "contain",
+    "align": "center",
+    "scale": 2.42051,
+    "uiBoxInFrame": {
+      "x": 56.0,
+      "y": 48.54,
+      "w": 944.0,
+      "h": 2042.91
+    },
+    "gapPx": {
+      "x": 0.0,
+      "y": 3.09
+    },
+    "fill": "#FFFFFF",
+    "underlayBleedPx": 2,
+    "rules": [
+      "UI(390x844)는 가로세로 같은 배율로만 줄이거나 키운다. scale = min(screen.w/390, screen.h/844), 늘리기 금지",
+      "가로가 맞고 세로에 프레임 기준 약 3px(UI 기준 1.3px) 여유가 남는다. 가운데 정렬하고 남는 띠는 fill(#FFFFFF, NEXT UI 바탕)로 채운다",
+      "화면 상자 뒤에 screen 을 underlayBleedPx 만큼 바깥으로 넓힌 검은 바탕을 깔면 개구부 안티앨리어싱 띠에 바탕색이 비치지 않는다",
+      "화면 상자는 border-radius = screen.radius(백분율은 css.screenRadiusPctOfScreenWidth) 와 overflow:hidden 으로 자른다",
+      "프레임 이미지는 UI 위에 두고 pointer-events:none. 아일랜드는 프레임 안에 그려져 UI 위에 얹힌다. UI 좌표로 y 약 14~49 CSS px, x 약 135~255 CSS px 를 가리므로 이 영역에 누를 요소를 두지 않는다(현재 NEXT UI 첫 줄은 y 약 55 CSS px)"
+    ]
+  },
+  "primary": "white",
+  "variants": {
+    "white": {
+      "png": "iphone-front.png",
+      "webp": "iphone-front.webp",
+      "pngBytes": 64203,
+      "webpBytes": 18762
+    },
+    "graphite": {
+      "png": "iphone-front.graphite.png",
+      "webp": "iphone-front.graphite.webp",
+      "pngBytes": 58205,
+      "webpBytes": 15286
+    }
+  },
+  "source": "자체 제작(scripts/mockups_v2/iphone_frame_build.py). 프레임 구성은 devices.css iPhone 14 Pro (https://github.com/picturepan2/devices.css, npm devices.css@0.2.0)를 따르고 기하는 iPhone 15 Pro 화면 사양 1179x2556 에 맞춰 새로 그림. 애플 베젤 이미지·하루안부 PNG 의 픽셀은 쓰지 않음",
+  "license": "devices.css MIT, Copyright (c) 2017 Yan Zhu (assets/_incoming/mockup/devicescss_iphone14pro/devices.css_LICENSE_MIT.txt). 생성 이미지는 팀 자체 제작물",
+  "notes": [
+    "screen 은 개구부 경계(커버리지 50%)의 사각형이고 radius 는 원호 반지름",
+    "screen.w/screen.h = 944/2046 = 0.46139, iPhone 15 Pro 1179/2556 = 0.46127, NEXT UI 390/844 = 0.46209",
+    "흑연 변형은 iphone-front.graphite.png/.webp, 기하는 같다",
+    "하루안부 A(=B) 기반 컷아웃은 라이선스 미확정이라 site 밖 scripts/mockups_v2/out/ 에만 둔다(docs/IPHONE_ASSET.md)"
+  ]
+}

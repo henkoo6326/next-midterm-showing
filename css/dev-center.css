@@ -1,0 +1,303 @@
+/* ⑥ #center 센터페시아 (소유: center 담당). 사용자 선택 시안 docs/proposals-v3/center-a.html 이식(2026-10-21)
+ * 모든 선택자는 .ctr 아래로 범위를 제한한다(전역 .h2 .lead .wrap 을 건드리지 않는다).
+ * 좌우 마진 = #roles 의 .wrap(max-width none, padding 0 var(--margin)). 크기는 clamp(최소px, Nvw, 최대px):
+ *   시안의 cqw(콘텐츠 폭 기준) 값을 콘텐츠 폭 = 100vw − 2 × 3.3333vw ≈ 0.9333vw 로 옮기고, 최대값은 2560 에서의 값(N × 25.6).
+ *   그래서 1366~2560 데스크톱에서 같은 비율이 된다.
+ * 12컬럼: 라벨 c1~c3 / 제목 c4~ / 01 정차 안내 c1~c8(주인공) / 02·03 출발 전 c9~c12 / 근거 c1~c4 · c5~c8 · c9~c12
+ * v5(docs/V5_EDIT_PLAN.md 3-6): 정차 안내를 왼쪽 8열 주인공으로 바꾸고(열 폭은 그대로라 center.js 좌표는 같다), 출발 전 두 카드는 글자 한 단계 낮춤 */
+
+.ctr {
+  color: var(--ink);
+  font-family: var(--font);
+  letter-spacing: var(--tracking, -0.02em);
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  cursor: default;
+  /* 섹션 위 여백은 show.css(:where(#center) padding-top: --gap-sibling) 한 곳에서만 준다 */
+}
+.ctr-wrap {
+  width: 100%;
+  max-width: none;
+  margin: 0 auto;
+  padding: 0 var(--margin, clamp(16px, 3.3333vw, 85px));
+}
+/* 초기화는 :where 로 특이도를 낮춰 아래 클래스 규칙(타일 안쪽 여백 등)이 이긴다 */
+:where(.ctr) :where(h2, h3, p, ol, ul, figure) { margin: 0; padding: 0; }
+:where(.ctr) img { display: block; max-width: none; }
+
+/* ---------- 머리 행(#roles .head 와 같은 틀) ---------- */
+.ctr-head {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter, clamp(16px, 1.25vw, 32px));
+  align-items: baseline;
+}
+.ctr-label {
+  grid-column: 1 / 4;
+  font-size: var(--fs-caption, 14px);
+  line-height: var(--lh-body, 1.6);
+  font-weight: var(--w-strong, 600);
+  color: var(--ink);
+}
+.ctr-head__main { grid-column: 4 / -1; }
+.ctr-title {
+  font-size: var(--fs-h2, clamp(36px, 3.25vw, 83px));
+  line-height: var(--lh-title, 1.3);
+  font-weight: var(--w-strong, 600);
+  letter-spacing: var(--tracking, -0.02em);
+}
+.ctr .ctr-lead {
+  margin-top: var(--sp-5, 24px);
+  font-size: var(--fs-lead, clamp(18px, 1.35vw, 35px));
+  line-height: var(--lh-body, 1.6);
+  color: var(--ink-2);
+}
+/* 라벨형 두 줄의 머리(사용 상황 · 필요한 정보). 클러스터 .cl-k-inline · 모바일 .mob-k-inline 과 같은 규칙, 파랑 금지 */
+.ctr-k-inline {
+  margin-right: var(--sp-2, 8px);
+  font-size: var(--fs-caption, 14px);
+  font-weight: var(--w-strong, 600);
+  color: var(--mute);
+}
+
+/* ---------- 벤토 ---------- */
+.ctr-bento {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-rows: auto auto;
+  gap: var(--gutter, clamp(16px, 1.25vw, 32px));
+  margin-top: var(--gap-inner, clamp(32px, 3vw, 77px));
+}
+
+/* 번호 칩 01 */
+.ctr-n {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  min-width: clamp(34px, 2.43vw, 62px);
+  height: clamp(22px, 1.59vw, 41px);
+  padding: 0 clamp(7px, .51vw, 13px);
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--paper);
+  font-size: clamp(12px, .84vw, 22px);
+  font-weight: var(--w-strong, 600);
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+.ctr-step__head { display: flex; align-items: center; gap: clamp(8px, .65vw, 17px); }
+.ctr .ctr-step__name {
+  font-size: clamp(13px, .92vw, 24px);
+  line-height: var(--lh-body, 1.6);
+  font-weight: var(--w-strong, 600);
+  letter-spacing: var(--tracking, -0.02em);
+  color: var(--ink-2);
+}
+/* 요청 문장: 앞 구절만 회색, 나머지는 잉크 */
+.ctr .ctr-say {
+  margin-top: clamp(12px, .93vw, 24px);
+  font-size: clamp(20px, 1.77vw, 45px);
+  line-height: 1.25;
+  font-weight: var(--w-strong, 600);
+  color: var(--ink);
+  text-wrap: balance;
+}
+.ctr-say b { font-weight: inherit; color: var(--mute); }
+
+/* 02 03 출발 전 밝은 타일(보조). UI 패널이 타일 가장자리에서 잘려 나간다
+   02 문장 위 → 패널 윗부분이 타일 아래로 빠짐 / 03 패널 아랫부분이 타일 위에서 내려옴 → 문장 아래 */
+.ctr-step {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  border-radius: var(--radius-stage, 20px);
+  background: var(--paper-2);
+}
+.ctr-step--1 { grid-column: 9 / -1; grid-row: 1; padding: clamp(20px, 1.68vw, 43px) clamp(20px, 1.68vw, 43px) 0; }
+.ctr-step--2 { grid-column: 9 / -1; grid-row: 2; padding: 0 clamp(20px, 1.68vw, 43px) clamp(20px, 1.68vw, 43px); }
+.ctr-step--1 .ctr-crop { margin-top: auto; }
+.ctr-step--1 .ctr-say { margin-bottom: clamp(20px, 1.68vw, 43px); }
+.ctr-step--2 .ctr-step__text { margin-top: auto; padding-top: clamp(18px, 1.49vw, 38px); }
+/* 보조 카드 문장은 정차 안내보다 한 단계 낮게(본문 크기, 굵게) */
+.ctr .ctr-step .ctr-say { font-size: var(--fs-body, clamp(15px, 1.15vw, 34px)); line-height: var(--lh-title, 1.3); }
+.ctr .ctr-step__note {
+  margin-top: clamp(8px, .75vw, 19px);
+  font-size: clamp(13px, .92vw, 24px);
+  line-height: var(--lh-body, 1.6);
+  color: var(--mute);
+}
+
+/* 캡처 잘라 보이기: UI 좌표(1280×720) 사각형 x0,y0,cw,ch 를 상자에 같은 배율로 */
+.ctr-crop {
+  --x0: 0; --y0: 0; --cw: 1280; --ch: 720;
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: var(--cw) / var(--ch);
+}
+.ctr-crop img {
+  position: absolute;
+  height: auto;
+  width: calc(1280 / var(--cw) * 100%);
+  left: calc(var(--x0) / var(--cw) * -100%);
+  top: calc(var(--y0) / var(--ch) * -100%);
+  user-select: none;
+  pointer-events: none;
+}
+.ctr-step .ctr-crop {
+  flex: none;
+  background: #19242D;
+  box-shadow: var(--shadow-panel, 1px 1px 2px rgba(18,20,23,.10), 12px 20px 44px -18px rgba(18,20,23,.22));
+}
+/* 배송 도우미 패널 = UI 796,24 ~ 1256,616(1px 밝은 테두리 포함, 모서리 20).
+   1px 안쪽(797,25 ~ 1255,615)을 같은 중심의 모서리 19 로 잘라 테두리와 지도 안티앨리어싱 띠를 함께 뺀다 */
+/* ① 윗부분: 머리·질문·예시 두 줄 */
+.ctr-crop--voice { --x0: 797; --y0: 25; --cw: 458; --ch: 225; border-radius: 4.148% 4.148% 0 0 / 8.444% 8.444% 0 0; }
+/* ② 아랫부분: 요청·답·두 순서·인식 완료 */
+.ctr-crop--route { --x0: 797; --y0: 126; --cw: 458; --ch: 489; border-radius: 0 0 4.148% 4.148% / 0 0 3.885% 3.885%; }
+
+/* 01 대표 화면(주인공): 어두운 큰 타일, 렌더가 타일을 덮고 확대 조각이 떠 있다 */
+.ctr-main {
+  grid-column: 1 / 9;
+  grid-row: 1 / span 2;
+  position: relative;
+  min-width: 0;
+  min-height: clamp(380px, 28vw, 717px);
+  overflow: hidden;
+  border-radius: var(--radius-stage, 20px);
+  background: var(--night);
+  isolation: isolate;
+}
+.ctr-stage { position: absolute; inset: 0; background: #000; }
+/* 스크립트 전이거나 실패하면 같은 정차 화면을 평면으로(합성 중 loading 에는 검정) */
+.ctr-stage:not([data-render-state]),
+.ctr-stage[data-render-state="failed"] {
+  background: var(--night) url("../assets/captures/center_40000.png") center 40% / 82% auto no-repeat;
+}
+.ctr-art { position: absolute; left: 0; top: 0; width: 2400px; height: 1350px; transform-origin: 0 0; pointer-events: none; }
+.ctr-screen { position: absolute; left: 0; top: 0; overflow: hidden; background: #000; transform-origin: 0 0; }
+.ctr-screen img { position: absolute; left: 0; top: 0; }
+/* 정차 캡처의 지도 출처 글자 가리기(UI 좌표, 바탕 rgb 234 240 243 과 같은 색). 출처는 #sources 에 있다 */
+.ctr-mask { position: absolute; left: 1048px; top: 617px; width: 224px; height: 21px; background: rgb(234, 240, 243); }
+.ctr-render { position: absolute; left: 0; top: 0; width: 2400px; height: 1350px; filter: var(--render-focus, brightness(.78) saturate(.5)); user-select: none; }
+/* 캡션이 앉는 아래쪽만 어둡게(렌더 위, 확대 조각 아래) */
+.ctr-shade {
+  position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(to top, rgba(13,16,19,.92) 0%, rgba(13,16,19,.55) 14%, rgba(13,16,19,0) 30%);
+}
+
+/* 정차 카드 확대: 화면 왼쪽 위 카드(UI 24,24 ~ 334,239, 모서리 20)를 들어 올려 크게. 위치는 center.js */
+.ctr-zoom {
+  position: absolute;
+  z-index: 2;
+  left: 4.5%;
+  top: 36%;
+  width: 31%;
+  border-radius: 6.45% / 9.3%;
+  overflow: hidden;
+  background: var(--card);
+  box-shadow: 0 0 0 1px rgba(255,255,255,.06), 2px 4px 8px rgba(0,0,0,.30), 18px 30px 60px -18px rgba(0,0,0,.65);
+}
+.ctr-main:not([data-ctr-ready]) .ctr-zoom { visibility: hidden; }
+.ctr-crop--park { --x0: 24; --y0: 24; --cw: 310; --ch: 215; border-radius: inherit; }
+/* 확대 조각과 원래 자리를 잇는 선(center.js 가 화면 위 카드 모서리를 계산) */
+.ctr-link { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; overflow: visible; }
+.ctr-link path { fill: none; stroke-linejoin: round; stroke-linecap: round; }
+.ctr-link .halo { stroke: var(--on-night); stroke-width: 4; opacity: .9; }
+.ctr-link .ink { stroke: var(--ink); stroke-width: 1.5; }
+.ctr-link circle { fill: var(--ink); stroke: var(--on-night); stroke-width: 2; }
+
+.ctr-main__cap {
+  position: absolute;
+  z-index: 3;
+  left: clamp(20px, 2.24vw, 57px);
+  bottom: clamp(18px, 2.05vw, 52px);
+  right: clamp(20px, 2.24vw, 57px);
+  color: var(--on-night);
+}
+.ctr-main__cap .ctr-n { background: var(--on-night); color: var(--night); }
+.ctr-main__cap .ctr-step__name { color: var(--on-night-mute); }
+.ctr-main__cap .ctr-say { color: var(--on-night); }
+.ctr-main__cap .ctr-say b { color: var(--on-night-mute); }
+/* 근거 꼬리표(.ev 는 show.css 공통 정의, V5_EDIT_PLAN 6장 shell). 아래 :where 는 특이도 0 의 안전망이라
+   show.css 정의가 있으면 그쪽이 이긴다(값은 계획서 정의와 같다) */
+:where(.ctr .ev) { display: block; margin-top: var(--sp-2, 8px); font-size: var(--fs-caption, 14px); line-height: var(--lh-body, 1.6); color: var(--mute); word-break: keep-all; }
+:where(.ctr .ev b) { display: inline-block; margin-right: var(--sp-2, 8px); padding: 0 .5em; border: 1px solid var(--line); border-radius: 999px; font-weight: var(--w-strong, 600); color: var(--ink-2); }
+:where(.ctr .ev--night) { color: var(--on-night-mute); }
+:where(.ctr .ev--night b) { border-color: var(--line-night); color: var(--on-night); }
+.ctr-main__cap .ev { margin-top: clamp(8px, .75vw, 19px); }
+
+/* ---------- 근거 세 줄(#roles 와 같은 선 + 12컬럼) ---------- */
+.ctr-why {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter, clamp(16px, 1.25vw, 32px));
+  margin-top: var(--gap-row, clamp(48px, 4vw, 102px));
+  padding-top: var(--sp-5, 24px);
+  border-top: 1px solid var(--line);
+}
+.ctr-why > :nth-child(1) { grid-column: 1 / 5; }
+.ctr-why > :nth-child(2) { grid-column: 5 / 9; }
+.ctr-why > :nth-child(3) { grid-column: 9 / -1; }
+.ctr .ctr-why__k {
+  font-size: clamp(13px, .8vw, 20px);
+  line-height: var(--lh-body, 1.6);
+  font-weight: var(--w-strong, 600);
+  letter-spacing: var(--tracking, -0.02em);
+  color: var(--mute);
+}
+.ctr .ctr-why ol, .ctr .ctr-why ul { list-style: none; margin-top: clamp(10px, .93vw, 24px); }
+.ctr-why li {
+  display: flex;
+  gap: clamp(10px, .84vw, 22px);
+  align-items: baseline;
+  font-size: clamp(15px, 1.12vw, 29px);
+  line-height: var(--lh-body, 1.6);
+  color: var(--ink);
+  white-space: nowrap;
+}
+.ctr-why li + li { margin-top: clamp(4px, .33vw, 8px); }
+/* 순위: 항목 아래 줄에 이유(캡션) */
+.ctr-why ol li { white-space: normal; }
+.ctr-why ol li small {
+  display: block;
+  font-size: var(--fs-caption, 14px);
+  line-height: var(--lh-body, 1.6);
+  color: var(--mute);
+  text-wrap: pretty;
+}
+.ctr-why ol li + li { margin-top: clamp(8px, .65vw, 17px); }
+.ctr .ctr-why__note {
+  margin-top: clamp(12px, .93vw, 24px);
+  font-size: var(--fs-caption, 14px);
+  line-height: var(--lh-body, 1.6);
+  color: var(--mute);
+  text-wrap: pretty;
+}
+.ctr-why__n { font-weight: var(--w-strong, 600); font-variant-numeric: tabular-nums; min-width: 1em; }
+.ctr-why ul li::before {
+  content: "";
+  flex: none;
+  width: clamp(5px, .39vw, 10px);
+  height: clamp(5px, .39vw, 10px);
+  border-radius: 50%;
+  background: var(--ink-2);
+  transform: translateY(calc(-1 * clamp(2px, .19vw, 5px)));
+}
+.ctr .ctr-why__say { margin-top: clamp(10px, .93vw, 24px); font-size: clamp(15px, 1.12vw, 29px); line-height: var(--lh-body, 1.6); color: var(--ink); }
+.ctr-why__say strong { font-weight: var(--w-strong, 600); }
+
+/* ---------- 폭 900 미만: 세로 쌓기(01 → 02 → 03, 마크업 순서) ---------- */
+@media (max-width: 899.98px) {
+  .ctr-head { display: block; }
+  .ctr-label { margin-bottom: 8px; }
+  .ctr .ctr-lead { margin-top: 12px; }
+  .ctr-bento { grid-template-columns: minmax(0, 1fr); }
+  .ctr-step--1, .ctr-step--2, .ctr-main { grid-column: 1; grid-row: auto; }
+  .ctr-main { min-height: 0; aspect-ratio: 4 / 3; }
+  /* 패널 조각이 폭 전체로 커지지 않게(UI 를 두 배 넘게 키우지 않음) */
+  .ctr-step .ctr-crop { width: 100%; max-width: 480px; margin-inline: auto; }
+  .ctr-why { display: flex; flex-direction: column; gap: 32px; }
+  .ctr-why li { white-space: normal; }
+}

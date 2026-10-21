@@ -1,0 +1,456 @@
+{
+ "version": 1,
+ "model": "assets/models/cockpit_v8_lm.glb",
+ "uv": {
+  "gltfAttribute": "TEXCOORD_1",
+  "threeAttribute": "uv1",
+  "channel": 1
+ },
+ "encoding": {
+  "format": "webp (lossy q90, 8bit RGB)",
+  "transfer": "sRGB",
+  "threeColorSpace": "SRGBColorSpace",
+  "flipY": false,
+  "scaleNote": "linear = srgbDecode(texel) * maps[i].scale. linear = Cycles DIFFUSE(DIRECT+INDIRECT, no COLOR) = E/pi (radiance of a white Lambert surface).",
+  "gamma": "sRGB piecewise (≈2.2)",
+  "intensityFormula": "lightMapIntensity = PI * maps[i].scale * recommended.lightMapGain"
+ },
+ "maps": [
+  {
+   "file": "lm_0_near.webp",
+   "w": 4096,
+   "h": 4096,
+   "scale": 1.56,
+   "bytes": 516460,
+   "clippedFraction": 5e-05,
+   "meanRelError": 0.0187,
+   "sha256": "ac3f6d0bfba9214c",
+   "bake": {
+    "size": 4096,
+    "samples": 64,
+    "device": "CPU",
+    "bake_s": 823.9,
+    "denoise_s": 21.7,
+    "objects": 15
+   }
+  },
+  {
+   "file": "lm_1_cabin.webp",
+   "w": 4096,
+   "h": 4096,
+   "scale": 1.56,
+   "bytes": 596654,
+   "clippedFraction": 0.00221,
+   "meanRelError": 0.0191,
+   "sha256": "f0609aac51ede658",
+   "bake": {
+    "size": 4096,
+    "samples": 48,
+    "device": "CPU",
+    "bake_s": 1119.2,
+    "denoise_s": 32.3,
+    "objects": 12
+   }
+  },
+  {
+   "file": "lm_2_exterior.webp",
+   "w": 2048,
+   "h": 2048,
+   "scale": 1.65,
+   "bytes": 202690,
+   "clippedFraction": 0.00269,
+   "meanRelError": 0.0212,
+   "sha256": "199c1a9c173db432",
+   "bake": {
+    "size": 2048,
+    "samples": 96,
+    "device": "CPU",
+    "bake_s": 259.3,
+    "denoise_s": 14.3,
+    "objects": 5
+   }
+  }
+ ],
+ "meshes": {
+  "UVMap": {
+   "map": 0,
+   "gltfNode": "UVMap",
+   "nodeIndex": 0,
+   "material": "01 · blue graphite / textured TPO",
+   "texelsPerMeter": 1126.6
+  },
+  "MICRO_UV001": {
+   "map": 0,
+   "gltfNode": "MICRO_UV.001",
+   "nodeIndex": 12,
+   "material": "03 · steering leather",
+   "texelsPerMeter": 1802.8
+  },
+  "UVMap008": {
+   "map": 0,
+   "gltfNode": "UVMap.008",
+   "nodeIndex": 13,
+   "material": "02 · lower moulded graphite",
+   "texelsPerMeter": 1464.6
+  },
+  "UVMap009": {
+   "map": 0,
+   "gltfNode": "UVMap.009",
+   "nodeIndex": 14,
+   "material": "04 · vent ABS satin",
+   "texelsPerMeter": 1464.8
+  },
+  "UVMap010": {
+   "map": 0,
+   "gltfNode": "UVMap.010",
+   "nodeIndex": 15,
+   "material": "07 · brushed aluminium",
+   "texelsPerMeter": 1463.8
+  },
+  "UVMap011": {
+   "map": 0,
+   "gltfNode": "UVMap.011",
+   "nodeIndex": 16,
+   "material": "08 · pad printing",
+   "texelsPerMeter": 977.0
+  },
+  "UVMap012": {
+   "map": 0,
+   "gltfNode": "UVMap.012",
+   "nodeIndex": 17,
+   "material": "BADGE · emblem mask",
+   "texelsPerMeter": 1821.2
+  },
+  "MICRO_UV": {
+   "map": 0,
+   "gltfNode": "MICRO_UV",
+   "nodeIndex": 8,
+   "material": "02 · lower moulded graphite",
+   "texelsPerMeter": 1802.8
+  },
+  "STATIC_09_·_20_·_Displays_and_UI_surfaces_·_06_·_display_su": {
+   "map": 0,
+   "gltfNode": "STATIC_09 · 20 · Displays and UI surfaces · 06 · display su",
+   "nodeIndex": 9,
+   "material": "06 · display surround satin",
+   "texelsPerMeter": 1802.6
+  },
+  "UVMap007": {
+   "map": 0,
+   "gltfNode": "UVMap.007",
+   "nodeIndex": 10,
+   "material": "04 · vent ABS satin",
+   "texelsPerMeter": 1465.2
+  },
+  "UVMap002": {
+   "map": 0,
+   "gltfNode": "UVMap.002",
+   "nodeIndex": 2,
+   "material": "04 · vent ABS satin",
+   "texelsPerMeter": 1014.0
+  },
+  "UVMap003": {
+   "map": 0,
+   "gltfNode": "UVMap.003",
+   "nodeIndex": 3,
+   "material": "05 · deep recess",
+   "texelsPerMeter": 901.4
+  },
+  "UVMap006": {
+   "map": 0,
+   "gltfNode": "UVMap.006",
+   "nodeIndex": 6,
+   "material": "11 · rubber mats",
+   "texelsPerMeter": 1126.6
+  },
+  "UVMap004": {
+   "map": 0,
+   "gltfNode": "UVMap.004",
+   "nodeIndex": 4,
+   "material": "08 · pad printing",
+   "texelsPerMeter": 974.0
+  },
+  "UVMap005": {
+   "map": 0,
+   "gltfNode": "UVMap.005",
+   "nodeIndex": 5,
+   "material": "09 · hazard red",
+   "texelsPerMeter": 932.0
+  },
+  "UVMap001": {
+   "map": 1,
+   "gltfNode": "UVMap.001",
+   "nodeIndex": 1,
+   "material": "02 · lower moulded graphite",
+   "texelsPerMeter": 962.0
+  },
+  "UVMap016": {
+   "map": 1,
+   "gltfNode": "UVMap.016",
+   "nodeIndex": 28,
+   "material": "01 · blue graphite / textured TPO",
+   "texelsPerMeter": 962.0
+  },
+  "UVMap017": {
+   "map": 1,
+   "gltfNode": "UVMap.017",
+   "nodeIndex": 29,
+   "material": "02 · lower moulded graphite",
+   "texelsPerMeter": 865.8
+  },
+  "UVMap018": {
+   "map": 1,
+   "gltfNode": "UVMap.018",
+   "nodeIndex": 30,
+   "material": "04 · vent ABS satin",
+   "texelsPerMeter": 865.8
+  },
+  "MICRO_UV002": {
+   "map": 1,
+   "gltfNode": "MICRO_UV.002",
+   "nodeIndex": 19,
+   "material": "02 · lower moulded graphite",
+   "texelsPerMeter": 962.0
+  },
+  "UVMap013": {
+   "map": 1,
+   "gltfNode": "UVMap.013",
+   "nodeIndex": 22,
+   "material": "04 · vent ABS satin",
+   "texelsPerMeter": 962.0
+  },
+  "UVMap014": {
+   "map": 1,
+   "gltfNode": "UVMap.014",
+   "nodeIndex": 23,
+   "material": "08 · pad printing",
+   "texelsPerMeter": 778.0
+  },
+  "UVMap015": {
+   "map": 1,
+   "gltfNode": "UVMap.015",
+   "nodeIndex": 24,
+   "material": "11 · rubber mats",
+   "texelsPerMeter": 769.8
+  },
+  "STATIC_18_·_40_·_Centre_stack_·_05_·_deep_recess": {
+   "map": 1,
+   "gltfNode": "STATIC_18 · 40 · Centre stack · 05 · deep recess",
+   "nodeIndex": 20,
+   "material": "05 · deep recess",
+   "texelsPerMeter": 771.2
+  },
+  "STATIC_19_·_40_·_Centre_stack_·_07_·_brushed_aluminium": {
+   "map": 1,
+   "gltfNode": "STATIC_19 · 40 · Centre stack · 07 · brushed aluminium",
+   "nodeIndex": 21,
+   "material": "07 · brushed aluminium",
+   "texelsPerMeter": 760.8
+  },
+  "STATIC_27_·_50_·_Forward_cabin_·_MIRROR_·_silvered_grey": {
+   "map": 1,
+   "gltfNode": "STATIC_27 · 50 · Forward cabin · MIRROR · silvered grey",
+   "nodeIndex": 27,
+   "material": "MIRROR · silvered grey",
+   "texelsPerMeter": 961.6
+  },
+  "UVMap019": {
+   "map": 1,
+   "gltfNode": "UVMap.019",
+   "nodeIndex": 31,
+   "material": "10 · headlining",
+   "texelsPerMeter": 481.0
+  },
+  "UVMap022": {
+   "map": 2,
+   "gltfNode": "UVMap.022",
+   "nodeIndex": 45,
+   "material": "EXT_Black hood and exterior pillar finish",
+   "texelsPerMeter": 432.3
+  },
+  "UVMap024": {
+   "map": 2,
+   "gltfNode": "UVMap.024",
+   "nodeIndex": 47,
+   "material": "EXT_Recess and panel gaps",
+   "texelsPerMeter": 302.6
+  },
+  "UVMap020": {
+   "map": 2,
+   "gltfNode": "UVMap.020",
+   "nodeIndex": 43,
+   "material": "04 · vent ABS satin",
+   "texelsPerMeter": 432.3
+  },
+  "STATIC_43_·_60_·_Front_body_and_bumper_·_MIRROR_·_silvered_": {
+   "map": 2,
+   "gltfNode": "STATIC_43 · 60 · Front body and bumper · MIRROR · silvered ",
+   "nodeIndex": 42,
+   "material": "MIRROR · silvered grey",
+   "texelsPerMeter": 432.4
+  },
+  "STATIC_33_·_60_·_Front_body_and_bumper_·_EXT_Ceramic_white_p": {
+   "map": 2,
+   "gltfNode": "STATIC_33 · 60 · Front body and bumper · EXT_Ceramic white p",
+   "nodeIndex": 35,
+   "material": "EXT_Ceramic white paint",
+   "texelsPerMeter": 216.2
+  }
+ },
+ "env": {
+  "hdri": "assets/_incoming/env/hdri_learner_park/learner_park_2k.hdr (Poly Haven, CC0)",
+  "yawDeg": -182,
+  "blenderWorldRotZDeg": 2.0,
+  "mappingNote": "web ENV_SPHERE: SphereGeometry scale(-1,1,1), rotation.y = yaw. Blender: Mapping(POINT) Z = 180 - yaw. Verified by world-only renders (scripts/build/bake/env_check_*.png).",
+  "strength": 1.0
+ },
+ "totalBytes": 1315804,
+ "recommended": {
+  "lightMapGain": 1.0,
+  "lightMapIntensity": "Math.PI * maps[i].scale * lightMapGain  (= 4.90 for scale 1.56, 5.18 for scale 1.65)",
+  "lightMapTexture": {
+   "colorSpace": "SRGBColorSpace",
+   "flipY": false,
+   "channel": 1,
+   "generateMipmaps": false,
+   "minFilter": "LinearFilter",
+   "magFilter": "LinearFilter"
+  },
+  "toneMapping": "AgXToneMapping",
+  "toneMappingExposure": 1.0,
+  "alternativeIfKeepingACES": {
+   "toneMapping": "ACESFilmicToneMapping",
+   "toneMappingExposure": 1.8,
+   "note": "오차 sRGB MAE 8.2/6.0 (AgX 6.7/4.9)"
+  },
+  "presentationBrighter": "AgX exposure 1.4 (+0.5EV) 까지는 같은 라이트맵으로 자연스럽다(기준보다 밝게 보이고 싶을 때)",
+  "environment": "scene.environment = learner_park HDR PMREM, 배경 구와 같은 지오메트리·회전을 입힌 장면을 pmrem.fromScene(envScene, 0, 0.1, 1000) 로 만든다(방향 자동 일치). scene.environmentIntensity = 1.0",
+  "envMapIntensityNote": "three r180: material.envMap 이 null 이고 scene.environment 를 쓰면 material.envMapIntensity 는 무시되고 scene.environmentIntensity 가 쓰인다. 재질별로 다르게 하려면 material.envMap 에 PMREM 텍스처를 직접 넣는다",
+  "shaderPatch": {
+   "required": true,
+   "why": "라이트맵이 이미 확산광 전부(직접+간접, 가림 포함)를 담고 있다. 그대로 두면 IBL 확산이 더해져 두 번 밝아지고(틈새 AO 사라짐) 반사도 가려지지 않는다. 패치 없이(ibld=1, specocc=0)는 MAE 27.0/27.5 로 지금 사이트(29.9/27.8)와 비슷해진다",
+   "onBeforeCompile": "shader.fragmentShader = shader.fragmentShader.replace('#include <lights_fragment_maps>', `#include <lights_fragment_maps>\n#if defined( USE_LIGHTMAP ) && defined( USE_ENVMAP ) && defined( STANDARD )\n{ vec3 lumW = vec3(0.2126, 0.7152, 0.0722);\n  float envL = dot(iblIrradiance, lumW) / max(envMapIntensity, 1e-4);\n  float lmL = dot(texture2D(lightMap, vLightMapUv).rgb * lightMapIntensity, lumW);\n  radiance *= clamp(lmL / max(envL, 1e-4), 0.0, 1.0);  // 라이트맵으로 반사 가리기\n  iblIrradiance *= 0.0; }                                // IBL 확산 끄기(라이트맵이 대신)\n#endif`); material.customProgramCacheKey = () => 'lm-v1';",
+   "reference": "scripts/bake/preview_lm.html"
+  },
+  "directLights": "없음. 사이트의 HemisphereLight 1.15·DirectionalLight 2.1·RoomEnvironment 0.72 는 라이트맵 면에 빛을 한 번 더 더하므로 끈다(three 조명은 객체별 제외가 안 된다)",
+  "nonLightmappedMeshes": "라이트맵이 없는 메시(화면=CSS 펀치, 유리, 시점에서 안 보이는 외장 하부)는 env 만 받는다. 보이는 정적 면은 전부 라이트맵 대상",
+  "dynamicObjects_hands": {
+   "light": "손·폰 재질에 material.envMap = 같은 HDR PMREM 을 직접 넣고 envMapIntensity 0.5~0.6. 실측: 핸들 림 라이트맵 중앙값 0.31(상위10% 0.55) vs 막힘 없는 위쪽 면 0.86 → 실내 가림 약 0.4~0.6",
+   "optional": "창 방향 약한 DirectionalLight(three 방향 = 빛이 오는 쪽 (-0.20, 0.44, -0.88), 색 #bcd2ff, 세기 0.3 이하, 그림자 끔). 라이트맵 면에도 더해지므로 0.3 넘기지 않는다",
+   "shadowOnCabin": "손이 대시·핸들에 드리우는 그림자는 라이트맵으로 표현되지 않는다. 필요하면 손 아래 blob(원형 그라데이션) 데칼"
+  }
+ },
+ "verification": {
+  "piFactor": {
+   "method": "Cycles 재구성(Emission=albedo×lightmap, 반사 없음, 선형 EXR) vs three(env 0, LinearToneMapping, lightMapIntensity=π·scale) 화소 비 중앙값",
+   "default": 0.9973,
+   "focus": 0.9896
+  },
+  "vsCyclesReference_sRGB_MAE_lightmappedPixels": {
+   "agx_exp1_env1_patched": {
+    "default": 6.73,
+    "focus": 4.92
+   },
+   "aces_exp1.8_patched": {
+    "default": 8.2,
+    "focus": 6.0
+   },
+   "agx_exp1_unpatched": {
+    "default": 27.02,
+    "focus": 27.48
+   },
+   "currentSite_noLightmap": {
+    "default": 29.92,
+    "focus": 27.84
+   }
+  },
+  "grid": [
+   {
+    "tm": "agx",
+    "x": 1.0,
+    "default": 6.73,
+    "focus": 4.92,
+    "default_lumratio": 1.065,
+    "focus_lumratio": 0.996
+   },
+   {
+    "tm": "aces",
+    "x": 1.3,
+    "default": 9.21,
+    "focus": 8.61,
+    "default_lumratio": 0.81,
+    "focus_lumratio": 0.726
+   },
+   {
+    "tm": "neutral",
+    "x": 1.3,
+    "default": 10.84,
+    "focus": 11.15,
+    "default_lumratio": 0.734,
+    "focus_lumratio": 0.647
+   },
+   {
+    "tm": "agx",
+    "x": 1.4,
+    "default": 13.33,
+    "focus": 11.88,
+    "default_lumratio": 1.396,
+    "focus_lumratio": 1.3
+   },
+   {
+    "tm": "neutral",
+    "x": 0.9,
+    "default": 14.29,
+    "focus": 16.51,
+    "default_lumratio": 0.541,
+    "focus_lumratio": 0.476
+   },
+   {
+    "tm": "aces",
+    "x": 0.9,
+    "default": 14.87,
+    "focus": 16.59,
+    "default_lumratio": 0.558,
+    "focus_lumratio": 0.492
+   },
+   {
+    "tm": "neutral",
+    "x": 0.6,
+    "default": 18.08,
+    "focus": 21.52,
+    "default_lumratio": 0.381,
+    "focus_lumratio": 0.334
+   },
+   {
+    "tm": "aces",
+    "x": 0.6,
+    "default": 20.19,
+    "focus": 23.55,
+    "default_lumratio": 0.355,
+    "focus_lumratio": 0.304
+   },
+   {
+    "tm": "agx",
+    "x": 2.0,
+    "default": 24.64,
+    "focus": 23.88,
+    "default_lumratio": 1.797,
+    "focus_lumratio": 1.663
+   }
+  ],
+  "envRotation": "Blender 월드만 렌더 vs three 배경 구: 가로 엣지 상관 최대가 오프셋 0px (scripts/build/bake/env_check_pair_default.png)",
+  "images": "scripts/build/bake/cmp_default.png, cmp_focus.png, crop_*.png, ref_*.png, recon_*.png"
+ },
+ "notes": [
+  "Blender 4.4.3 Cycles CPU(i9-9980HK 16스레드). AMD Radeon Pro 5600M 은 Blender 4.4 Cycles Metal 장치 목록에 나오지 않아(Cycles 가 macOS AMD GPU 지원을 끊음) CPU 로 구웠다",
+  "굽기: DIFFUSE pass_filter {DIRECT, INDIRECT}(COLOR 제외), 라이트 패스 diffuse 4 / glossy 2 / transparent 16, 간접 클램프 8, 마진 16px(4096)·8px(2048) EXTEND, 컴포지터 Denoise(OIDN, HDR, ACCURATE)",
+  "샘플·해상도 판단: 1024²/16spp 시험이 34s → 4096²/128spp 는 아틀라스 하나에 1시간 이상이라 발표 일정상 불가. 가까운 면(0)은 4096²/64spp, 실내 나머지(1)는 4096²/48spp, 외장(2)은 2048²/96spp + OIDN. 확산 조도는 저주파라 OIDN 후 잡음이 보이지 않았다(crop_*.png)",
+  "UV: 객체별 Smart UV(66°) → UV 면적 = 월드 면적 × w²(가까운 면 w 1.3~1.6) → 아틀라스별 pack(CONCAVE, 섬 여백 2048 기준 5px). 80° 는 채움이 4% 낫지만 늘어짐이 커서 버렸다",
+  "유리는 굽기·기준 렌더에서 Transparent BSDF(0.96)로 바꿔 빛을 통과시켰다. 화면(SCREEN_*)은 흰 UI 를 가정해 약한 발광(0.6/0.5)으로 주변 베젤에 빛을 준다(사이트 UI 배경이 대부분 #fff)",
+  "노멀맵(미세 결)은 굽기 재질에서 끊었다. 라이트맵에 결이 찍혀 겹쳐 보이지 않게 하고, 웹에서는 원래 노멀맵이 그대로 반사에 쓰인다",
+  "GLB: build_glb.sh 의 정리 코드(KEEP_BADGE=1 기본, 배지 로고 텍스처 유지)를 그대로 쓰고, 라이트맵 UV 를 TEXCOORD_1 로 넣은 뒤 prune → Draco(텍스처 좌표 14비트). 원래 일부 메시에 있던 쓰지 않는 TEXCOORD_1 은 라이트맵 UV 로 바뀌었다(재질 텍스처는 전부 texCoord 0)",
+  "meshes 키는 three 객체 이름(GLTFLoader 가 노드 이름에서 공백→_, . : / [ ] 제거). gltfNode 에 원래 이름, nodeIndex 에 노드 번호",
+  "배지 로고: GLB 에는 badge_emblem 텍스처가 있다. 사이트에서 로고가 안 보이는 것은 site/js/xp/scene.js 289~296행이 BADGE 재질을 무지 BADGE_PLAIN 으로 바꾸기 때문(사이트 코드 담당이 그 블록을 빼면 보인다). 라이트맵 매핑에 핸들 배지(UVMap012)도 있다",
+  "남은 문제: 손 등 움직이는 물체의 그림자는 라이트맵에 없다. 시점에서 안 보이는 면(대시 셸 안쪽 등)은 라이트맵 값이 0 이다. 기준 렌더의 배경은 2k HDR 이라 흐리게 보이는데, 웹은 4k JPG 구라 더 선명하다(비교 마스크에서 배경 제외)"
+ ]
+}

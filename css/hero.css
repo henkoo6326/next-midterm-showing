@@ -1,0 +1,179 @@
+/* ① #intro 히어로 v5 — 배송기사 사진 정식 반영 (2026-10-21)
+ * 구성: 사진 전면(100vw)이 헤더 바로 아래부터 첫 화면 높이를 채우고, 아래 #roles 로 이어진다.
+ *       왼쪽 위 흰 글(라벨 · 제목 2줄 · 설명 2줄 · CTA), 맨 아래 왼쪽 메타 · 오른쪽 캡션.
+ * 정렬: 글 · 메타 왼쪽 끝 = var(--margin) = 로고 왼쪽 끝 / 캡션 오른쪽 끝 = var(--margin) = 메뉴 오른쪽 끝.
+ * 크기: 1440 기준값을 vw 로 바꾸고 clamp(작은 화면 최소, Nvw, 2560 에서 같은 비율이 되는 값 = 1440 값 × 2560/1440).
+ * 글자: 자간 var(--tracking)(-2%), 제목 행간 var(--lh-title)(1.3), 본문 행간 var(--lh-body)(1.6). 이탤릭 없음.
+ * 범위: 선택자는 모두 #intro 안, 또는 상단 메뉴 로고(.topnav-brand · .topnav-logo, 이전 판부터 이 파일에 있던 로고 규칙 그대로).
+ * 이미지: assets/hero/next-courier-pv5-{1480,1920,2960}.webp (출처는 assets/credits.json 페이지 이미지 항목) */
+
+/* ---------- 상단 메뉴 로고 (assets/brand/next-logo.svg, 글자 경계 viewBox 1514.4 × 186.2 ≈ 8.13:1) — 바꾸지 않음 ---------- */
+.topnav-brand { display: inline-flex; align-items: center; height: 100%; line-height: 0; }
+.topnav-logo {
+  display: block;
+  height: clamp(14px, 1.1111vw, 28px);   /* 1366 15.2 · 1440 16 · 1920 21.3 · 2560 28 */
+  width: auto;
+  aspect-ratio: 1514.4 / 186.2;
+  color: inherit;                          /* 밝은 메뉴 --ink, 어두운 메뉴(.is-night) --on-night */
+  overflow: visible;
+}
+
+/* ---------- 섹션 틀 ---------- */
+#intro.sec-intro {
+  position: relative;
+  display: block;
+  height: auto;
+  min-height: 0;
+  overflow: hidden;
+  background: #18201c;                     /* 사진이 늦게 올 때 보이는 바탕(사진 아래쪽 대시보드 색) */
+  color: #fff;
+}
+#intro .hero {
+  position: relative;
+  isolation: isolate;
+  display: block;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  height: calc(100vh - var(--nav-h));
+  height: calc(100svh - var(--nav-h));     /* 헤더 아래부터 첫 화면 끝까지 */
+  min-height: 620px;
+  max-height: 76.3889vw;                   /* 1440 1100px. 세로로 아주 긴 창에서만 걸린다(2560×1440 은 1340px 그대로 채움) */
+}
+
+/* 사진: 전면 cover. 아래쪽 기준(65%)이라 좁고 긴 창에서도 클러스터 · 센터 화면이 남는다 */
+#intro .hero-visual { position: absolute; inset: 0; margin: 0; z-index: -2; }
+#intro .hero-visual img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: 50% 65%;
+}
+
+/* 스크림: 글이 놓이는 왼쪽 위만 어둡게, 오른쪽(기사)과 아래(클러스터 · 센터 화면)는 사진 그대로.
+   가로: 왼쪽 끝 .75 → 37% .57 → 50% .26 → 64% 에서 0.
+   세로 마스크: 히어로 높이 58% 까지 그대로 → 66% 에서 0. 클러스터 · 센터 화면 윗변(히어로 높이 약 67%, 1366~2560 공통)보다 위에서 끝나 NEXT UI 는 덮지 않는다.
+   값은 흰 글 아래 실제 배경 픽셀로 WCAG 대비(제목 3:1, 나머지 4.5:1 이상, 픽셀 최저값 기준)를 재서 넘는 최소로 잡았다(docs/verification/v9-hero) */
+#intro .hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(8, 18, 15, .75) 0%, rgba(8, 18, 15, .57) 37%, rgba(8, 18, 15, .26) 50%, rgba(8, 18, 15, 0) 64%);
+  -webkit-mask-image: linear-gradient(#000 0%, #000 58%, transparent 66%);
+  mask-image: linear-gradient(#000 0%, #000 58%, transparent 66%);
+}
+/* 아래 메타 · 캡션 줄 받침: 바닥 띠만(대시보드 위, 화면보다 아래). 1440 64px · 아래 끝 .7 → 위 끝 0 */
+#intro .hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: clamp(56px, 4.4444vw, 114px);
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(to top, rgba(8, 12, 11, .7), rgba(8, 12, 11, 0));
+}
+
+/* ---------- 왼쪽 위 글 묶음 ---------- */
+#intro .hero-copy {
+  position: absolute;
+  /* 기본 16%. 글 묶음 높이(라벨~CTA)는 약 24.4vw 라서, 브라우저 주소창 · 탭 때문에 창이 낮아지면(1920×969 · 2560×1329 등)
+     CTA 가 앞유리 아래 밝은 보도 · 클러스터 위로 내려간다. 그래서 CTA 아래 끝이 히어로 높이 63%(화면 윗변 약 67% 위)를
+     넘지 않게 위로 당긴다. 1366×768 · 1440×900 · 1920×1080 · 2560×1440 은 16% 그대로(검수 2026-10-21, v9-hero/review) */
+  top: clamp(3vw, calc(63% - 24.4vw), 16%);
+  left: var(--margin);
+  width: 46vw;
+}
+#intro .hero-label {
+  margin: 0 0 1.4vw;
+  font-size: clamp(13px, 1.02vw, 26.11px);          /* 1440 14.7 · 2560 26.1 */
+  font-weight: 400;
+  line-height: var(--lh-body);
+  letter-spacing: var(--tracking);
+  color: #fff;
+}
+#intro .hero-title {
+  margin: 0;
+  font-size: clamp(42px, 4.15vw, 106.24px);         /* 1366 56.7 · 1440 59.8 · 1920 79.7 · 2560 106.2 */
+  font-weight: 600;
+  font-style: normal;
+  line-height: var(--lh-title);
+  letter-spacing: var(--tracking);
+  color: #fff;
+  word-break: keep-all;
+}
+#intro .hero-title span { display: block; white-space: nowrap; }
+#intro .hero-desc {
+  margin: 1.6vw 0 0;
+  font-size: clamp(14px, 1.13vw, 28.93px);          /* 1440 16.3 · 2560 28.9 */
+  line-height: var(--lh-body);
+  letter-spacing: var(--tracking);
+  color: #fff;
+  word-break: keep-all;
+}
+#intro .hero-actions { display: flex; align-items: center; gap: 2vw; margin-top: 2vw; }
+#intro .hero-actions .btn {
+  min-height: clamp(44px, 3.3333vw, 85.33px);        /* 1440 48 */
+  padding: 0 1.6vw;
+  font-size: clamp(14px, 1.03vw, 26.37px);
+  letter-spacing: var(--tracking);
+}
+#intro .hero-link {
+  font-size: clamp(14px, 1.03vw, 26.37px);
+  letter-spacing: var(--tracking);
+  color: #fff;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: clamp(4px, .4167vw, 10.67px);
+}
+#intro .hero-link:focus-visible,
+#intro .hero-actions .btn:focus-visible { outline: 2px solid #fff; outline-offset: clamp(4px, .4167vw, 10.67px); }
+
+/* ---------- 맨 아래 메타(왼쪽) · 캡션(오른쪽) ---------- */
+#intro .hero-meta,
+#intro .hero-cap {
+  position: absolute;
+  bottom: clamp(12px, 1.1111vw, 28.44px);           /* 1440 16 */
+  margin: 0;
+  font-size: clamp(11px, .7639vw, 19.56px);         /* 1440 11 · 1920 14.7 · 2560 19.6 */
+  line-height: var(--lh-body);
+  letter-spacing: var(--tracking);
+  color: #fff;
+  white-space: nowrap;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, .6);
+}
+#intro .hero-meta { left: var(--margin); }
+#intro .hero-cap { right: var(--margin); text-align: right; }
+
+/* 가로가 아주 긴 창(2:1 이상): 높이를 사진 비율 쪽으로 늘려 차량 화면이 잘리지 않게 */
+@media (min-aspect-ratio: 2/1) {
+  #intro .hero { height: 56vw; max-height: none; }
+  #intro .hero-copy { top: 14%; }
+}
+
+/* ---------- 좁은 화면(900 이하): 글 → 사진 → 메타 · 캡션 순서로 나눈다 ---------- */
+@media (max-width: 900px) {
+  #intro .hero { height: auto; min-height: 0; max-height: none; display: flex; flex-direction: column; background: #18201c; }
+  #intro .hero::before,
+  #intro .hero::after { display: none; }
+  #intro .hero-copy { position: relative; top: auto; left: auto; width: auto; max-width: none; padding: 40px var(--margin) 32px; }
+  #intro .hero-title { font-size: clamp(30px, 6.7vw, 60px); }
+  #intro .hero-label { font-size: 13px; margin-bottom: 20px; }
+  #intro .hero-desc { font-size: 15px; margin-top: 20px; max-width: 550px; }
+  #intro .hero-desc br { display: none; }
+  #intro .hero-actions { margin-top: 24px; gap: 24px; flex-wrap: wrap; }
+  #intro .hero-actions .btn { padding: 0 20px; font-size: 15px; }
+  #intro .hero-link { font-size: 15px; }
+  #intro .hero-visual { position: relative; inset: auto; z-index: auto; aspect-ratio: 2960 / 1648; }
+  #intro .hero-visual img { object-fit: contain; }
+  #intro .hero-meta,
+  #intro .hero-cap { position: static; padding: 0 var(--margin); font-size: 11px; white-space: normal; text-align: left; text-shadow: none; color: #bac6c1; }
+  #intro .hero-meta { padding-top: 16px; }
+  #intro .hero-cap { padding-bottom: 20px; }
+}

@@ -1,0 +1,108 @@
+<!-- C. 하루 이야기. main.js 가 #day 안에 넣고 js/story/story.js init(root) 를 부른다
+     장면 글(C1~C10)은 js/story/scenes.js 에서 만들어 [data-story-steps] 에 넣는다 -->
+<div class="story" data-story>
+  <header class="story-head">
+    <div class="wrap grid">
+      <div class="col-head sec-head"><span class="sec-num">C</span><span>하루 이야기</span></div>
+      <div class="col-body sec-body">
+        <h2 class="sec-title" data-reveal>경로를 정한 뒤 주행하고, 배송하고, 퇴근까지</h2>
+        <p class="story-lead" data-reveal>스크롤하면 세 기기가 같은 시점으로 함께 움직입니다. 화면은 현재 NEXT UI의 연결 시연(122초 타임라인)을 그대로 띄운 것입니다</p>
+        <div class="story-route" data-story-route role="status" aria-live="polite" data-reveal>
+          <span class="story-route-label">경로 순서</span>
+          <strong data-story-route-order>상동 북측 → 상동 남측</strong>
+          <span class="story-route-note" data-story-route-note>기본 순서입니다. 3D 체험에서 순서를 고르면 여기에 반영됩니다</span>
+        </div>
+        <dl class="story-legend" data-reveal>
+          <div><dt><span class="story-tag story-tag--demo">시연</span></dt><dd>스크롤로 진행되는 화면. 저장된 기록이 아닙니다</dd></div>
+          <div><dt><span class="story-tag story-tag--user">직접 기록</span></dt><dd>방문자가 직접 누르거나 찍은 기록. 이 브라우저 안에만 남고 서버로 보내지 않습니다</dd></div>
+        </dl>
+      </div>
+    </div>
+  </header>
+
+  <div class="story-scrolly wrap" data-story-scrolly>
+    <div class="story-stage" data-story-stage aria-label="세 기기 시연 화면">
+      <div class="story-stage-bar">
+        <ol class="story-band" data-story-band aria-label="하루 흐름 단계"></ol>
+        <div class="story-stage-meta">
+          <span class="story-tag story-tag--demo" data-story-demo-tag>시연</span>
+          <span class="story-clock" data-story-clock>0:14 / 2:02</span>
+          <span class="evi" data-story-drive-chip hidden>시연값 · 주행 6배 압축</span>
+          <span class="story-scene-name" data-story-scene-name aria-live="polite"></span>
+        </div>
+      </div>
+      <div class="story-devices" data-story-devices>
+        <figure class="story-slot" data-slot="cluster">
+          <div class="story-screen" data-screen></div>
+          <figcaption>클러스터 · 800×400</figcaption>
+        </figure>
+        <figure class="story-slot" data-slot="center">
+          <div class="story-screen" data-screen></div>
+          <figcaption>센터페시아 · 1280×720</figcaption>
+        </figure>
+        <figure class="story-slot" data-slot="phone">
+          <div class="story-screen" data-screen></div>
+          <figcaption data-phone-caption>휴대폰 · 390×844</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <ol class="story-steps" data-story-steps></ol>
+  </div>
+
+  <section class="story-end is-night" data-story-end aria-labelledby="story-end-title">
+    <div class="wrap grid">
+      <div class="col-head sec-head"><span class="sec-num">C11</span><span>퇴근</span></div>
+      <div class="col-body">
+        <h3 id="story-end-title" class="story-end-copy" data-reveal>
+          <span>이 구간 배송을 마쳤습니다</span>
+          <span>수고하셨습니다</span>
+        </h3>
+        <p class="story-end-note" data-reveal>이야기 속 퇴근 장면이며 근태·배송사 마감과 연동되지 않습니다<span class="evi">구현 범위</span></p>
+        <p class="story-end-user" data-story-end-user data-reveal></p>
+        <div class="story-end-actions" data-reveal>
+          <button type="button" class="btn btn--ghost story-btn-night" data-story-top>처음으로</button>
+          <button type="button" class="btn btn--ghost story-btn-night" data-story-replay>다시 체험</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <dialog class="story-try" data-story-try aria-labelledby="story-try-title">
+    <div class="story-try-inner">
+      <header class="story-try-head">
+        <div>
+          <span class="story-tag story-tag--user">직접 기록</span>
+          <h3 id="story-try-title">직접 해 보기</h3>
+        </div>
+        <button type="button" class="btn btn--sm" data-try-close>닫고 이야기로 돌아가기</button>
+      </header>
+      <div class="story-try-body">
+        <div class="story-try-phone" data-try-phone>
+          <div class="story-slot story-slot--try" data-slot="try">
+            <div class="story-screen" data-screen></div>
+            <div class="story-flash" data-try-flash aria-hidden="true"></div>
+          </div>
+        </div>
+        <div class="story-try-panel">
+          <div class="story-try-tabs" role="tablist" aria-label="해 볼 일">
+            <button type="button" role="tab" data-try-tab="deliver">전달 기록</button>
+            <button type="button" role="tab" data-try-tab="photo">사진</button>
+            <button type="button" role="tab" data-try-tab="finish">업무 종료</button>
+          </div>
+          <div class="story-try-task" data-try-task></div>
+          <p class="story-try-msg" data-try-msg role="status" aria-live="polite"></p>
+          <section class="story-try-records" aria-labelledby="story-try-records-title">
+            <h4 id="story-try-records-title">내 직접 기록</h4>
+            <ul data-try-records></ul>
+            <p class="story-try-privacy">현재 NEXT UI의 저장 방식 그대로 이 브라우저의 localStorage(next-postload-v4)와 IndexedDB(next-postload-photos-v1)에만 남습니다. 업로드하지 않습니다</p>
+            <div class="story-try-clear" data-try-clear-box>
+              <button type="button" class="btn btn--sm" data-try-clear>직접 기록 지우기</button>
+            </div>
+          </section>
+          <input type="file" accept="image/jpeg,image/png,image/webp" hidden data-try-file>
+        </div>
+      </div>
+    </div>
+  </dialog>
+</div>

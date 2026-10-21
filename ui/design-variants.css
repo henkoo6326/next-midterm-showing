@@ -1,0 +1,56 @@
+/* Applied alternatives: layout + typography + surface hierarchy. No dimensional buttons. */
+.design-switch{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0}.design-switch a{color:inherit;border:1px solid #bcc7ce;padding:12px 16px;border-radius:3px;font-size:13px;text-decoration:none}.design-switch [aria-current]{background:#172e3d;color:white;border-color:#172e3d}
+body[data-design] .device{font-variant-numeric:tabular-nums}
+/* Atlas: uninterrupted map, compact left guidance, calm blue geometry. */
+body[data-design=atlas] .nx-a.is-driving .a-map{inset:0}
+body[data-design=atlas] .nx-a.is-driving .a-map:before{display:none}
+body[data-design=atlas] .nx-a.is-driving .a-turn{width:322px;border-radius:4px;padding:24px}
+body[data-design=atlas] .nx-a.is-driving .a-arrival{border-radius:4px;min-width:300px}
+/* Night: physical display-like fixed split; warm white typography / mint route. */
+body[data-design=night] .device{--accent:#B9EF96;--accent-soft:#2C4030;--ink:#F0F3EA;--sub:#B6C7BE;--surface:#192624;--paper:#111B1B;--line:#43564D;--muted:#2F4039;--warning:#EED18F}
+body[data-design=night] .a-map{inset:0 0 0 410px}
+body[data-design=night] .a-map:before,body[data-design=night] .day-map:before{display:none}
+body[data-design=night] .nx-a.is-stopped .a-delivery.c-primary{left:0;top:0;bottom:0;width:410px;border-radius:0;padding:32px;background:var(--surface)}
+body[data-design=night] .a-turn{left:0;top:0;width:410px;height:380px;border-radius:0;padding:36px}
+body[data-design=night] .a-turn b{font-size:86px;font-weight:500}.a-turn small{letter-spacing:0}
+body[data-design=night] .a-arrival{left:0;bottom:0;width:410px;min-width:0;border-radius:0;padding:30px 36px}
+body[data-design=night] .a-cluster{background:#111B1B;color:#F0F3EA}
+body[data-design=night] .a-cluster main{grid-template-columns:56% 44%}
+body[data-design=night] .a-c-speed>strong{font-size:184px;color:#B9EF96;letter-spacing:-9px}
+body[data-design=night] .a-c-nav{padding-left:35px;border-color:#43564D}
+body[data-design=night] .a-c-nav svg,body[data-design=night] .a-c-park{color:#B9EF96}
+body[data-design=night] .a-cluster footer{border-color:#43564D}
+body[data-design=night] .a-c-charge i{background:#B9EF96}
+body[data-design=night] .phone .p-address h2{font-size:96px;letter-spacing:-5px;font-weight:500;color:#B9EF96}
+body[data-design=night] .phone .request-panel{border-left:3px solid var(--accent);border-radius:0;background:transparent;padding-left:15px}
+body[data-design=night] .phone .p-actions .primary,body[data-design=night] .day-bottom .primary{background:var(--accent);color:#17261B}
+body[data-design=night] .day-panel{left:0;top:0;bottom:0;width:440px;border-radius:0;padding:30px 32px}
+body[data-design=night] .day-map{left:440px}
+body[data-design=night] .day-route{border-radius:0}
+/* Paper: editorial white surfaces, right-hand index, black numeric anchors. */
+body[data-design=paper] .device{--accent:#1F4B60;--accent-soft:#E0EAEB;--ink:#132C36;--sub:#506069;--surface:#FAFAF7;--paper:#E9ECE9;--line:#B9C5C7;--muted:#E2E7E4;--warning:#875C12}
+body[data-design=paper] .a-map{inset:0 370px 0 0}
+body[data-design=paper] .a-map:before,body[data-design=paper] .day-map:before{display:none}
+body[data-design=paper] .nx-a.is-stopped .a-delivery.c-primary{left:auto;right:0;top:0;bottom:0;width:370px;border-radius:0;padding:28px 24px;border-left:1px solid var(--line)}
+body[data-design=paper] .a-place-label{left:24px;right:auto;border-radius:0}
+body[data-design=paper] .a-turn{left:auto;right:0;top:0;width:370px;border-radius:0;padding:36px 30px;height:365px}
+body[data-design=paper] .a-turn b{font-size:88px;letter-spacing:-5px;font-weight:400}
+body[data-design=paper] .a-arrival{left:auto;right:0;bottom:0;width:370px;min-width:0;border-radius:0;padding:30px}
+body[data-design=paper] .a-cluster{background:#F3F4EE;color:#132C36}
+body[data-design=paper] .a-cluster header,body[data-design=paper] .a-cluster footer,body[data-design=paper] .a-c-speed>span,body[data-design=paper] .a-c-nav>span,body[data-design=paper] .a-c-nav p,body[data-design=paper] .a-c-nav h2 small{color:#506069}
+body[data-design=paper] .a-cluster header b,body[data-design=paper] .a-cluster footer b{color:#132C36}
+body[data-design=paper] .a-c-speed>strong{font-weight:600;font-size:168px;letter-spacing:-8px}
+body[data-design=paper] .a-c-nav svg,body[data-design=paper] .a-c-park{color:#1F4B60}
+body[data-design=paper] .a-c-nav,body[data-design=paper] .a-cluster footer,body[data-design=paper] .a-c-speed>b{border-color:#B9C5C7}
+body[data-design=paper] .a-c-charge{background:#CBD5D1}body[data-design=paper] .a-c-charge i{background:#1F4B60}
+body[data-design=paper] .phone .p-address h2{font-size:96px;font-weight:650;letter-spacing:-5px}
+body[data-design=paper] .phone .request-panel{background:transparent;border-top:2px solid var(--ink);border-bottom:1px solid var(--line);border-radius:0;padding:18px 0 8px}
+body[data-design=paper] .phone .a-phone-location{background:transparent;border-bottom:1px solid var(--line);border-radius:0;padding:10px 0}
+body[data-design=paper] .phone .p-actions .primary{border-radius:0;background:var(--ink);color:white}
+body[data-design=paper] .day-panel{left:auto;right:0;top:0;bottom:0;width:440px;border-radius:0;border-left:1px solid var(--line)}
+body[data-design=paper] .day-map{inset:0 440px 0 0}
+body[data-design=paper] .day-map-order{right:auto;left:24px;border-radius:0}
+body[data-design=paper] .day-route{border-radius:0}.day-route.selected{box-shadow:none}
+body[data-design=paper] .a-delivery-rail button,body[data-design=paper] .a-stop-switch button{border-radius:0}
+
+body[data-embed=true] .masthead,body[data-embed=true] .intro,body[data-embed=true] .design-switch,body[data-embed=true] .run-record,body[data-embed=true]>main>footer{display:none}body[data-embed=true]>main{padding-top:10px}body[data-embed=true] .prototype-note{font-size:11px}body[data-embed=true] .demo-console{margin-top:0}

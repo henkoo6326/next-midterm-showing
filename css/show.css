@@ -1,0 +1,557 @@
+/* 쇼잉 페이지 v2 뼈대 스타일 (docs/DESIGN_V2.md 1장, 2.1, 2.2, 2.8)
+ * 리셋, 12컬럼, 상단 메뉴, 섹션 간 여백, 공통 머리 행·글자 단계, 버튼, 정면 아이폰(.iph), 렌더 합성(.cmp),
+ * #intro, #roles, #xp 명암 바탕, #sources, 진입 모션
+ * 금지: 왼쪽 세로 테두리 강조, 이탤릭, 글래스모피즘, 블루 그라데이션, 기기 기울기, 화면 반사 오버레이 */
+
+/* ---------- 리셋 ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: var(--nav-h);
+}
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: var(--fs-body);
+  font-weight: var(--w-regular);
+  line-height: var(--lh-body);
+  letter-spacing: var(--tracking);
+  font-synthesis: none;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4, p, ol, ul, figure, blockquote, dl, dd { margin: 0; }
+ol, ul { padding: 0; list-style: none; }
+h1, h2, h3, h4 { font-weight: var(--w-strong); line-height: var(--lh-title); letter-spacing: var(--tracking); }
+img, svg, video, canvas, iframe { display: block; max-width: 100%; }
+button, input, select, textarea { font: inherit; letter-spacing: inherit; color: inherit; }
+button { cursor: pointer; }
+a { color: var(--accent); text-underline-offset: 0.2em; }
+em, i, cite, dfn, address { font-style: normal; }
+strong, b { font-weight: var(--w-strong); }
+:focus-visible { outline: 3px solid rgba(23, 98, 189, .35); outline-offset: 1px; }
+.sr-only {
+  position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+.skip {
+  position: fixed; left: var(--margin); top: 8px; z-index: 100;
+  padding: 8px 16px; border-radius: var(--radius-chip);
+  background: var(--ink); color: var(--paper); font-size: var(--fs-caption); font-weight: var(--w-strong); text-decoration: none;
+  transform: translateY(-200%);
+}
+.skip:focus { transform: none; }
+
+/* ---------- 글자 단계(v2 1.1). 모듈 담당도 같은 클래스를 쓸 수 있다 ---------- */
+.display { font-size: var(--fs-display); line-height: var(--lh-title); font-weight: var(--w-strong); }
+.h2 { font-size: var(--fs-h2); line-height: var(--lh-title); font-weight: var(--w-strong); word-break: keep-all; text-wrap: balance; }
+.h3 { font-size: var(--fs-h3); line-height: var(--lh-title); font-weight: var(--w-strong); }
+.lead { font-size: var(--fs-lead); line-height: var(--lh-body); color: var(--ink-2); max-width: 28em; word-break: keep-all; text-wrap: pretty; }
+.body { font-size: var(--fs-body); line-height: var(--lh-body); max-width: 34em; word-break: keep-all; }
+.small { font-size: var(--fs-small); line-height: var(--lh-body); }
+.cap { font-size: var(--fs-caption); line-height: var(--lh-body); color: var(--mute); }
+.mute { color: var(--mute); }
+/* 이전 단계(3D 체험·이전 파일 호환) */
+.t-xl { font-size: var(--t-xl); line-height: var(--lh-title); font-weight: var(--w-strong); }
+.t-l  { font-size: var(--t-l);  line-height: var(--lh-title); font-weight: var(--w-strong); }
+.t-m  { font-size: var(--t-m);  line-height: var(--lh-title); font-weight: var(--w-strong); }
+.t-s  { font-size: var(--t-s);  line-height: var(--lh-body); }
+
+/* ---------- 12컬럼(1.2) ----------
+ * v4 마진 기준(#roles): 섹션 콘텐츠 = 뷰포트 전폭 - 양옆 var(--margin). 최대 폭 제한 없음(2560 에서도 같은 비율).
+ * 모든 섹션 컨테이너는 .wrap 을 쓰거나 padding-inline: var(--margin) 에 max-width 없이 맞춘다. 3D(#xp)만 마진 0 전체 화면 */
+.wrap {
+  width: 100%;
+  max-width: none;
+  margin: 0 auto;
+  padding: 0 var(--margin);
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+}
+.col-head { grid-column: 1 / span 3; }
+.col-body { grid-column: 4 / -1; }
+.col-full { grid-column: 1 / -1; }
+
+/* 공통 머리 행: 라벨 c1~c3, 제목·리드 c4~c12. 라벨 기준선 = 제목 첫 줄 기준선 */
+.head-row {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  align-items: baseline;
+}
+.head-row > .sec-label { grid-column: 1 / 4; }
+.head-row > .head-main { grid-column: 4 / -1; }
+.head-main > * + * { margin-top: var(--sp-5); }
+.sec-label { font-size: var(--fs-caption); font-weight: var(--w-strong); line-height: var(--lh-body); color: var(--ink); }
+
+/* ---------- 상단 메뉴(1.9): 높이 --nav-h(1440 56, vw 비례), 워드마크 c1, 메뉴 c4 시작, 활성 = 잉크 글자 + 아래 2px 파랑 ---------- */
+.topnav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  height: var(--nav-h);
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+  transition: background-color var(--dur-crossfade) var(--ease-out), border-color var(--dur-crossfade) var(--ease-out);
+}
+.topnav-in {
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  align-items: center;
+}
+.topnav-brand {
+  grid-column: 1 / 4;
+  justify-self: start;
+  font-size: 15px;
+  font-weight: var(--w-strong);
+  color: var(--ink);
+  text-decoration: none;
+}
+.topnav-list {
+  grid-column: 4 / 10;
+  height: 100%;
+  display: flex;
+  gap: var(--sp-6);
+  min-width: 0;
+}
+.topnav-list a {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: 100%;
+  font-size: var(--fs-caption);
+  font-weight: var(--w-strong);
+  color: var(--mute);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color var(--dur-crossfade) var(--ease-out);
+}
+.topnav-list a:hover { color: var(--ink); }
+.topnav-list a::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transition: transform var(--dur-crossfade) var(--ease-out);
+}
+.topnav-list a[aria-current="true"] { color: var(--ink); }
+.topnav-list a[aria-current="true"]::after { transform: none; }
+.topnav-present {
+  grid-column: 10 / -1;
+  justify-self: end;
+  font-size: var(--fs-caption);
+  color: var(--mute);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.topnav-present[hidden] { display: none; }
+/* #xp 무대·#try 위 띠가 메뉴 아래에 있을 때 */
+/* 밝은 판(var(--paper))처럼 불투명으로: 반투명이면 아래 섹션 글줄이 메뉴 글자 뒤로 비친다 */
+.topnav.is-night { background: var(--night); border-bottom-color: var(--line-night); }
+.topnav.is-night .topnav-brand { color: var(--on-night); }
+.topnav.is-night .topnav-list a { color: var(--on-night-mute); }
+.topnav.is-night .topnav-list a:hover,
+.topnav.is-night .topnav-list a[aria-current="true"] { color: var(--on-night); }
+.topnav.is-night .topnav-present { color: var(--on-night-mute); }
+
+/* ---------- 버튼·글 링크 ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  min-height: clamp(44px, 3.3333vw, 86px);   /* 1440 48px */
+  padding: 0 var(--sp-5);
+  border: 1px solid var(--ink);
+  border-radius: var(--radius-chip);
+  background: transparent;
+  color: var(--ink);
+  font-size: var(--fs-body);
+  font-weight: var(--w-strong);
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color var(--dur-crossfade) var(--ease-out), color var(--dur-crossfade) var(--ease-out), border-color var(--dur-crossfade) var(--ease-out);
+}
+.btn:hover { background: var(--card); }
+.btn--primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn--primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+.btn--line { background: transparent; }
+.btn--sm { min-height: 32px; padding: 0 var(--sp-3); font-size: var(--fs-caption); }
+/* 보조 글 링크: 히어로 .hero-link 와 같은 먹색 + 밑줄. 파랑은 주요 행동(.btn--primary)에만 */
+.link-text {
+  font-size: var(--fs-body);
+  font-weight: var(--w-strong);
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--mute);
+  text-underline-offset: 0.35em;
+}
+.link-text:hover { text-decoration-color: var(--ink); }
+
+/* 근거 칩: v2 에서는 #sources 자산 표의 소리 상태 표시에만 남는다 */
+.evi {
+  display: inline-flex;
+  align-items: center;
+  height: 1.7em;
+  padding: 0 0.65em;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-chip);
+  color: var(--mute);
+  font-size: 12px;
+  font-weight: var(--w-regular);
+  line-height: 1;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+/* ---------- 정면 아이폰(1.4, assets/mockups/iphone-front.json) ----------
+ * <div class="iph" style="height:…"> <span class="iph-body"></span> <div class="iph-screen"><img|iframe></div> <img class="iph-frame"> </div>
+ * 화면 상자: json css 백분율. UI 390×844 는 폭에 맞춰 같은 배율로(남는 세로 띠는 #FFF), 상자 뒤 검은 바탕 1px.
+ * 그림자는 프레임 이미지가 아니라 본체 사각형(.iph-body)에 box-shadow. 프레임은 pointer-events:none */
+.iph { position: relative; aspect-ratio: 1056 / 2140; flex: none; }
+.iph-body {
+  position: absolute;
+  left: 2.178%; top: 0.654%; width: 95.644%; height: 98.692%;
+  border-radius: 17.525% / 8.381%;
+  box-shadow: var(--shadow-device);
+}
+.iph-screen {
+  position: absolute;
+  left: 5.303%; top: 2.1963%; width: 89.3939%; height: 95.6075%;
+  border-radius: 15.2542% / 7.0383%;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 0 0 1px #000;
+  display: flex;
+  align-items: center;
+}
+.iph-screen > img { width: 100%; height: auto; max-width: none; }
+.iph-frame { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; pointer-events: none; user-select: none; }
+
+/* ---------- 렌더 합성(js/front/compose.js) ---------- */
+.cmp { overflow: hidden; }
+/* 렌더와 UI 캡처가 모두 디코드되기 전에는 숨긴다(검은 바탕만 먼저 그려지지 않게). 준비되면 compose.js 가 .is-shown */
+.cmp-rect { position: absolute; left: 0; top: 0; opacity: 0; transition: opacity var(--dur-crossfade) var(--ease-out); }
+.cmp-rect.is-shown { opacity: 1; }
+.cmp-under, .cmp-ui { position: absolute; left: 0; top: 0; transform-origin: 0 0; max-width: none; }
+.cmp-under { background: #000; }
+.cmp-render { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; user-select: none; }
+.cmp-render.is-focus { filter: var(--render-focus); }
+
+/* ---------- 섹션 간 여백(1.6). :where 로 두어 모듈 CSS 가 덮어쓸 수 있다 ---------- */
+:where(main > section) { position: relative; }
+:where(#roles) { padding: var(--gap-block) 0 var(--gap-row); }
+:where(#xp), :where(#try) { padding: 0; }
+:where(#cluster) { padding-top: var(--gap-chapter); }
+:where(#center), :where(#mobile) { padding-top: var(--gap-sibling); }
+:where(#sources) { padding: var(--gap-chapter) 0 var(--gap-block); }
+
+/* 모듈 섹션: partial 이 들어오기 전 자리, 실패 안내 */
+.sec-module:not([data-module-state]) { min-height: 50vh; }
+.module-status { padding: var(--gap-block) 0; }
+.module-status-in { max-width: 34em; }
+.module-status strong { display: block; font-size: var(--fs-h3); line-height: var(--lh-title); margin-bottom: var(--sp-3); }
+.module-status p { color: var(--mute); }
+.module-status a { display: inline-block; margin-top: var(--sp-4); font-weight: var(--w-strong); }
+
+/* ---------- #xp 바탕(1.8): 무대 높이만큼은 밝은 바탕(카드 확장 때 양옆이 페이지 바탕), 그 아래는 --night ----------
+ * 무대 높이는 css/xp.css .xp-stage 와 같은 식. 경계는 직선(그라데이션으로 명암을 섞지 않음) */
+#xp {
+  /* v4 vw 크기 체계에서 3D 체험은 빼 둔다: xp.css 가 쓰는 여백·글자 변수를 이전 값으로 되돌려 연출·배치를 그대로 유지(--margin 은 1920 이하에서 이전과 같다) */
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 24px; --sp-6: 32px; --sp-7: 48px; --sp-8: 64px; --sp-9: 96px;
+  --fs-h2: clamp(36px, 3.25vw, 60px);
+  --fs-caption: 14px;
+  --radius-stage: 20px;
+  --xp-stage-h: clamp(460px, calc(100svh - var(--nav-h) - var(--present-h)), 1200px);
+  background:
+    linear-gradient(var(--paper), var(--paper)) 0 0 / 100% var(--xp-stage-h) no-repeat,
+    var(--night);
+  color: var(--on-night);
+}
+@media (max-width: 900px) {
+  #xp { --xp-stage-h: max(62.5vw, 340px); }
+}
+#xp:not([data-module-state]), #xp[data-module-state="failed"] { background: var(--night); }
+#xp .module-status p { color: var(--on-night-mute); }
+
+/* ---------- ① #intro (2.1): 위 글 묶음 + 아래로 번지는 전폭 렌더 ---------- */
+.sec-intro {
+  /* 렌더 아래 캡션 띠: 렌더(배지 위에서 자름)를 이만큼 올려 센터 화면 아래 변이 뷰포트 아래에서 60px 이상 위에 오게 한다(DESIGN_V2 2.1 확인 기준) */
+  --intro-band: 72px;
+  position: relative;
+  height: calc(100vh - var(--nav-h));
+  height: calc(100svh - var(--nav-h));
+  min-height: 560px;
+  overflow: hidden;
+}
+.intro-visual { position: absolute; inset: 0; }
+.cmp--intro { position: absolute; inset: 0 0 var(--intro-band) 0; }
+/* 위 30%는 투명, 58%(대시보드 윗변 바로 아래)에서 완전히 보이게: 창밖 주차장은 바탕으로 사라지고 대시보드·화면만 또렷하다
+   (853712 과노출, 772687 위 여백). 렌더 아래는 호스트가 배지 위에서 자른다 */
+.cmp--intro .cmp-rect {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, transparent 30%, #000 58%);
+  mask-image: linear-gradient(to bottom, transparent 0, transparent 30%, #000 58%);
+}
+.intro-cap {
+  position: absolute;
+  left: var(--margin);
+  bottom: calc((var(--intro-band) - 1.6em) / 2);   /* 렌더 아래 띠 가운데(바탕 위) */
+  z-index: 1;
+  white-space: nowrap;
+  font-size: var(--fs-caption);
+  line-height: var(--lh-body);
+  color: var(--mute);
+}
+.intro-text {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  align-content: start;
+  padding-top: clamp(24px, 4.5vh, 48px);
+}
+.intro-text > * { grid-column: 1 / 7; }
+.intro-meta { font-size: var(--fs-caption); color: var(--mute); }
+.intro-mark { margin-top: 2px; font-size: var(--fs-display); line-height: var(--lh-title); font-weight: var(--w-strong); }
+.intro-lead {
+  margin-top: var(--sp-3);
+  font-size: var(--fs-lead);
+  line-height: var(--lh-body);
+  color: var(--ink);
+  word-break: keep-all;
+  text-wrap: pretty;
+}
+.intro-sub {
+  margin-top: var(--sp-3);
+  max-width: 34em;
+  font-size: var(--fs-body);
+  color: var(--ink-2);
+  word-break: keep-all;
+  text-wrap: pretty;
+}
+.intro-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-3) var(--sp-5); margin-top: var(--sp-6); }
+
+/* ---------- 근거 꼬리표 .ev (V5_EDIT_PLAN 0장·6장 shell 정의, 모든 섹션 공통) ----------
+ * 수준 단어는 세 개만: 문헌 · 원문 사례 · 설계 가설. 사방 테두리 알약(왼쪽만 테두리 금지), 파랑 금지
+ * 마크업: <p class="ev"><b>원문 사례</b>한국일보 2024 · …</p> (꼬리표 둘이면 <p class="ev"> 두 개) */
+.ev {
+  display: block;
+  margin-top: var(--sp-2);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-body);
+  color: var(--mute);
+  word-break: keep-all;
+}
+.ev b {
+  display: inline-block;
+  margin-right: var(--sp-2);
+  padding: 0 .5em;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-weight: var(--w-strong);
+  line-height: 1.5;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+.mob-tile--night .ev, .cls-tile--night .ev, .ev--night { color: var(--on-night-mute); }
+.mob-tile--night .ev b, .cls-tile--night .ev b, .ev--night b { border-color: var(--line-night); color: var(--on-night); }
+
+/* ---------- ② #roles '배송 흐름': 2026-10-21 스크롤 장면 전환(승인 시안 roles-2-sticky v2)으로 바뀌어 스타일은 css/roles.css(#roles 범위) ---------- */
+/* 데스크톱 줄바꿈 고정용 <br class="br-d">: 900 미만에서는 숨겨 자연스럽게 흐른다. 900 미만에서만 쓰는 줄바꿈 <br class="br-m"> */
+.br-m { display: none; }
+
+/* ---------- ⑧ #sources (2.8) ---------- */
+.close {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  align-items: baseline;
+}
+.close > .sec-label { grid-column: 1 / 4; grid-row: 1; }
+.close-title { grid-column: 4 / -1; grid-row: 1; }
+.close-text { grid-column: 4 / 11; margin-top: var(--sp-5); max-width: 34em; }
+.close-actions { grid-column: 4 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-3) var(--sp-5); margin-top: var(--gap-inner); }
+
+/* 같은 축척 띠: 세 설계 캔버스를 같은 배율로. 페이지에서 세 기기가 같은 축척으로 나란히 나오는 유일한 곳 */
+.scale-strip {
+  --sc: 0.4;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  margin-top: var(--gap-block);
+}
+.scale-row { grid-column: 4 / -1; display: flex; align-items: flex-end; gap: var(--sp-7); flex-wrap: wrap; row-gap: var(--sp-5); }
+.scale-item img {
+  height: auto;
+  max-width: none;
+  background: #fff;
+  box-shadow: var(--shadow-panel);
+}
+.scale-item--cluster img { width: calc(800px * var(--sc)); border-radius: calc(10px * var(--sc)); }
+.scale-item--center img { width: calc(1280px * var(--sc)); border-radius: calc(12px * var(--sc)); }
+.scale-item--phone img { width: calc(390px * var(--sc)); border-radius: calc(390px * var(--sc) * 0.152542) / calc(390px * var(--sc) * 0.152542); }
+.scale-item p { margin-top: var(--sp-3); font-size: var(--fs-caption); color: var(--mute); font-variant-numeric: tabular-nums; }
+.scale-item p strong { margin-right: 0.5em; color: var(--ink); }
+.scale-cap { grid-column: 4 / -1; margin-top: var(--sp-4); font-size: var(--fs-caption); color: var(--mute); }
+@media (max-width: 1439px) { .scale-strip { --sc: 0.32; } }
+@media (max-width: 600px) { .scale-strip { --sc: 0.27; } }
+
+/* 출처 묶음: 라벨 c1~c3, 항목 c4~c12 */
+.src { margin-top: var(--gap-sibling); }
+.src-group {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  padding: var(--sp-6) 0 var(--sp-7);
+  border-top: 1px solid var(--ink);
+}
+.src-label { grid-column: 1 / 4; align-self: start; position: sticky; top: calc(var(--nav-h) + var(--sp-5)); font-size: var(--fs-caption); line-height: var(--lh-body); font-weight: var(--w-strong); }
+.src-body { grid-column: 4 / -1; min-width: 0; font-size: var(--fs-small); }
+.src-text { max-width: 44em; font-size: var(--fs-body); color: var(--ink-2); word-break: keep-all; }
+.src-note { margin-top: var(--sp-4); font-size: var(--fs-caption); color: var(--mute); }
+.src-note--top { margin: 0 0 var(--sp-4); }
+.src-sub { margin: var(--sp-6) 0 var(--sp-2); font-size: var(--fs-caption); font-weight: var(--w-strong); color: var(--mute); }
+.src-sub:first-child { margin-top: 0; }
+.src-dl { display: grid; }
+.src-dl > div { display: grid; grid-template-columns: minmax(7em, 2fr) 7fr; column-gap: var(--gutter); padding: var(--sp-4) 0; border-bottom: 1px solid var(--line); }
+.src-dl > div:first-child { padding-top: 0; }
+.src-dl dt { font-weight: var(--w-strong); }
+.src-dl dd { color: var(--ink-2); word-break: keep-all; }
+
+.tbl { width: 100%; border-collapse: collapse; font-size: var(--fs-small); line-height: var(--lh-body); }
+.tbl th, .tbl td { padding: var(--sp-3) var(--sp-4) var(--sp-3) 0; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; word-break: keep-all; }
+.tbl th { font-size: var(--fs-caption); color: var(--mute); font-weight: var(--w-strong); }
+.tbl th:last-child, .tbl td:last-child { padding-right: 0; }
+.tbl td { overflow-wrap: anywhere; }
+.tbl--credits { table-layout: fixed; }
+.tbl--credits th:nth-child(2) { width: 22%; }
+.tbl--credits th:nth-child(3) { width: 20%; }
+.tbl--credits th:nth-child(4) { width: 14%; }
+.tbl--scope td:first-child { width: 8.5em; color: var(--mute); }
+.tbl--scope td:nth-child(2) { width: 30%; font-weight: var(--w-strong); }
+.tbl--refs td:nth-child(1) { width: 40%; }
+.tbl--refs td:nth-child(3) { width: 22%; color: var(--ink-2); }
+.tbl--credits th:nth-child(1) { width: 6.5em; }
+.tbl--credits td:nth-child(1) { font-weight: var(--w-strong); }
+.tbl--credits td:nth-child(3), .tbl--credits td:nth-child(5) { color: var(--ink-2); }
+.tbl--credits .credit-status { margin: 0 0 0.45em; color: var(--ink-2); }
+.credit-retry { margin-left: var(--sp-3); }
+.tbl a { white-space: nowrap; }
+.refs { counter-reset: ref; }
+.refs li { counter-increment: ref; position: relative; padding: var(--sp-3) 0 var(--sp-3) 2em; border-bottom: 1px solid var(--line); word-break: keep-all; }
+.refs li::before { content: counter(ref); position: absolute; left: 0; top: var(--sp-3); color: var(--mute); font-variant-numeric: tabular-nums; }
+.refs li a { margin-left: 0.4em; }
+.colophon {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--sp-2) var(--sp-5);
+  margin-top: var(--gap-block);
+  padding-top: var(--sp-5);
+  border-top: 1px solid var(--line);
+  font-size: var(--fs-caption);
+  color: var(--mute);
+}
+
+/* ---------- 진입 모션(1.7): 글만, 0.45s ease-out, 12px. 렌더·아이폰·패널은 처음부터 보인다 ---------- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(var(--rise-reveal));
+  transition:
+    opacity var(--dur-reveal) var(--ease-out) var(--reveal-delay, 0ms),
+    transform var(--dur-reveal) var(--ease-out) var(--reveal-delay, 0ms);
+}
+[data-reveal].is-in { opacity: 1; transform: none; }
+[data-reveal].is-instant { transition: none; }
+.no-js [data-reveal] { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] { opacity: 1; transform: none; transition: none; }
+  .topnav, .topnav-list a, .topnav-list a::after, .btn { transition: none; }
+}
+
+/* ---------- 1440 미만 ---------- */
+@media (max-width: 1279px) {
+  .intro-text > * { grid-column: 1 / 8; }
+}
+
+/* ---------- 폭 900 미만 ---------- */
+@media (max-width: 900px) {
+  .topnav-in { display: flex; gap: var(--sp-5); }
+  .topnav-list { gap: 20px; flex: 1; overflow-x: auto; scrollbar-width: none; }
+  .topnav-list::-webkit-scrollbar { display: none; }
+  .topnav-present { margin-left: auto; }
+
+  .head-row > .sec-label, .head-row > .head-main { grid-column: 1 / -1; }
+  .head-row > .head-main { margin-top: var(--sp-2); }
+
+  .sec-intro { height: auto; min-height: 0; display: flex; flex-direction: column; }
+  .intro-text { order: 1; padding-bottom: var(--sp-6); }
+  .intro-text > * { grid-column: 1 / -1; }
+  .intro-visual { order: 2; position: relative; inset: auto; height: calc(150vw * 0.5625 * 0.4); }
+  .cmp--intro { inset: 0; }
+  .cmp--intro .cmp-rect { -webkit-mask-image: none; mask-image: none; }
+  .intro-cap { position: static; order: 3; white-space: normal; padding: var(--sp-3) var(--margin) 0; color: var(--mute); text-align: left; }
+
+  .br-d { display: none; }
+  .br-m { display: inline; }
+
+  .close > .sec-label, .close-title, .close-text, .close-actions { grid-column: 1 / -1; }
+  .close-title { grid-row: auto; margin-top: var(--sp-2); }
+  .close > .sec-label { grid-row: auto; }
+  .scale-row, .scale-cap { grid-column: 1 / -1; }
+  .scale-row { flex-direction: column; align-items: flex-start; }
+  .src-label, .src-body { grid-column: 1 / -1; }
+  .src-label { position: static; }
+  .src-body { margin-top: var(--sp-3); }
+  .src-dl > div { grid-template-columns: 1fr; }
+  .tbl { display: block; overflow-x: auto; }
+}
+
+/* ---------- 아이브로우(왼쪽)·제목(오른쪽) 상측 정렬 (2026-10-21 사용자 요청) ----------
+   기기 크기·마진·패딩과 상관없이 두 글자의 윗선이 같게: 둘 다 글자 위 여백(반행간)을 잘라 글자 윗선을 상자 윗선으로 만들고,
+   같은 행의 맨 위(start)에 놓는다. 적용: #roles, #cluster, #center, #mobile 머리 */
+:is(#roles .head-row > .sec-label, #cluster .cl-label, #center .ctr-label, #mobile .mob-label) {
+  align-self: start !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  text-box: trim-start cap alphabetic;
+  /* 한글 글자는 대문자 높이보다 위로 약 9% 더 올라온다. 제목과 크기 차이에 비례해 그만큼 올려 잉크 윗선까지 맞춘다 */
+  position: relative;
+  top: calc(-0.09 * (var(--eb-title-fs, 3.25vw) - 1em));
+}
+:is(#roles .head-row > .head-main, #center .ctr-head__main) { align-self: start !important; margin-top: 0 !important; padding-top: 0 !important; }
+:is(#roles .head-main > h2, #cluster .cl-title, #center .ctr-title, #mobile .mob-title) {
+  align-self: start !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  text-box: trim-start cap alphabetic;
+}
+:is(#roles .head-row, #cluster .cl-head, #center .ctr-head, #mobile .mob-head) { align-items: start !important; }
+/* 각 섹션 제목의 실제 글자 크기(아이브로우 보정용) — 제목 규칙과 같은 값 */
+#roles .head-row { --eb-title-fs: var(--fs-h2); }
+#cluster .cl-head { --eb-title-fs: var(--cl-fs-h2); }
+#center .ctr-head, #mobile .mob-head { --eb-title-fs: var(--fs-h2); }
+/* 900px 미만은 아이브로우가 제목 위로 쌓이므로 보정하지 않는다 */
+@media (max-width: 899px) {
+  :is(#roles .head-row > .sec-label, #cluster .cl-label, #center .ctr-label, #mobile .mob-label) { top: 0; }
+}
+
+/* 헤더 메뉴는 오른쪽 끝(공통 --margin 안쪽 선)에 붙인다 (2026-10-21 사용자 요청). 발표 모드 진행 표시는 메뉴 왼쪽으로 */
+.topnav-list { grid-column: 4 / -1; grid-row: 1; justify-content: flex-end; }
+.topnav-present { grid-column: 4 / 8; grid-row: 1; justify-self: start; }

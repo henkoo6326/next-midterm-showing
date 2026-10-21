@@ -1,0 +1,10 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="54" height="54" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Button - UI / camera-sheet-back">
+<mask id="path-1-inside-1_0_4" fill="white">
+<path d="M0 27C0 12.0883 12.0883 0 27 0V0C41.9117 0 54 12.0883 54 27V27C54 41.9117 41.9117 54 27 54V54C12.0883 54 0 41.9117 0 27V27Z"/>
+</mask>
+<path d="M0 27C0 12.0883 12.0883 0 27 0V0C41.9117 0 54 12.0883 54 27V27C54 41.9117 41.9117 54 27 54V54C12.0883 54 0 41.9117 0 27V27Z" fill="#18232D" fill-opacity="0.733"/>
+<path d="M0 27M54 27M54 27M0 27M27 0M54 27M27 54M0 27M27 54V53C12.6406 53 1 41.3594 1 27H0H-1C-1 42.464 11.536 55 27 55V54ZM54 27H53C53 41.3594 41.3594 53 27 53V54V55C42.464 55 55 42.464 55 27H54ZM27 0V1C41.3594 1 53 12.6406 53 27H54H55C55 11.536 42.464 -1 27 -1V0ZM27 0V-1C11.536 -1 -1 11.536 -1 27H0H1C1 12.6406 12.6406 1 27 1V0Z" fill="white" fill-opacity="0.533" mask="url(#path-1-inside-1_0_4)"/>
+<path id="&#226;&#128;&#185;" d="M18.7655 27L26.595 15.3379H32.2345L24.3502 27L32.2345 38.6621H26.595L18.7655 27Z" fill="#EBEBEC"/>
+</g>
+</svg>

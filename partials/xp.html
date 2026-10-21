@@ -1,0 +1,67 @@
+<!-- ③ 1인칭 3D 체험 + 첫 배송지 도착(DESIGN_V2 2.3, COPY_V2 5장). main.js 가 #xp 안에 넣고 js/xp/experience.js init(root) 를 부른다 -->
+<div class="xp" data-xp>
+  <div class="xp-stage is-idle" data-xp-stage tabindex="-1" aria-label="1인칭 3D 체험 화면">
+    <div class="xp-viewport" data-xp-viewport aria-hidden="true"></div>
+    <div class="xp-shade" aria-hidden="true"></div>
+
+    <!-- S0 시작 화면: 가운데 '체험하기', 왼쪽 아래 머리 글(시작 전에만 보임) -->
+    <div class="xp-start" data-xp-start>
+      <div class="xp-intro">
+        <p class="xp-intro-label">3D 체험 · 출발 전부터 첫 배송지까지</p>
+        <h2 class="xp-intro-title">방문 순서를 고르고 104동 입구 앞까지 갑니다</h2>
+        <ol class="xp-steps" data-xp-steps aria-label="체험 순서">
+          <li data-step="1"><b>1</b>오늘 배송 4건 확인</li>
+          <li data-step="2"><b>2</b>음성으로 방문 순서 묻기</li>
+          <li data-step="3"><b>3</b>규칙으로 정해 둔 두 순서 중 고르기</li>
+          <li data-step="4"><b>4</b>104동까지 주행(시연 재생) · 정차하면 센터에 동·입구</li>
+          <li data-step="5" class="xp-step-auto">문 앞의 요청 확인과 기록은 아래에서 직접</li>
+        </ol>
+      </div>
+      <button type="button" class="xp-cta" data-xp-play disabled>체험하기</button>
+      <p class="xp-sound">소리가 납니다</p>
+      <div class="xp-load" data-xp-load>
+        <div class="xp-load-bar" role="progressbar" aria-label="3D 장면 불러오기" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-xp-load-bar><span data-xp-load-fill></span></div>
+        <p class="xp-load-label" data-xp-load-label>3D 장면 불러오는 중 0%</p>
+      </div>
+      <div class="xp-fail" data-xp-fail hidden>
+        <p class="xp-fail-title" data-xp-fail-text>3D 장면을 불러오지 못했습니다</p>
+        <p class="xp-fail-note">아래 직접 기록과 기기별 설계에서 같은 화면을 볼 수 있습니다</p>
+        <button type="button" class="xp-btn xp-btn--primary" data-xp-noscene>3D 없이 보기</button>
+      </div>
+    </div>
+
+    <!-- 진행 중 안내(누를 곳) -->
+    <div class="xp-hint" data-xp-hint hidden>
+      <p data-xp-hint-text></p>
+      <button type="button" class="xp-btn xp-btn--sm" data-xp-hint-press>키보드로 누르기</button>
+      <button type="button" class="xp-btn xp-btn--sm" data-xp-hint-alt hidden>두 번째 순서</button>
+    </div>
+
+    <!-- 두 번째 순서를 눌렀을 때 안내(진행하지 않고 첫 번째를 기다림) -->
+    <p class="xp-route-note" data-xp-route-note role="status" hidden>시연 데이터는 북측 먼저 순서로만 이어집니다 · 첫 번째 순서를 눌러 주세요</p>
+
+    <!-- 자막 -->
+    <div class="xp-caption" data-xp-caption aria-live="polite" hidden>
+      <span class="xp-cap-speaker" data-cap-speaker></span>
+      <p class="xp-cap-text" data-cap-text></p>
+      <small class="xp-cap-source" data-cap-source></small>
+    </div>
+
+    <!-- 도구 -->
+    <div class="xp-tools">
+      <button type="button" class="xp-btn xp-btn--sm" data-xp-mute aria-pressed="false">소리 끄기</button>
+      <button type="button" class="xp-btn xp-btn--sm" data-xp-replay-tool hidden>다시 체험</button>
+      <button type="button" class="xp-btn xp-btn--sm" data-xp-skip>3D 건너뛰기</button>
+    </div>
+
+    <!-- S5 끝: 첫 배송지 정차 장면을 그대로 두고 오른쪽 아래 버튼 줄 + 그 위 끝 문구(위치 → 할 일 두 줄)(v5 6항: 차에서 본 동·입구 다음은 휴대폰의 호수·요청. 기기 간 자동 전달은 없으므로 '기사가 휴대폰에서 한다'로만 쓴다) -->
+    <div class="xp-end" data-xp-end role="group" aria-label="첫 배송지 도착 뒤" hidden>
+      <p class="xp-end-note" role="status"><span>104동 서쪽 공동현관 앞</span> <span>1203호의 요청 확인과 전달 기록은 휴대폰에서 합니다</span></p>
+      <a class="xp-btn xp-btn--primary" href="#try" data-xp-next>모바일로 배송 기록하기</a>
+      <button type="button" class="xp-btn" data-xp-replay>다시 체험하기</button>
+    </div>
+
+    <p class="xp-badge" aria-hidden="true">시연</p>
+  </div>
+
+</div>

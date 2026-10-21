@@ -1,0 +1,140 @@
+/* NEXT 중간평가 쇼잉 디자인 토큰 v2 (docs/DESIGN_V2.md 1.10)
+ * 이 파일은 뼈대 담당만 고친다. "보존" 변수는 3D 체험(css/xp.css 등)이 쓰므로 이름과 값을 바꾸지 않는다.
+ * v2 새 섹션은 "추가" 변수(--fs-*, --gap-*, --shadow-*, --ease-out 등)를 쓴다. */
+
+/* Wanted Sans (SIL OFL 1.1, assets/fonts/OFL-WantedSans.txt). NEXT UI 복사본의 글꼴 파일을 재사용한다 */
+@font-face {
+  font-family: 'Wanted Sans';
+  src: url('../ui/assets/WantedSans-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Wanted Sans';
+  src: url('../ui/assets/WantedSans-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* ---------- 보존: 색 ---------- */
+  --paper: #F2F2EF;        /* 페이지 바탕(밝은 무채색) */
+  --card: #FFFFFF;         /* 표·버튼 바탕 */
+  --ink: #121417;          /* 제목·본문 */
+  --ink-2: #2B3036;        /* 보조 글, 지시선 */
+  --mute: #5D6670;         /* 캡션 */
+  --line: #D9DBD8;         /* 구분선 */
+  --night: #0D1013;        /* 3D 무대, #try 위 띠, #roles 어두운 패널 */
+  --accent: #1762BD;       /* NEXT 강조와 주요 행동에만(UI 토큰 --av-blue 와 같은 값) */
+  --on-night: #F2F2EF;     /* 어두운 판 위 글 */
+  --on-night-mute: #A3ABB3;
+  --line-night: #2A3036;
+
+  /* ---------- 추가: 색 ---------- */
+  --paper-2: #E7E7E3;      /* 무대 패널(#roles 밝은 패널, #mobile 확대 판) */
+  --night-2: #181C20;      /* 어두운 판 위 카드·버튼 바탕 */
+  --accent-hover: #11519E; /* 주요 버튼 눌림·호버 */
+  --focus-ring: 0 0 0 3px rgba(23, 98, 189, .35);
+
+  /* ---------- 보존: 글꼴 ---------- */
+  --font: 'Wanted Sans', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+  --tracking: -0.02em;
+  --lh-title: 1.3;
+  --lh-body: 1.6;
+  --w-regular: 400;
+  --w-strong: 600;
+
+  /* 보존: 이전 크기 단계(3D 체험이 --t-xs --t-s --t-m 사용). v2 새 섹션은 쓰지 않는다 */
+  --t-s: clamp(14px, 0.78125vw, 15px);
+  --t-m: clamp(22px, 1.7708vw, 34px);
+  --t-l: clamp(32px, 3.125vw, 60px);
+  --t-xl: clamp(44px, 6.25vw, 120px);
+  --t-xs: 12px;
+
+  /* ---------- v4 크기 체계(2026-10-21 사용자 지시): vw 기준 ----------
+   * 기준 화면 1440. 값 = clamp(최소, 기준px/14.4 vw, 최대). 최소는 1366 에서 vw 값보다 작고 최대는 2560 에서 vw 값보다 커서
+   * 데스크톱 1366~2560 사이에서는 항상 vw 값이 쓰인다 = 화면 폭이 달라도 같은 비율. 최소는 900 미만(휴대폰·좁은 창)에서만 걸린다.
+   * 이름은 그대로 두고 값만 바꿨다. 3D 체험(#xp)은 css/show.css 의 #xp 블록에서 이전 px 값으로 되돌려 연출을 그대로 둔다 */
+
+  /* ---------- 추가: v2 타입 스케일(1.1). 자간은 모두 --tracking ---------- */
+  --fs-display: clamp(44px, 5.5vw, 160px);   /* #intro 워드마크 하나 · 행간 1.3 (1440 79px) */
+  --fs-h2: clamp(30px, 3.25vw, 96px);        /* 섹션 제목 · 1.3 (1440 47px) */
+  --fs-h3: clamp(20px, 1.6vw, 48px);         /* 기기 이름, 순위 번호, 패널 라벨 · 1.3 (1440 23px) */
+  --fs-lead: clamp(16px, 1.35vw, 40px);      /* 섹션 첫 설명 · 1.6 (1440 19.4px) */
+  --fs-body: clamp(15px, 1.15vw, 34px);      /* 설명·목록 · 1.6 (1440 16.6px) */
+  --fs-small: clamp(13px, 1vw, 30px);        /* 출처 항목, 표 · 1.6 (1440 14.4px) */
+  --fs-caption: clamp(12px, 0.98vw, 28px);   /* 라벨·캡션·메뉴 · 1.6 (1440 14.1px) */
+
+  /* ---------- 보존(이름): 여백·그리드. 값은 v4 vw 기준(1440 에서 이전 px 와 같음) ---------- */
+  --sp-1: clamp(3px, 0.2778vw, 8px);         /* 1440 4px */
+  --sp-2: clamp(6px, 0.5556vw, 15px);        /* 8px */
+  --sp-3: clamp(10px, 0.8333vw, 22px);       /* 12px */
+  --sp-4: clamp(14px, 1.1111vw, 29px);       /* 16px */
+  --sp-5: clamp(20px, 1.6667vw, 43px);       /* 24px */
+  --sp-6: clamp(28px, 2.2222vw, 57px);       /* 32px */
+  --sp-7: clamp(40px, 3.3333vw, 86px);       /* 48px */
+  --sp-8: clamp(56px, 4.4444vw, 114px);      /* 64px */
+  --sp-9: clamp(80px, 6.6667vw, 171px);      /* 96px */
+  --sp-section: clamp(64px, 7.2917vw, 187px);
+  --gutter: clamp(12px, 1.25vw, 32px);       /* 12컬럼 거터 */
+  --margin: clamp(24px, 8.3333vw, 214px);    /* 좌우 바깥 여백 = 모든 섹션 공통(#roles 기준). 2026-10-21 사용자 요청으로 3.33vw → 5.56vw → 8.33vw(1440 에서 120px). 3D(#xp)만 아래에서 이전 값 */
+  --radius: 8px;
+  --radius-chip: 999px;
+
+  /* ---------- 추가: 섹션 간 여백(1.6) ---------- */
+  --gap-flush: 0px;
+  --gap-pair: clamp(14px, 1.5vw, 38px);
+  --gap-inner: clamp(28px, 3vw, 77px);
+  --gap-row: clamp(40px, 4vw, 103px);
+  --gap-block: clamp(56px, 6vw, 154px);
+  --gap-sibling: clamp(72px, 8vw, 205px);
+  --gap-chapter: clamp(96px, 10vw, 256px);
+
+  /* ---------- 추가: 기기 프레임·그림자(1.4). 광원은 왼쪽 위, 그림자는 오른쪽 아래로만 ---------- */
+  --shadow-device: 1px 2px 3px rgba(18, 20, 23, .16), 16px 28px 56px -16px rgba(18, 20, 23, .22);
+  --shadow-panel: 1px 1px 2px rgba(18, 20, 23, .10), 12px 20px 44px -18px rgba(18, 20, 23, .18);
+  --shadow-night: 0 0 0 1px rgba(255, 255, 255, .06);
+  --screen-edge: inset 0 0 0 1px rgba(18, 20, 23, .12);
+  --radius-stage: clamp(14px, 1.3889vw, 36px);   /* 패널·무대·렌더 사각형(1440 20px) */
+  --radius-crop: 12px;        /* 센터 화면 조각 */
+  --radius-crop-sm: 10px;     /* 클러스터 화면 조각 */
+  --render-focus: brightness(.78) saturate(.5);   /* 렌더 층에만(UI 층에는 걸지 않음) */
+
+  /* ---------- 보존: 3D 체험 모션(v2 페이지 모션에는 쓰지 않는다) ---------- */
+  --ease: cubic-bezier(0.77, 0, 0.175, 1);
+  --dur-enter: 0.8s;
+  --dur-swap: 0.4s;
+  --rise: 24px;
+
+  /* ---------- 추가: 페이지 모션(1.7) ---------- */
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --dur-reveal: 0.45s;
+  --rise-reveal: 12px;
+  --dur-crossfade: 0.3s;
+
+  /* ---------- 레이아웃 고정값 ---------- */
+  --nav-h: clamp(56px, 3.8889vw, 100px);   /* 상단 메뉴 높이: 1440 56 · 1920 74.7 · 2560 99.6(로고 1.1111vw 와 같은 비율). scroll-padding·sticky top·무대 높이가 이 값을 쓴다 */
+  --present-h: 0px;          /* v2: 발표 막대 없음(발표 진행 글은 메뉴 오른쪽 끝). xp.css 가 무대 높이 계산에 쓴다 */
+  --progress-w: 3px;          /* 보존(이전 진행 막대). v2 에서는 쓰지 않는다 */
+  --try-band: clamp(200px, 29vh, 300px);                 /* #try 위 어두운 띠 */
+  /* #try 아이폰 바깥 높이: 기준 화면(아이폰 윗변 = 메뉴 아래 20px, partials/try.html data-goto-offset)에서 아래에 44px 이상 남게.
+     1366×768 648 · 1440×900 780 · 1920×1080 860 */
+  --phone-try: clamp(560px, calc(100vh - var(--nav-h) - 64px), 860px);
+  --phone-try: clamp(560px, calc(100svh - var(--nav-h) - 64px), 860px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-enter: 0s;
+    --dur-swap: 0s;
+    --rise: 0px;
+    --dur-reveal: 0s;
+    --rise-reveal: 0px;
+    --dur-crossfade: 0s;
+  }
+}
+
+/* 3D 체험은 전체 화면 유지: 무대 안 안내 위치·진입 전환이 쓰는 --margin 은 이전 값(3.33vw)으로 고정 */
+#xp { --margin: clamp(16px, 3.3333vw, 86px); }

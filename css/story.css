@@ -1,0 +1,404 @@
+/* C. 하루 이야기 (partials/story.html, js/story/*)
+ * 규칙(SPEC 2장): 무채색 바탕, 강조 파랑은 현재 단계·링크·펄스에만, 이탤릭·이모지·왼쪽 세로 테두리 강조 없음,
+ * 글래스모피즘·그라데이션 없음. 화면 교체 0.4s 크로스페이드, 진입 0.8s. sticky 고정은 이 장과 3D 체험에서만 */
+
+.story { position: relative; }
+.story h2, .story h3, .story h4, .story p, .story li, .story dd { word-break: keep-all; overflow-wrap: anywhere; }
+
+/* ---------- 머리 ---------- */
+.story-head { padding: var(--sp-section) 0 var(--sp-8); }
+.story-lead { max-width: 40em; color: var(--ink-2); }
+.story-route {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--sp-2) var(--sp-4);
+  padding: var(--sp-4) var(--sp-5);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--card);
+  max-width: 52em;
+}
+.story-route-label { color: var(--mute); font-size: var(--t-xs); }
+.story-route strong { font-size: var(--t-m); line-height: var(--lh-title); font-weight: var(--w-strong); }
+.story-route-note { flex-basis: 100%; color: var(--ink-2); }
+.story-route[data-route="south-first"] .story-route-note { color: var(--ink); font-weight: var(--w-strong); }
+
+.story-legend { display: flex; flex-wrap: wrap; gap: var(--sp-3) var(--sp-6); color: var(--mute); }
+.story-legend > div { display: flex; align-items: center; gap: var(--sp-2); }
+.story-legend dt, .story-legend dd { margin: 0; }
+
+.story-tag {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 9px;
+  border-radius: var(--radius-chip);
+  font-size: var(--t-xs);
+  font-weight: var(--w-strong);
+  line-height: 1;
+  letter-spacing: 0;
+  white-space: nowrap;
+  flex: none;
+}
+.story-tag--demo { border: 1px solid var(--ink-2); color: var(--ink-2); background: transparent; }
+.story-tag--user { border: 1px solid var(--ink); background: var(--ink); color: var(--paper); }
+
+/* ---------- 스크롤 무대 ---------- */
+.story-scrolly {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  align-items: start;
+}
+.story-stage {
+  grid-column: 5 / -1;
+  grid-row: 1;
+  position: sticky;
+  top: var(--nav-h);
+  height: calc(100vh - var(--nav-h));
+  height: calc(100svh - var(--nav-h));
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  padding: var(--sp-5) 0 var(--sp-5);
+  z-index: 2;
+}
+/* 발표 모드(?present=1)는 상단 내비 아래에 발표 동선 막대가 하나 더 붙으므로 무대를 그만큼 내린다 */
+@media (min-width: 901px) {
+  body[data-present="1"] .story-stage {
+    top: calc(var(--nav-h) + var(--present-h));
+    height: calc(100vh - var(--nav-h) - var(--present-h));
+    height: calc(100svh - var(--nav-h) - var(--present-h));
+  }
+  body[data-present="1"] .story-step-inner { top: calc(var(--nav-h) + var(--present-h) + 24vh); }
+}
+.story-stage-bar { display: flex; flex-direction: column; gap: var(--sp-3); }
+.story-band {
+  display: flex;
+  gap: var(--sp-1);
+  overflow-x: auto;
+  scrollbar-width: none;
+  font-size: var(--t-xs);
+  white-space: nowrap;
+}
+.story-band::-webkit-scrollbar { display: none; }
+.story-band li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  color: var(--mute);
+  transition: color var(--dur-swap) var(--ease);
+}
+.story-band li + li::before { content: '→'; color: var(--line); margin-right: var(--sp-1); }
+.story-band li.is-done { color: var(--ink-2); }
+.story-band li.is-current { color: var(--accent); font-weight: var(--w-strong); }
+.story-band li.is-current span {
+  padding: 2px 8px;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-chip);
+}
+.story-stage-meta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-3); font-size: var(--t-xs); color: var(--mute); }
+.story-stage-meta .evi { margin-left: 0; }
+.story-stage-meta [hidden] { display: none; }   /* .evi 의 display 가 hidden 속성을 이기지 않게(정차·수동 캡처 중 '주행 6배 압축' 칩 숨김) */
+.story-clock { font-variant-numeric: tabular-nums; }
+.story-scene-name { margin-left: auto; color: var(--ink); font-weight: var(--w-strong); font-size: var(--t-s); }
+
+.story-devices {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  border-radius: 12px;
+  background: #E6E7E3;
+  transition: background-color var(--dur-swap) var(--ease);
+  overflow: hidden;
+}
+.story-stage.is-moving .story-devices { background: var(--night); }
+.story-stage.is-moving .story-slot figcaption { color: var(--on-night-mute); }
+
+/* ---------- 기기 자리 ---------- */
+.story-slot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 0;
+  will-change: transform;
+}
+.story-slot figcaption {
+  margin-top: calc(12px + var(--below, 0px));
+  font-size: var(--t-xs);
+  line-height: 14px;
+  color: var(--mute);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color var(--dur-swap) var(--ease);
+}
+/* 폰 자리 수동 모드 캡처 설명: 둘째 줄에 장면 이름(좁은 폭에서 말줄임으로 잘리지 않게 두 줄로 나눈다) */
+.story-slot figcaption .story-cap-sub { display: block; white-space: normal; word-break: keep-all; }
+.story-slot figcaption:has(.story-cap-sub) { white-space: normal; overflow: visible; text-overflow: clip; }
+.story-slot figcaption > span:first-child { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.story-screen {
+  position: relative;
+  overflow: hidden;
+  background: #0D1013;
+  border-radius: 6px;
+}
+.story-slot[data-device="cluster"] .story-screen { border-radius: 8px; }
+.story-slot[data-device="phone"] .story-screen { border-radius: calc(54px * var(--slot-scale, 1)); }
+.story-slot.has-bezel .story-screen {
+  box-shadow:
+    0 0 0 5px #15181B,
+    0 0 0 6px #343A40,
+    0 22px 40px -22px rgba(13, 16, 19, 0.55);
+}
+.story-slot.has-bezel[data-device="phone"] .story-screen {
+  box-shadow:
+    0 0 0 7px #15181B,
+    0 0 0 8px #3A4047,
+    0 22px 40px -22px rgba(13, 16, 19, 0.55);
+}
+.story-slot.has-mockup .story-screen { background: transparent; border-radius: 0; overflow: visible; }
+.story-mockup {
+  position: absolute;
+  max-width: none;
+  pointer-events: none;
+  user-select: none;
+  z-index: 3;
+}
+.story-framebox {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+}
+.story-devices .story-framebox { pointer-events: none; }
+.story-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  pointer-events: none;
+}
+.story-placeholder,
+.story-overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+}
+.story-slot.is-live .story-placeholder { display: none; }
+.story-overlay { opacity: 0; transition: opacity var(--dur-swap) var(--ease); }
+.story-overlay.is-on { opacity: 1; }
+
+/* ---------- 장면 글 ---------- */
+.story-steps {
+  grid-column: 1 / span 4;
+  grid-row: 1;
+  padding: 40vh 0 30vh;
+}
+.story-step {
+  min-height: calc(var(--len, 1) * 100vh);
+  min-height: calc(var(--len, 1) * 100svh);
+}
+.story-step-inner {
+  position: sticky;
+  top: calc(var(--nav-h) + 24vh);
+  max-width: 30em;
+  opacity: 0.32;
+  transition: opacity var(--dur-swap) var(--ease);
+}
+.story-step.is-current .story-step-inner { opacity: 1; }
+.story-step-no {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-2);
+  color: var(--mute);
+  margin-bottom: var(--sp-3);
+}
+.story-step-no span { color: var(--ink); font-weight: var(--w-strong); }
+.story-step.is-current .story-step-no span { color: var(--accent); }
+.story-step-title { font-size: var(--t-m); line-height: var(--lh-title); }
+.story-step-body { margin-top: var(--sp-4); color: var(--ink-2); }
+.story-step-note { margin-top: var(--sp-3); color: var(--mute); font-size: var(--t-xs); }
+.story-step-actions { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin-top: var(--sp-5); }
+.story-step-actions + .story-step-actions { margin-top: var(--sp-2); }
+.story-step-user {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-top: var(--sp-4);
+  font-size: var(--t-xs);
+  color: var(--mute);
+}
+.story-step-user::before {
+  content: '';
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid var(--mute);
+}
+.story-step-user[data-kind="user"] { color: var(--ink); }
+.story-step-user[data-kind="user"]::before { background: var(--ink); border-color: var(--ink); }
+
+/* ---------- C11 퇴근 ---------- */
+.story-end {
+  min-height: 86vh;
+  min-height: 86svh;
+  display: flex;
+  align-items: center;
+  padding: var(--sp-section) 0;
+  background: var(--night);
+  color: var(--on-night);
+  transition: background-color var(--dur-enter) var(--ease);
+}
+.story-end .sec-head { color: var(--on-night-mute); }
+.story-end .sec-num { color: var(--on-night); }
+.story-end-copy {
+  display: flex;
+  flex-direction: column;
+  font-size: var(--t-l);
+  line-height: var(--lh-title);
+  font-weight: var(--w-strong);
+}
+.story-end-copy span + span { color: var(--on-night-mute); }
+.story-end-note { margin-top: var(--sp-7); color: var(--on-night-mute); }
+.story-end-note .evi { border-color: var(--line-night); color: var(--on-night-mute); }
+.story-end-user { margin-top: var(--sp-3); color: var(--on-night-mute); font-size: var(--t-xs); }
+.story-end-actions { display: flex; flex-wrap: wrap; gap: var(--sp-3); margin-top: var(--sp-7); }
+.story-btn-night { color: var(--on-night); border-color: var(--line-night); background: transparent; }
+.story-btn-night:hover { border-color: var(--on-night); }
+
+/* ---------- 직접 해 보기 대화상자 ---------- */
+html.story-try-open { overflow: hidden; }
+.story-try {
+  width: min(1180px, calc(100vw - 32px));
+  height: min(940px, calc(100vh - 32px));
+  height: min(940px, calc(100svh - 32px));
+  max-width: none;
+  max-height: none;
+  padding: 0;
+  border: 0;
+  border-radius: 14px;
+  background: var(--paper);
+  color: var(--ink);
+  overflow: hidden;
+}
+.story-try::backdrop { background: rgba(13, 16, 19, 0.62); }
+.story-try-inner { display: flex; flex-direction: column; height: 100%; }
+.story-try-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding: var(--sp-4) var(--sp-5);
+  border-bottom: 1px solid var(--line);
+}
+.story-try-head > div { display: flex; align-items: center; gap: var(--sp-3); }
+.story-try-head h3 { font-size: var(--t-m); }
+.story-try-body { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 420px); }
+.story-try-phone {
+  position: relative;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #E6E7E3;
+}
+.story-slot--try { position: relative; }
+.story-slot--try .story-framebox { pointer-events: auto; }
+.story-slot--try.is-loading .story-screen::after {
+  content: '폰 화면을 불러오는 중';
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--on-night-mute);
+  font-size: var(--t-xs);
+}
+.story-flash {
+  position: absolute;
+  inset: 0;
+  border-radius: calc(54px * var(--slot-scale, 1));
+  background: #fff;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 4;
+}
+.story-flash.is-on { animation: story-flash 0.32s ease-out; }
+@keyframes story-flash { 0% { opacity: 0.9; } 100% { opacity: 0; } }
+
+.story-try-panel {
+  min-height: 0;
+  overflow-y: auto;
+  padding: var(--sp-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+  background: var(--card);
+}
+.story-try-tabs { display: flex; gap: var(--sp-1); padding: 3px; border: 1px solid var(--line); border-radius: var(--radius-chip); }
+.story-try-tabs button {
+  flex: 1;
+  min-height: 36px;
+  border: 0;
+  border-radius: var(--radius-chip);
+  background: transparent;
+  color: var(--mute);
+  font-weight: var(--w-strong);
+}
+.story-try-tabs button[aria-selected="true"] { background: var(--ink); color: var(--paper); }
+.story-try-task h4 { font-size: var(--t-s); font-weight: var(--w-strong); }
+.story-try-steps { margin-top: var(--sp-3); counter-reset: s; display: flex; flex-direction: column; gap: var(--sp-2); color: var(--ink-2); }
+.story-try-steps li { counter-increment: s; display: grid; grid-template-columns: 22px 1fr; gap: var(--sp-2); }
+.story-try-steps li::before { content: counter(s); font-weight: var(--w-strong); color: var(--ink); }
+.story-try-actions { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin-top: var(--sp-4); }
+.story-try-actions .btn.is-suggested { border-color: var(--accent); color: var(--accent); }
+.story-try-summary { margin-top: var(--sp-4); color: var(--ink); font-weight: var(--w-strong); }
+.story-try-msg { min-height: 1.6em; color: var(--ink-2); }
+.story-try-msg:empty { display: none; }
+.story-try-msg[data-kind="warn"] { color: var(--ink); font-weight: var(--w-strong); }
+.story-try-records { padding-top: var(--sp-4); border-top: 1px solid var(--line); }
+.story-try-records h4 { font-size: var(--t-s); font-weight: var(--w-strong); }
+.story-try-records ul { margin-top: var(--sp-3); display: flex; flex-direction: column; gap: var(--sp-2); }
+.story-try-records li { display: flex; align-items: flex-start; gap: var(--sp-2); }
+.story-try-records li .story-tag { margin-top: 1px; }
+.story-try-records li.is-empty { color: var(--mute); }
+.story-try-privacy { margin-top: var(--sp-3); color: var(--mute); font-size: var(--t-xs); }
+.story-try-clear { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); margin-top: var(--sp-4); }
+.story-try-clear p { flex-basis: 100%; color: var(--ink); }
+
+/* ---------- 좁은 화면 ---------- */
+@media (max-width: 900px) {
+  .story-scrolly { display: block; }
+  .story-stage {
+    height: 58vh;
+    height: 58svh;
+    padding: var(--sp-3) 0;
+    background: var(--paper);
+  }
+  .story-scene-name { margin-left: 0; }
+  .story-steps { padding: 6vh 0 24vh; position: relative; z-index: 1; }
+  .story-step { min-height: calc(var(--len, 1) * 62vh); min-height: calc(var(--len, 1) * 62svh); }
+  .story-step-inner {
+    top: calc(var(--nav-h) + 60svh);
+    max-width: none;
+    padding: var(--sp-4);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--card);
+  }
+  .story-step-title { font-size: 20px; }
+  .story-try { width: 100vw; height: 100svh; border-radius: 0; }
+  .story-try-body { grid-template-columns: 1fr; grid-template-rows: minmax(0, 58%) minmax(0, 42%); }
+  .story-try-panel { border-top: 1px solid var(--line); padding: var(--sp-4); }
+  .story-try-head { padding: var(--sp-3) var(--sp-4); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .story-overlay, .story-step-inner, .story-band li, .story-devices { transition: none; }
+}

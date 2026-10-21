@@ -1,0 +1,213 @@
+<!-- ⑦-2 #system 디자인 시스템 (2026-10-21 사용자 요청: 컬러 · 타이포 · 로고 · UI KIT)
+     값의 출처: docs/design-system.json · docs/DESIGN_SYSTEM_DATA.md(현재 서비스 UI 실측 + 팀 Figma UI Kit 2PWGi6ScsyaW9cN0o0nFui)
+     클러스터·센터·모바일 섹션의 스타일 규칙과 겹치는 값은 이 섹션이 기준이다.
+     UI KIT 화면 조각은 assets/captures 의 2배 캡처를 잘라낸 것(scripts/build_system_crops.py)이고 새로 그리거나 다시 조판하지 않았다.
+     크롭 표시 폭 = UI px × --k(0.07vw). 2560 폭에서도 이미지 픽셀(UI px × 2)보다 크게 그리지 않는다.
+     아이콘 26종은 Figma Icon/filled(노드 49:5326) 원본 path 그대로, 채움 currentColor. 스타일은 css/system.css(#system 범위) -->
+<div class="sys">
+  <header class="sys-head">
+    <p class="sys-label">디자인 시스템</p>
+    <h2 class="sys-title" id="system-title" data-reveal>세 기기가 같은 색과 글자,<br>같은 부품을 나눠 씁니다</h2>
+    <p class="sys-lead" data-reveal>팀 Figma UI Kit와 지금 서비스 화면에서 잰 값입니다<br>기기별 스타일 규칙은 이 값을 기준으로 합니다</p>
+  </header>
+
+  <!-- 1. 컬러: 대표 파랑은 크게, 나머지 9색은 작게. 대비비는 작은 글자 -->
+  <section class="sys-block" aria-labelledby="sys-color-h">
+    <div class="sys-bh">
+      <h3 class="sys-bh__k" id="sys-color-h">컬러</h3>
+      <p class="sys-bh__note">포인트 컬러 하나와 흑백 단계로 씁니다</p>
+    </div>
+    <!-- 2026-10-21 사용자 요청: 포인트 컬러 + 흑백만, 박스 안 박스 없이 색 면과 이름·값만 -->
+    <ul class="sys-pal" aria-label="컬러">
+      <li class="sys-pal__item sys-pal__item--point" style="--c:#1762BD" data-reveal><i></i><b>NEXT 파랑</b><span>#1762BD</span></li>
+      <li class="sys-pal__item" style="--c:#192D39" data-reveal><i></i><b>잉크</b><span>#192D39</span></li>
+      <li class="sys-pal__item" style="--c:#566A75" data-reveal><i></i><b>보조 회색</b><span>#566A75</span></li>
+      <li class="sys-pal__item" style="--c:#D2DEE7" data-reveal><i></i><b>구분선</b><span>#D2DEE7</span></li>
+      <li class="sys-pal__item sys-pal__item--white" style="--c:#FFFFFF" data-reveal><i></i><b>바탕</b><span>#FFFFFF</span></li>
+    </ul>
+  </section>
+
+  <!-- 2. 타이포: 실제 UI 숫자 표본(같은 축척) · 굵기·고정폭 숫자 · 기기별 크기 단계 -->
+  <section class="sys-block" aria-labelledby="sys-type-h">
+    <div class="sys-bh">
+      <h3 class="sys-bh__k" id="sys-type-h">타이포그래피</h3>
+      <p class="sys-bh__note">Wanted Sans 한 가족, 그려지는 굵기는 Regular와 SemiBold 둘입니다</p>
+    </div>
+    <div class="sys-type">
+      <figure class="sys-tile sys-spec" aria-label="기기별 가장 큰 글자 표본. 같은 축척(UI px 비례)">
+        <figcaption class="sys-tile__k">기기별 가장 큰 글자 · 같은 축척, 모두 Regular</figcaption>
+        <div class="sys-spec__row">
+          <div class="sys-spec__item"><p class="sys-spec__glyph" style="--px:82; --ls:-0.049em">23</p><p class="sys-cap"><b>클러스터</b> 속도 82px</p></div>
+          <div class="sys-spec__item"><p class="sys-spec__glyph" style="--px:44; --ls:-0.034em">104<small style="--sm:22">동</small></p><p class="sys-cap"><b>센터</b> 동 제목 44px</p></div>
+          <div class="sys-spec__item"><p class="sys-spec__glyph" style="--px:64; --ls:-0.031em">1203<small style="--sm:23">호</small></p><p class="sys-cap"><b>폰</b> 호수 64px</p></div>
+        </div>
+      </figure>
+      <div class="sys-tile sys-weights">
+        <p class="sys-weights__fam">Wanted Sans</p>
+        <dl>
+          <div><dt>Regular 400</dt><dd class="w4">배송 1203호</dd></div>
+          <div><dt>SemiBold 600</dt><dd class="w6">배송 1203호</dd></div>
+          <div><dt>숫자 고정폭</dt><dd class="tnum">1,111&nbsp;km<br>8,888&nbsp;km</dd></div>
+        </dl>
+        <p class="sys-cap">SIL OFL 1.1 · font-variant-numeric: tabular-nums</p>
+      </div>
+      <div class="sys-scale" role="group" aria-label="기기별 글자 크기 단계, 설계 캔버스 px">
+        <table>
+          <caption><b>클러스터</b>800×400</caption>
+          <tbody>
+            <tr><th scope="row">82</th><td>속도</td><td>Regular</td></tr>
+            <tr><th scope="row">40</th><td>주행 가능 거리</td><td>Regular</td></tr>
+            <tr><th scope="row">28</th><td>다음 안내 거리</td><td>Regular</td></tr>
+            <tr><th scope="row">22</th><td>지금 기어</td><td>SemiBold</td></tr>
+            <tr><th scope="row">14</th><td>단위·나머지 기어</td><td>Regular</td></tr>
+            <tr><th scope="row">12</th><td>꼬리줄</td><td>Regular</td></tr>
+          </tbody>
+        </table>
+        <table>
+          <caption><b>센터</b>1280×720</caption>
+          <tbody>
+            <tr><th scope="row">48</th><td>남은 건수</td><td>Regular</td></tr>
+            <tr><th scope="row">44</th><td>장소·동 제목</td><td>Regular</td></tr>
+            <tr><th scope="row">28</th><td>공조 온도</td><td>Regular</td></tr>
+            <tr><th scope="row">25</th><td>방문 순서 동</td><td>SemiBold</td></tr>
+            <tr><th scope="row">17</th><td>버튼</td><td>Regular</td></tr>
+            <tr><th scope="row">14</th><td>머리 라벨</td><td>Regular</td></tr>
+          </tbody>
+        </table>
+        <table>
+          <caption><b>폰</b>390×844</caption>
+          <tbody>
+            <tr><th scope="row">78</th><td>구간 건수</td><td>Regular</td></tr>
+            <tr><th scope="row">64</th><td>호수</td><td>Regular</td></tr>
+            <tr><th scope="row">31</th><td>화면 제목</td><td>SemiBold</td></tr>
+            <tr><th scope="row">22</th><td>전달 요청 문장</td><td>SemiBold</td></tr>
+            <tr><th scope="row">14</th><td>본문·버튼</td><td>Regular</td></tr>
+            <tr><th scope="row">12</th><td>라벨·탭 이름</td><td>Regular</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 로고: 상단 메뉴와 같은 path(assets/brand/next-logo.svg), 채움 currentColor. 점선 상자 = 둘레 여백(로고 높이) -->
+  <section class="sys-block" aria-labelledby="sys-logo-h">
+    <div class="sys-bh">
+      <h3 class="sys-bh__k" id="sys-logo-h">로고</h3>
+      <p class="sys-bh__note">원본 SVG의 path 그대로, 바탕에 맞춘 단색 하나</p>
+    </div>
+    <div class="sys-logo">
+      <figure class="sys-tile sys-logo__plate">
+        <span class="sys-logo__space"><svg class="sys-logo__mark" viewBox="0.8 0.7 1514.4 186.2" role="img" aria-label="NEXT 로고, 밝은 판" focusable="false"><use href="#sys-logo-paths"/></svg></span>
+        <figcaption class="sys-cap">밝은 판 · #121417</figcaption>
+      </figure>
+      <figure class="sys-tile sys-tile--night sys-logo__plate">
+        <span class="sys-logo__space"><svg class="sys-logo__mark" viewBox="0.8 0.7 1514.4 186.2" role="img" aria-label="NEXT 로고, 어두운 판" focusable="false"><use href="#sys-logo-paths"/></svg></span>
+        <figcaption class="sys-cap">어두운 판 · #F2F2EF</figcaption>
+      </figure>
+      <p class="sys-logo__rule" data-reveal>최소 높이 14px, 둘레 여백은 로고 높이 이상(점선)<br>늘이거나 기울이지 않고 단색으로만 씁니다</p>
+      <figure class="sys-tile sys-tile--soft sys-logo__ui">
+        <img class="sys-crop sys-crop--icon" src="assets/system/app-icon.png" width="76" height="76" style="--w:38; --r:10" alt="서비스 UI 잠금화면 알림의 NEXT 앱 아이콘. 파란 사각형에 흰 글자 N과 오른쪽 위 화살표" loading="lazy" decoding="async">
+        <img class="sys-crop" src="assets/system/lock-notice.png" width="692" height="472" style="--w:346; --r:24" alt="잠금화면 알림 카드. NEXT · 지금, 등록 차량에 연결됐어요, 정차 중이라면 오늘 배송을 확인하세요, 오늘 배송 열기 버튼" loading="lazy" decoding="async">
+        <figcaption class="sys-cap">UI 안의 브랜드 표시 · 앱 아이콘 N↗</figcaption>
+      </figure>
+    </div>
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><g id="sys-logo-paths" fill="currentColor"><path d="M446.964 1.62039L642.888 1.65621L704.523 1.68236C715.141 1.69204 741.713 -0.361608 750.815 5.62898C754.756 8.87941 755.065 14.1612 755.637 18.4283C759.181 45.0253 731.789 39.9216 713.653 39.9323L665.033 39.9429L518.924 39.9913C501.598 40.033 484.281 39.6631 466.979 39.7502C459.925 39.9081 456.696 39.972 451.338 44.5586C444.386 49.9789 447.229 70.411 456.093 71.6997C472.214 74.0439 494.527 73.0601 510.642 73.0611L674.008 73.0533C695.525 73.1521 717.012 72.7783 738.537 73.0078C761.814 73.2557 761.708 108.3 741.229 110.199C730.781 111.169 718.498 110.704 707.863 110.687L643.793 110.578L517.037 110.569C498.043 110.571 478.995 110.287 460.02 110.763C443.179 111.052 444.322 141.834 456.983 143.901C473.336 146.571 498.614 145.217 515.149 145.214L662.447 145.225C688.084 145.198 713.64 145.101 739.273 145.498C762.172 145.852 761.746 184.279 739.98 184.849C721.233 185.341 702.46 185.19 683.696 185.156L577.773 185.102L486.456 185.138C473.914 185.136 449.04 185.777 437.719 184.373C429.339 183.403 421.439 179.954 415.03 174.469C396.232 158.17 402.753 106.839 402.223 83.097C401.331 43.0898 396.742 4.7982 446.964 1.62039Z"/><path d="M23.8573 1.69105C35.4968 0.58046 48.5809 1.72011 60.3076 1.5342C94.6654 0.988107 117.754 20.6253 145.136 38.9282L243.428 104.519C261.921 116.879 289.564 139.814 311.749 143.096C327.195 145.38 330.156 133.791 330.438 121.088C331.233 85.2039 328.883 47.9852 330.71 12.1463C333.948 7.00773 335.229 5.71319 340.039 2.4066C348.98 1.15562 361.209 0.0169461 368.16 6.78407L368.531 7.15104C372.364 10.8604 372.637 21.7988 372.608 27.0109C372.343 73.8637 373.44 120.873 372.012 167.684C371.653 179.464 361.869 184.394 351.675 185.977C319.299 186.277 291.604 189.851 263.482 170.942C244.962 158.488 226.228 145.986 207.662 133.62L99.7371 61.6434C87.7907 53.6979 71.3671 42.7673 56.2931 45.4939C39.578 48.5178 42.812 71.9747 42.8914 84.3915L43.3165 139.657C43.423 151.464 47.4655 183.345 31.402 185.646C-3.8543 190.695 1.09253 171.41 1.11674 145.995L1.18839 95.7017L1.20389 50.43C1.1274 29.2069 -3.57353 5.92619 23.8573 1.69105Z"/><path d="M794.28 1.56132C809.094 1.27278 824.877 0.431373 839.304 4.22015C884.454 16.0764 914.877 71.4799 960.918 71.3608C1021.13 71.2049 1040 -7.59836 1126.05 1.44901C1131.02 1.97283 1135.98 3.44554 1139.18 7.53351C1142.74 12.0572 1143.04 19.5089 1142.39 25.0647C1141.36 33.8797 1136.86 38.9824 1127.97 40.2557C1119.22 41.5086 1110.58 40.0978 1101.73 41.9888C1077.66 47.1312 1043.21 77.821 1023.21 93.5474C1040.73 107.249 1059.33 120.499 1076.97 133.489C1098.33 149.22 1113.67 141.451 1134.58 147.787C1144.58 150.817 1149.86 180.697 1128.37 185.875C1113.32 186.318 1097.78 187.014 1083.12 183.015C1039.24 171.041 1005.93 115.702 961.073 115.796C903.18 115.917 882.421 194.252 797.127 185.837C792.13 185.345 786.708 183.906 783.474 179.774C779.766 175.02 779.863 166.198 780.531 160.407C781.528 151.795 786.456 146.742 795.045 145.534C804.088 144.261 812.919 145.853 822.098 143.833C844.339 138.934 880.397 108.591 899.23 93.5687C885.277 81.5701 866.677 69.6809 853.596 58.5644C828.256 37.0246 815.427 44.3775 787.957 37.7663C778.672 35.5296 773.065 6.88769 794.28 1.56132Z"/><path d="M1181.73 1.53128L1395.72 1.7172C1429.15 1.70268 1463.14 0.173794 1496.5 1.66975C1499.9 1.82273 1504.05 1.88471 1506.98 3.80766C1507.11 3.89674 1507.25 3.99065 1507.39 4.08166C1510.32 6.03076 1512.33 8.22678 1513.58 11.5711C1515.47 16.6554 1515.8 25.9836 1513.5 30.9062C1511.65 34.9099 1507.54 38.0025 1503.34 39.1731C1494.99 41.496 1483.3 40.1172 1474.61 40.0852C1457.67 40.0223 1371.59 37.6791 1362.78 41.0641C1362.56 41.1474 1362.34 41.2394 1362.13 41.3275C1356.88 49.9595 1360.32 124.849 1359.6 142.801C1358.78 163.36 1367.25 197.604 1324.43 183.562C1313.7 180.046 1316.54 160.564 1316.27 150.321C1315.35 116.174 1318.46 80.323 1315.2 46.3828C1314.32 36.9587 1290.48 39.7309 1283.2 39.7764L1218.21 40.0571C1209.14 40.0775 1179.48 41.6248 1173 36.462C1161.88 27.6083 1163.92 5.42754 1181.73 1.53128Z"/></g></defs></svg>
+  </section>
+
+  <!-- 4. UI KIT: 아이콘 26종(Figma 원본 path) + 실제 화면 조각(2배 캡처 크롭) -->
+  <section class="sys-block" aria-labelledby="sys-kit-h">
+    <div class="sys-bh">
+      <h3 class="sys-bh__k" id="sys-kit-h">UI KIT</h3>
+      <p class="sys-bh__note">아이콘은 Figma 원본, 부품은 지금 화면에서 그대로 잘라 같은 축척으로 놓았습니다</p>
+    </div>
+    <div class="sys-kit">
+      <figure class="sys-tile sys-icons">
+        <figcaption class="sys-tile__k">아이콘 26종 · 24 그리드 채움형</figcaption>
+        <ul class="sys-icons__grid">
+          <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2C10.9391 2 9.92172 2.42143 9.17157 3.17157C8.42143 3.92172 8 4.93913 8 6V12C8 13.0609 8.42143 14.0783 9.17157 14.8284C9.92172 15.5786 10.9391 16 12 16C13.0609 16 14.0783 15.5786 14.8284 14.8284C15.5786 14.0783 16 13.0609 16 12V6C16 4.93913 15.5786 3.92172 14.8284 3.17157C14.0783 2.42143 13.0609 2 12 2ZM5 10H3V12C3.00105 14.2131 3.81745 16.3482 5.29322 17.9973C6.76899 19.6465 8.80064 20.6941 11 20.94V23H13V20.94C15.1994 20.6941 17.231 19.6465 18.7068 17.9973C20.1825 16.3482 20.9989 14.2131 21 12V10H19V12C19 13.8565 18.2625 15.637 16.9497 16.9497C15.637 18.2625 13.8565 19 12 19C10.1435 19 8.36301 18.2625 7.05025 16.9497C5.7375 15.637 5 13.8565 5 12V10Z" fill-rule="evenodd" clip-rule="evenodd"/></svg><span>마이크</span></li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M5 4H6V2H8V4H16V2H18V4H19C19.7956 4 20.5587 4.31607 21.1213 4.87868C21.6839 5.44129 22 6.20435 22 7V19C22 19.7956 21.6839 20.5587 21.1213 21.1213C20.5587 21.6839 19.7956 22 19 22H5C4.20435 22 3.44129 21.6839 2.87868 21.1213C2.31607 20.5587 2 19.7956 2 19V7C2 6.20435 2.31607 5.44129 2.87868 4.87868C3.44129 4.31607 4.20435 4 5 4ZM4 8V10H20V8H4ZM7 13V18H12V13H7Z" fill-rule="evenodd" clip-rule="evenodd"/></svg><span>오늘</span></li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M8 3H5C3.89543 3 3 3.89543 3 5V8C3 9.10457 3.89543 10 5 10H8C9.10457 10 10 9.10457 10 8V5C10 3.89543 9.10457 3 8 3Z"/><path d="M19 3H16C14.8954 3 14 3.89543 14 5V8C14 9.10457 14.8954 10 16 10H19C20.1046 10 21 9.10457 21 8V5C21 3.89543 20.1046 3 19 3Z"/><path d="M8 14H5C3.89543 14 3 14.8954 3 16V19C3 20.1046 3.89543 21 5 21H8C9.10457 21 10 20.1046 10 19V16C10 14.8954 9.10457 14 8 14Z"/><path d="M19 14H16C14.8954 14 14 14.8954 14 16V19C14 20.1046 14.8954 21 16 21H19C20.1046 21 21 20.1046 21 19V16C21 14.8954 20.1046 14 19 14Z"/></svg><span>더보기</span></li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M17 7.6L16.4 8.2L14.6 6L19.7 2L23.5 6.9L21.2 8.7L20 7.4V8.6C20 9.66087 19.5786 10.6783 18.8284 11.4284C18.0783 12.1786 17.0609 12.6 16 12.6H8.5C7.83696 12.6 7.20108 12.8634 6.73224 13.3322C6.2634 13.8011 6 14.437 6 15.1V16.2C6.71799 16.5406 7.29871 17.1153 7.64666 17.8298C7.99461 18.5442 8.08908 19.3558 7.91453 20.1311C7.73998 20.9063 7.30681 21.5991 6.68624 22.0955C6.06568 22.5919 5.29467 22.8623 4.5 22.8623C3.70534 22.8623 2.93433 22.5919 2.31376 22.0955C1.6932 21.5991 1.26003 20.9063 1.08548 20.1311C0.91093 19.3558 1.0054 18.5442 1.35335 17.8298C1.7013 17.1153 2.28202 16.5406 3 16.2V15.1C3 13.6413 3.57947 12.2424 4.61092 11.2109C5.64237 10.1795 7.04131 9.6 8.5 9.6H16C16.2652 9.6 16.5196 9.49464 16.7071 9.30711C16.8946 9.11957 17 8.86522 17 8.6L17 7.6ZM4.5 18.6C4.23479 18.6 3.98043 18.7054 3.7929 18.8929C3.60536 19.0804 3.5 19.3348 3.5 19.6C3.5 19.8652 3.60536 20.1196 3.7929 20.3071C3.98043 20.4946 4.23479 20.6 4.5 20.6C4.76522 20.6 5.01957 20.4946 5.20711 20.3071C5.39465 20.1196 5.5 19.8652 5.5 19.6C5.5 19.3348 5.39465 19.0804 5.20711 18.8929C5.01957 18.7054 4.76522 18.6 4.5 18.6Z" fill-rule="evenodd" clip-rule="evenodd"/></svg><span>경로</span></li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M1 8C1 6.34315 2.34315 5 4 5H13C13.5523 5 14 5.44772 14 6V8H18C18.3148 8 18.6111 8.14819 18.8 8.4L23 14V18C23 18.5523 22.5523 19 22 19H21C21 19.7956 20.6839 20.5587 20.1213 21.1213C19.5587 21.6839 18.7956 22 18 22C17.2044 22 16.4413 21.6839 15.8787 21.1213C15.3161 20.5587 15 19.7956 15 19H8C8 19.7956 7.68393 20.5587 7.12132 21.1213C6.55871 21.6839 5.79565 22 5 22C4.20435 22 3.44129 21.6839 2.87868 21.1213C2.31607 20.5587 2 19.7956 2 19C1.44772 19 1 18.5523 1 18V8ZM16 10V13H20L17.7 10H16ZM5 17C4.46957 17 3.96086 17.2107 3.58579 17.5858C3.21071 17.9609 3 18.4696 3 19C3 19.5304 3.21071 20.0391 3.58579 20.4142C3.96086 20.7893 4.46957 21 5 21C5.53043 21 6.03914 20.7893 6.41421 20.4142C6.78929 20.0391 7 19.5304 7 19C7 18.4696 6.78929 17.9609 6.41421 17.5858C6.03914 17.2107 5.53043 17 5 17ZM18 17C17.4696 17 16.9609 17.2107 16.5858 17.5858C16.2107 17.9609 16 18.4696 16 19C16 19.5304 16.2107 20.0391 16.5858 20.4142C16.9609 20.7893 17.4696 21 18 21C18.5304 21 19.0391 20.7893 19.4142 20.4142C19.7893 20.0391 20 19.5304 20 19C20 18.4696 19.7893 17.9609 19.4142 17.5858C19.0391 17.2107 18.5304 17 18 17Z" fill-rule="evenodd" clip-rule="evenodd"/></svg><span>차량</span></li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M5 6H7L9 3H15L17 6H19C19.7956 6 20.5587 6.31607 21.1213 6.87868C21.6839 7.44129 22 8.20435 22 9V19C22 19.7956 21.6839 20.5587 21.1213 21.1213C20.5587 21.6839 19.7956 22 19 22H5C4.20435 22 3.44129 21.6839 2.87868 21.1213C2.31607 20.5587 2 19.7956 2 19V9C2 8.20435 2.31607 7.44129 2.87868 6.87868C3.44129 6.31607 4.20435 6 5 6ZM12 9C10.6739 9 9.40215 9.52678 8.46447 10.4645C7.52678 11.4021 7 12.6739 7 14C7 15.3261 7.52678 16.5979 8.46447 17.5355C9.40215 18.4732 10.6739 19 12 19C13.3261 19 14.5979 18.4732 15.5355 17.5355C16.4732 16.5979 17 15.3261 17 14C17 12.6739 16.4732 11.4021 15.5355 10.4645C14.5979 9.52678 13.3261 9 12 9ZM12 11C12.394 11 12.7841 11.0776 13.1481 11.2284C13.512 11.3791 13.8427 11.6001 14.1213 11.8787C14.3999 12.1573 14.6209 12.488 14.7716 12.8519C14.9224 13.2159 15 13.606 15 14C15 14.394 14.9224 14.7841 14.7716 15.1481C14.6209 15.512 14.3999 15.8427 14.1213 16.1213C13.8427 16.3999 13.512 16.6209 13.1481 16.7716C12.7841 16.9224 12.394 17 12 17C11.2044 17 10.4413 16.6839 9.87868 16.1213C9.31607 15.5587 9 14.7956 9 14C9 13.2044 9.31607 12.4413 9.87868 11.8787C10.4413 11.3161 11.2044 11 12 11Z" fill-rule="evenodd" clip-rule="evenodd"/></svg><span>사진 촬영</span></li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M10.3 3.5C10.4794 3.21058 10.7297 2.97175 11.0272 2.80612C11.3247 2.6405 11.6595 2.55357 12 2.55357C12.3405 2.55357 12.6754 2.6405 12.9729 2.80612C13.2704 2.97175 13.5207 3.21058 13.7 3.5L22.3 18.5C22.648 18.785 22.8898 19.1789 22.9863 19.6183C23.0829 20.0576 23.0285 20.5166 22.832 20.9212C22.6354 21.3258 22.3083 21.6524 21.9033 21.8481C21.4983 22.0439 21.0392 22.0974 20.6 22H3.40002C2.96088 22.0974 2.50174 22.0439 2.09676 21.8481C1.69178 21.6524 1.36461 21.3258 1.16809 20.9212C0.971567 20.5166 0.917173 20.0576 1.01369 19.6183C1.11021 19.1789 1.352 18.785 1.70002 18.5L10.3 3.5ZM11 8V14H13V8H11ZM11 17V19H13V17H11Z" fill-rule="evenodd" clip-rule="evenodd"/></svg><span>주의 알림</span></li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M4 6H18C18.7956 6 19.5587 6.31607 20.1213 6.87868C20.6839 7.44129 21 8.20435 21 9V15C21 15.7956 20.6839 16.5587 20.1213 17.1213C19.5587 17.6839 18.7956 18 18 18H4C3.20435 18 2.44129 17.6839 1.87868 17.1213C1.31607 16.5587 1 15.7956 1 15V9C1 8.20435 1.31607 7.44129 1.87868 6.87868C2.44129 6.31607 3.20435 6 4 6ZM4 9V15H18V9H4Z" fill-rule="evenodd" clip-rule="evenodd"/><path d="M11 10H6C5.44772 10 5 10.4477 5 11V13C5 13.5523 5.44772 14 6 14H11C11.5523 14 12 13.5523 12 13V11C12 10.4477 11.5523 10 11 10Z"/><path d="M22 10H19.5C18.9477 10 18.5 10.4477 18.5 11V13C18.5 13.5523 18.9477 14 19.5 14H22C22.5523 14 23 13.5523 23 13V11C23 10.4477 22.5523 10 22 10Z"/></svg><span>배터리</span></li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M8 3C8 2.44772 8.44772 2 9 2C9.55228 2 10 2.44772 10 3V7H14V3C14 2.44772 14.4477 2 15 2C15.5523 2 16 2.44772 16 3V7H18C18.5523 7 19 7.44772 19 8V11C18.9932 12.6784 18.3836 14.2985 17.2823 15.565C16.181 16.8316 14.6612 17.6602 13 17.9V22H11V17.9C9.3388 17.6602 7.81904 16.8316 6.7177 15.565C5.61636 14.2985 5.00676 12.6784 5 11V8C5 7.44772 5.44772 7 6 7H8V3Z" fill-rule="evenodd" clip-rule="evenodd"/></svg><span>충전</span></li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M2.7 3.7C2.3134 3.3134 2.3134 2.6866 2.7 2.3C3.0866 1.9134 3.7134 1.9134 4.1 2.3L19.7 17.9C20.0866 18.2866 20.0866 18.9134 19.7 19.3C19.3134 19.6866 18.6866 19.6866 18.3 19.3L2.7 3.7ZM2 8C2.7735 7.32098 3.61071 6.71819 4.5 6.2L6.7 8.4C5.73869 8.82234 4.83208 9.35958 4 10L2 8ZM7 4.3C9.30561 3.93078 13.6641 4.07068 15.9099 4.70986C18.1557 5.34905 20.2344 6.47204 22 8L20 10C17.7475 8.12722 12.9285 7.0701 10 7L7 4.3ZM5 12C5.73207 11.3987 6.53875 10.8946 7.4 10.5L9.6 12.7C8.66122 12.9709 7.78001 13.4115 7 14L5 12ZM13 10C15.1527 10.0649 17.2389 10.7603 19 12L17 14H16.9L13 10ZM8 16C8.70883 15.4763 9.52432 15.1153 10.3885 14.9424C11.2527 14.7696 12.1443 14.7893 13 15L15 17L14 17.7639C13.45 17.272 12.7379 17 12 17C11.2621 17 10.55 17.272 10 17.7639L8 16Z" fill-rule="evenodd" clip-rule="evenodd"/><path d="M12 21C12.8284 21 13.5 20.3284 13.5 19.5C13.5 18.6716 12.8284 18 12 18C11.1716 18 10.5 18.6716 10.5 19.5C10.5 20.3284 11.1716 21 12 21Z"/></svg><span>오프라인</span></li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2C9.34784 2 6.8043 3.05357 4.92893 4.92893C3.05357 6.8043 2 9.34784 2 12C2 14.6522 3.05357 17.1957 4.92893 19.0711C6.8043 20.9464 9.34784 22 12 22C14.6522 22 17.1957 20.9464 19.0711 19.0711C20.9464 17.1957 22 14.6522 22 12C22 9.34784 20.9464 6.8043 19.0711 4.92893C17.1957 3.05357 14.6522 2 12 2ZM6 13L10 17L18 9L16.5 7.5L10 14L7.5 11.5L6 13Z" fill-rule="evenodd" clip-rule="evenodd"/></svg><span>완료</span></li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M2 10L12 2L22 10H19V19C19 20.1046 18.1046 21 17 21H14V15C14 14.4477 13.5523 14 13 14H11C10.4477 14 10 14.4477 10 15V21H7C5.89543 21 5 20.1046 5 19V10H2Z" fill-rule="evenodd" clip-rule="evenodd"/></svg><span>홈</span></li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M5 3H8V12L12 10L16 12V3H19C19.7956 3 20.5587 3.31607 21.1213 3.87868C21.6839 4.44129 22 5.20435 22 6V19C22 19.7956 21.6839 20.5587 21.1213 21.1213C20.5587 21.6839 19.7956 22 19 22H5C4.20435 22 3.44129 21.6839 2.87868 21.1213C2.31607 20.5587 2 19.7956 2 19V6C2 5.20435 2.31607 4.44129 2.87868 3.87868C3.44129 3.31607 4.20435 3 5 3ZM15 17V19H19V17H15ZM10 3H14V9L12 8L10 9V3Z" fill-rule="evenodd" clip-rule="evenodd"/></svg><span>배송</span></li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M8 2H16C17.0609 2 18.0783 2.42143 18.8284 3.17157C19.5786 3.92172 20 4.93913 20 6V18C20 19.0609 19.5786 20.0783 18.8284 20.8284C18.0783 21.5786 17.0609 22 16 22H8C6.93913 22 5.92172 21.5786 5.17157 20.8284C4.42143 20.0783 4 19.0609 4 18V6C4 4.93913 4.42143 3.92172 5.17157 3.17157C5.92172 2.42143 6.93913 2 8 2ZM8 7V9H16V7H8ZM8 11V13H16V11H8ZM8 15V17H13V15H8Z" fill-rule="evenodd" clip-rule="evenodd"/></svg><span>기록</span></li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M11 3C11 2.44772 11.4477 2 12 2C12.5523 2 13 2.44772 13 3V4C14.4124 4.2386 15.6929 4.97464 16.6099 6.07507C17.5269 7.1755 18.02 8.5677 18 10V14L21 18H3L6 14V10C5.97999 8.5677 6.47306 7.1755 7.39009 6.07507C8.30711 4.97464 9.58757 4.2386 11 4V3ZM9 20H15C15 20.7956 14.6839 21.5587 14.1213 22.1213C13.5587 22.6839 12.7956 23 12 23C11.2044 23 10.4413 22.6839 9.87868 22.1213C9.31607 21.5587 9 20.7956 9 20Z" fill-rule="evenodd" clip-rule="evenodd"/></svg><span>알림</span></li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M8.99999 2H21C21.5523 2 22 2.44772 22 3V21C22 21.5523 21.5523 22 21 22H8.99999V17H11V20H15V5H11V7H8.99999V2ZM6.39999 7L11.8 12.4L6.39999 17.8L4.29999 15.7L6.09999 13.9H0.999999C0.447715 13.9 0 13.4523 0 12.9V11.9C0 11.3477 0.447715 10.9 1 10.9H6.09999L4.29999 9.1L6.39999 7Z" fill-rule="evenodd" clip-rule="evenodd"/></svg><span>입구</span></li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 1L15 9L23 12L15 15L12 23L9 15L1 12L9 9L12 1Z" fill-rule="evenodd" clip-rule="evenodd"/></svg><span>AI</span></li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2C9.87827 2 7.84344 2.84285 6.34315 4.34315C4.84285 5.84344 4 7.87827 4 10C4 16 12 22 12 22C12 22 20 16 20 10C20 7.87827 19.1571 5.84344 17.6569 4.34315C16.1566 2.84285 14.1217 2 12 2ZM12 7C12.7956 7 13.5587 7.31607 14.1213 7.87868C14.6839 8.44129 15 9.20435 15 10C15 10.7956 14.6839 11.5587 14.1213 12.1213C13.5587 12.6839 12.7956 13 12 13C11.2044 13 10.4413 12.6839 9.87868 12.1213C9.31607 11.5587 9 10.7956 9 10C9 9.20435 9.31607 8.44129 9.87868 7.87868C10.4413 7.31607 11.2044 7 12 7Z" fill-rule="evenodd" clip-rule="evenodd"/></svg><span>위치</span></li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M1 17H5V23H1V17ZM7 12H11V23H7V12ZM13 7H17V23H13V7ZM19 2H23V23H19V2Z" fill-rule="evenodd" clip-rule="evenodd"/></svg><span>네트워크</span></li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 10C3.99997 -2 -2.71797e-05 7 5.99997 11L9.99997 12C-2.00003 20 6.99997 24 11 18L12 14C20 26 24 17 18 13L14 12C26 4 17 3.33786e-06 13 6L12 10Z" fill-rule="evenodd" clip-rule="evenodd"/></svg><span>바람</span></li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M2.50048 10.0019C2.19904 8.79616 2.66333 7.51055 3.73928 6.88838C9.24643 3.70387 14.7536 3.70387 20.2607 6.88838C21.3367 7.51055 21.801 8.79617 21.4995 10.0019L19.5681 17.7276C19.2342 19.0631 18.0343 20 16.6577 20H7.34233C5.96573 20 4.76578 19.0631 4.4319 17.7276L2.50048 10.0019ZM7.1644 10C6.55487 10 6.09122 10.5473 6.19143 11.1486L6.86263 15.1758C6.9419 15.6514 7.35341 16 7.8356 16C8.44513 16 8.90878 15.4527 8.80857 14.8514L8.13737 10.8242C8.0581 10.3486 7.64659 10 7.1644 10ZM12 8C11.4477 8 11 8.44772 11 9V15C11 15.5523 11.4477 16 12 16C12.5523 16 13 15.5523 13 15V9C13 8.44772 12.5523 8 12 8ZM16.8356 10C16.3534 10 15.9419 10.3486 15.8626 10.8242L15.1914 14.8514C15.0912 15.4527 15.5549 16 16.1644 16C16.6466 16 17.0581 15.6514 17.1374 15.1758L17.8086 11.1486C17.9088 10.5473 17.4451 10 16.8356 10Z" fill-rule="evenodd" clip-rule="evenodd"/></svg><span>성에 제거</span></li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M4 11H20V13H4V11Z" fill-rule="evenodd" clip-rule="evenodd"/></svg><span>빼기</span></li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M11 4H13V11H20V13H13V20H11V13H4V11H11V4Z" fill-rule="evenodd" clip-rule="evenodd"/></svg><span>더하기</span></li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M2 10C2 9.44772 2.44772 9 3 9H7L14 3V21L7 15H3C2.44772 15 2 14.5523 2 14V10ZM17 6C23 9 23 15 17 18V15C20 13 20 11 17 9V6Z" fill-rule="evenodd" clip-rule="evenodd"/></svg><span>소리</span></li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M5 3L12 10L19 3L21 5L14 12L21 19L19 21L12 14L5 21L3 19L10 12L3 5L5 3Z" fill-rule="evenodd" clip-rule="evenodd"/></svg><span>닫기</span></li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M9 2H15L16 6L20 7L23 12L20 17L16 18L15 22H9L8 18L4 17L1 12L4 7L8 6L9 2ZM12 8C10.9391 8 9.92172 8.42143 9.17157 9.17157C8.42143 9.92172 8 10.9391 8 12C8 13.0609 8.42143 14.0783 9.17157 14.8284C9.92172 15.5786 10.9391 16 12 16C13.0609 16 14.0783 15.5786 14.8284 14.8284C15.5786 14.0783 16 13.0609 16 12C16 10.9391 15.5786 9.92172 14.8284 9.17157C14.0783 8.42143 13.0609 8 12 8Z" fill-rule="evenodd" clip-rule="evenodd"/></svg><span>설정</span></li>
+        </ul>
+      </figure>
+
+      <figure class="sys-tile sys-kit__cards" style="--bg:#EEF2F3">
+        <figcaption class="sys-tile__k">카드 · 센터</figcaption>
+        <div class="sys-row">
+          <div class="sys-part"><img class="sys-crop" src="assets/system/card-today.png" width="620" height="694" style="--w:310; --r:18" alt="센터 오늘 배송 카드. 상동호수공원, 4건 북측·남측, 음성으로 요청하기, 현재 순서로 시작" loading="lazy" decoding="async"><p class="sys-cap">오늘 배송</p></div>
+          <div class="sys-part"><img class="sys-crop" src="assets/system/card-route.png" width="620" height="528" style="--w:310; --r:18" alt="센터 순서 추천 카드. AI 배송 도우미, 남은 배송 순서 추천해줘, 1 북측 104동, 2 남측 105동" loading="lazy" decoding="async"><p class="sys-cap">순서 추천</p></div>
+          <div class="sys-part"><img class="sys-crop" src="assets/system/card-stop.png" width="620" height="432" style="--w:310; --r:18" alt="센터 정차 카드. 상동호수공원 북측, 104동, 서쪽 공동현관, 남은 배송 4건" loading="lazy" decoding="async"><p class="sys-cap">정차 · 104동</p></div>
+        </div>
+      </figure>
+
+      <figure class="sys-tile sys-kit__btns">
+        <figcaption class="sys-tile__k">버튼</figcaption>
+        <div class="sys-row">
+          <div class="sys-part"><img class="sys-crop" src="assets/system/btn-center.png" width="568" height="268" style="--w:284" alt="센터 주요 버튼 음성으로 요청하기(파랑)와 보조 버튼 현재 순서로 시작(연회색)" loading="lazy" decoding="async"><p class="sys-cap">주요·보조 · 센터</p></div>
+          <div class="sys-part"><img class="sys-crop" src="assets/system/btn-fab-mic.png" width="120" height="120" style="--w:60; --r:30" alt="센터 지도 위 원형 마이크 버튼" loading="lazy" decoding="async"><p class="sys-cap">음성</p></div>
+        </div>
+        <div class="sys-part"><img class="sys-crop" src="assets/system/btn-phone.png" width="724" height="248" style="--w:362" alt="폰 주요 버튼 배송 사진 촬영(파랑)과 보조 버튼 사진 저장 방법, 나중에 배송(흰 바탕 테두리)" loading="lazy" decoding="async"><p class="sys-cap">주요·보조 · 폰</p></div>
+      </figure>
+
+      <figure class="sys-tile sys-kit__chips">
+        <figcaption class="sys-tile__k">칸·상태 표시 · 폰</figcaption>
+        <div class="sys-row">
+          <div class="sys-col">
+            <div class="sys-part"><img class="sys-crop" src="assets/system/chip-location.png" width="692" height="96" style="--w:346; --r:5" alt="위치 칸. 상동호수공원 북측, 104동" loading="lazy" decoding="async"><p class="sys-cap">위치 칸</p></div>
+            <div class="sys-part"><img class="sys-crop" src="assets/system/chip-request.png" width="692" height="170" style="--w:346; --r:6" alt="전달 요청 칸. 문 앞에 놓아주세요" loading="lazy" decoding="async"><p class="sys-cap">전달 요청 칸</p></div>
+            <div class="sys-part"><img class="sys-crop" src="assets/system/strip-deferred.png" width="692" height="104" style="--w:346" alt="직전 보류 띠. 직전 보류 1203호, 운송장 9000-0000-4024, 다시 배송" loading="lazy" decoding="async"><p class="sys-cap">직전 보류 띠</p></div>
+          </div>
+          <div class="sys-col">
+            <div class="sys-part"><img class="sys-crop" src="assets/system/label-waiting.png" width="212" height="100" style="--w:106" alt="상태 표시 배송 대기, 빈 원" loading="lazy" decoding="async"></div>
+            <div class="sys-part"><img class="sys-crop" src="assets/system/label-saved.png" width="184" height="72" style="--w:92" alt="상태 표시 사진 저장됨, 파란 체크" loading="lazy" decoding="async"></div>
+            <div class="sys-part"><img class="sys-crop" src="assets/system/label-hold.png" width="212" height="80" style="--w:106" alt="상태 표시 보류 배송 1건, 갈색 글자" loading="lazy" decoding="async"><p class="sys-cap">상태 표시</p></div>
+          </div>
+        </div>
+      </figure>
+
+      <figure class="sys-tile sys-kit__cluster" style="--bg:#EDF0F2">
+        <figcaption class="sys-tile__k">속도·기어 · 클러스터</figcaption>
+        <div class="sys-row">
+          <div class="sys-part"><img class="sys-crop" src="assets/system/cluster-speed.png" width="320" height="306" style="--w:160" alt="클러스터 속도 23, km/h, READY" loading="lazy" decoding="async"><p class="sys-cap">속도</p></div>
+          <div class="sys-part"><img class="sys-crop" src="assets/system/cluster-gear.png" width="88" height="248" style="--w:44" alt="클러스터 기어 표시 R N D P, D만 굵게" loading="lazy" decoding="async"><p class="sys-cap">기어</p></div>
+        </div>
+      </figure>
+
+      <figure class="sys-tile sys-tile--panel sys-kit__night">
+        <figcaption class="sys-tile__k">어두운 판</figcaption>
+        <div class="sys-row">
+          <div class="sys-col">
+            <div class="sys-part"><img class="sys-crop" src="assets/system/card-turn.png" width="580" height="386" style="--w:290; --r:18.75" alt="센터 이동 중 다음 안내 카드. 다음 안내 540 m, 위 화살표, 목적지까지 직진" loading="lazy" decoding="async"><p class="sys-cap">다음 안내 · 센터</p></div>
+            <div class="sys-part"><img class="sys-crop" src="assets/system/btn-pill-save.png" width="220" height="110" style="--w:110; --r:27.5" alt="카메라 미리보기의 알약 버튼 이 사진 저장" loading="lazy" decoding="async"><p class="sys-cap">알약 버튼 · 폰</p></div>
+          </div>
+          <div class="sys-col">
+            <div class="sys-part"><img class="sys-crop" src="assets/system/tabbar.png" width="724" height="140" style="--w:362; --r:30.75" alt="폰 하단 탭바. 오늘, 배송(선택, 파란 칸), 기록, 더보기" loading="lazy" decoding="async"><p class="sys-cap">하단 탭바 · 폰</p></div>
+            <div class="sys-part"><img class="sys-crop" src="assets/system/camera-controls.png" width="780" height="264" style="--w:390; --r:12" alt="카메라 시트 조작 줄. 왼쪽 뒤로, 가운데 흰 셔터, 오른쪽 더보기" loading="lazy" decoding="async"><p class="sys-cap">카메라 조작 줄 · 폰</p></div>
+          </div>
+        </div>
+      </figure>
+    </div>
+  </section>
+</div>

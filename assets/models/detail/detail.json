@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "channels": "R,G normal XY (GL) / B roughness delta / A albedo delta (0.5 = none)",
+ "maps": {
+  "leather": {
+   "source": "polyhaven:leather_red_02",
+   "tile_m": 0.09,
+   "note": "nor_gl + rough(B) + disp(A)",
+   "file": "leather.webp",
+   "bytes": 1145086,
+   "size": 1024,
+   "sha": "d925037ac267f19d"
+  },
+  "tpo": {
+   "source": "polyhaven:leather_red_02 disp + leather_white disp (processed)",
+   "tile_m": 0.032,
+   "file": "tpo.webp",
+   "bytes": 837672,
+   "size": 1024,
+   "sha": "d60d6a5f6630715e"
+  },
+  "fabric": {
+   "source": "polyhaven:jogging_melange",
+   "tile_m": 0.2735,
+   "note": "nor_gl + rough(B) + diffuse luminance(A)",
+   "file": "fabric.webp",
+   "bytes": 1144590,
+   "size": 1024,
+   "sha": "b810ddaf5eac748c"
+  },
+  "stipple": {
+   "source": "procedural (FFT periodic noise)",
+   "tile_m": 0.025,
+   "file": "stipple.webp",
+   "bytes": 196660,
+   "size": 512,
+   "sha": "1ef3c4ac8b935ebc"
+  },
+  "hairline": {
+   "source": "procedural (anisotropic FFT noise)",
+   "tile_m": 0.02,
+   "file": "hairline.webp",
+   "bytes": 38290,
+   "size": 512,
+   "sha": "c38e6fd8d4ebf61d"
+  }
+ },
+ "totalBytes": 3362298
+}

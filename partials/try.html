@@ -1,0 +1,55 @@
+<!-- ④ #try 모바일 사진·배송 기록 직접 체험. main.js 가 넣고 js/try/try.js init(root) 를 부른다 -->
+<div class="try" data-try-stage data-try-state="idle">
+  <div class="try-band" aria-hidden="true"></div>
+
+  <figure class="try-arrival">
+    <div class="try-arrival-crop">
+      <img src="assets/captures/center_40000.png" width="2560" height="1440" decoding="async"
+           alt="센터 화면의 정차 안내. 상동호수공원 북측 104동, 서쪽 공동현관, 남은 배송 4건">
+    </div>
+    <figcaption>센터 화면 · 104동 정차 안내</figcaption>
+  </figure>
+
+  <div class="try-device">
+    <div class="try-phone" data-try-phone data-goto-anchor data-goto-offset="20">
+      <div class="try-phone-body" aria-hidden="true"></div>
+      <div class="try-screen-under" aria-hidden="true"></div>
+      <div class="try-screen" data-try-screen>
+        <img class="try-screen-still" src="assets/captures/manual_02_shipment-A023_phone.png" width="780" height="1688" alt="" aria-hidden="true" decoding="async">
+        <div class="try-flash" data-try-flash aria-hidden="true"></div>
+      </div>
+      <picture class="try-frame" aria-hidden="true">
+        <source srcset="assets/mockups/iphone-front.webp" type="image/webp">
+        <img src="assets/mockups/iphone-front.png" width="1056" height="2140" alt="" decoding="async">
+      </picture>
+    </div>
+  </div>
+
+  <div class="try-guide">
+    <div class="try-head" data-reveal>
+      <p class="try-label">직접 기록 · 문 앞</p>
+      <h2 class="try-title" id="try-title"><span data-try-building>104동</span>에 도착했습니다</h2>
+      <p class="try-lead" data-try-lead>이제 <span data-try-unit>1203호</span> 문 앞에서 요청을 확인하고 기록해 보세요</p>
+    </div>
+
+    <ol class="try-steps" data-try-steps aria-label="기록 순서"></ol>
+    <p class="try-now" data-try-now></p>
+
+    <div class="try-alt" data-try-alt hidden>
+      <button type="button" class="try-btn" data-try-file-btn>파일에서 사진 고르기</button>
+    </div>
+
+    <div class="try-done" data-try-done hidden>
+      <p class="try-done-label" data-try-done-label>내 직접 기록</p>
+      <p class="try-done-line" data-try-done-line></p>
+      <p class="try-done-note" data-try-done-note></p>
+    </div>
+
+    <div class="try-foot">
+      <p class="try-status" data-try-status role="status"></p>
+    </div>
+
+    <p class="try-sr" data-try-live aria-live="polite"></p>
+    <input type="file" accept="image/jpeg,image/png,image/webp" hidden data-try-file>
+  </div>
+</div>

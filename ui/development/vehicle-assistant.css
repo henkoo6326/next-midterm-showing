@@ -1,0 +1,38 @@
+/* Scoped flat conversation panel; parent owns its trigger and center layout. */
+.nda-host{position:absolute;inset:18px 18px 80px auto;width:min(480px,calc(100% - 36px));z-index:40;display:flex;flex-direction:column;gap:8px;color:#eff4f7;font-family:inherit;text-align:left;line-height:1.5}
+.nda-host[hidden]{display:none!important}
+.nda-host *{box-sizing:border-box}
+.nda-panel{display:flex;flex-direction:column;min-height:0;flex:1;background:#19242d;border:1px solid #3a4853;border-radius:24px;overflow:hidden}
+.nda-header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 20px;border-bottom:1px solid #35414b}
+.nda-brand{display:flex;align-items:center;gap:10px}.nda-brand strong{font-size:20px;letter-spacing:-.4px}
+.nda-icon{flex:none;color:#9ed8ff}.nda-host button,.nda-host input{font:inherit}.nda-host button{cursor:pointer;touch-action:manipulation}
+.nda-header button{width:44px;height:44px;border:0;border-radius:50%;background:#2b3945;color:#eff4f7;font-size:28px;line-height:1}
+.nda-body{padding:20px;overflow:auto;overscroll-behavior:contain;min-height:0;flex:1;scrollbar-width:thin}
+.nda-welcome{font-size:22px;line-height:1.4;font-weight:650;letter-spacing:-.6px;margin:0 0 18px;text-wrap:pretty}
+.nda-chips{display:flex;flex-direction:column;align-items:flex-start;gap:8px;margin-bottom:24px}
+.nda-chips button{max-width:100%;min-height:44px;border:1px solid #465768;border-radius:22px;background:#22323f;color:#d9e9f5;padding:10px 15px;font-size:15px;line-height:1.45;text-align:left;word-break:keep-all;overflow-wrap:anywhere}
+.nda-messages{display:flex;flex-direction:column;gap:16px}.nda-message{max-width:100%;font-size:16px;line-height:1.65;word-break:keep-all;overflow-wrap:anywhere}.nda-message p{margin:0;white-space:pre-wrap}.nda-user{align-self:flex-end;max-width:90%;padding:11px 16px;border-radius:18px;background:#334a5c;color:#fff}.nda-assistant{padding:0 2px;color:#e3ecf3}
+.nda-choices{display:flex;flex-direction:column;gap:8px;margin-top:18px}.nda-choices button{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:54px;width:100%;border:1px solid #465c6b;background:#253745;color:#eaf5fc;border-radius:14px;padding:12px 14px;text-align:left;font-size:16px}.nda-choices small{flex:none;color:#b7cddd;font-size:12px}.nda-choices button[aria-pressed=true]{border-color:#b5defb;background:#355570}.nda-choices span{overflow-wrap:anywhere}
+.nda-confirm{margin-top:16px;font-size:15px}.nda-confirm p{margin:0 0 12px}.nda-confirm button{min-height:44px;border:0;border-radius:12px;background:#c5e7ff;color:#112b3c;padding:10px 16px;font-weight:650;margin:0 8px 4px 0}.nda-confirm button+button{background:#30404c;color:#e6eff5}
+.nda-form{display:flex;gap:8px;padding:14px 16px;background:#1c2a35;border-top:1px solid #35414b}.nda-form input{min-width:0;width:100%;min-height:48px;background:#101c25;border:1px solid #536574;border-radius:14px;color:#fff;padding:11px 14px;font-size:16px}.nda-form input::placeholder{color:#acbdca}.nda-form button{flex:none;border:0;border-radius:14px;background:#bce1fc;color:#102c40;padding:10px 16px;font-size:15px;font-weight:700}
+.nda-host button:disabled,.nda-host input:disabled{opacity:.45;cursor:default}.nda-host :focus-visible{outline:3px solid #bde5ff;outline-offset:3px}
+.nda-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@media(max-width:600px){.nda-host{inset:8px 8px 80px;width:calc(100% - 16px)}.nda-header{padding:10px 14px}.nda-body{padding:16px}.nda-welcome{font-size:20px}.nda-form{padding:12px}.nda-choices button{gap:8px;font-size:15px}}
+
+/* Phone overlays its own canvas; climate clearance applies only to center. */
+#phone .nda-host{inset:0;width:390px;max-width:100%;height:100%;max-height:844px;gap:0}
+#phone .nda-panel{position:absolute;inset:0;width:100%;max-height:844px;border:0;border-radius:0}
+#phone .nda-header,#phone .nda-form{flex-shrink:0}
+
+.nda-host p,.nda-host strong,.nda-host button,.nda-choices span{word-break:keep-all;overflow-wrap:normal;text-wrap:pretty}
+#center .nda-host{width:460px;inset:24px 24px 104px auto}
+#center .nda-header{flex-shrink:0}#center .nda-welcome{font-size:23px;font-weight:500}
+.nda-voice-example{font-size:16px;color:#bdcfde;margin:0 0 8px}
+.nda-voice-controls{display:flex;flex-direction:column;align-items:center;gap:12px;padding:18px 20px 22px;flex-shrink:0;background:#19242d}
+.nda-voice-controls p{font-size:16px;text-align:center;margin:0;min-height:24px;max-width:100%}
+.nda-voice-controls .nda-mic{width:66px;height:66px;display:grid;place-items:center;border:0;border-radius:50%;background:#c5e7ff;color:#123d59}
+.nda-mic svg{width:27px;height:27px}.nda-mic[aria-pressed=true]{outline:4px solid #557e99;outline-offset:5px}
+.nda-voice-controls>span{font-size:12px;color:#b3c6d5}
+#center .nda-choices button{flex-direction:column;align-items:flex-start;gap:4px}
+
+.nda-header button{display:grid;place-items:center}.nda-header button svg,.nda-brand>svg{width:24px;height:24px;flex:none}

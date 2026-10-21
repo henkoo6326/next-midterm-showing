@@ -1,0 +1,5 @@
+three.js r180 (npm three@0.180.0)
+- three.module.js, three.core.js, addons/{loaders/GLTFLoader, utils/BufferGeometryUtils, controls/OrbitControls, environments/RoomEnvironment}: 3D/v8/web/vendor 에서 복사 (npm 0.180.0 과 바이트 동일 확인)
+- addons/{loaders/DRACOLoader, loaders/RGBELoader, loaders/HDRLoader, renderers/CSS3DRenderer, renderers/CSS2DRenderer, utils/SkeletonUtils}: npm pack three@0.180.0 의 examples/jsm 에서 복사
+- draco/: npm three@0.180.0 examples/jsm/libs/draco (Google Draco, Apache-2.0, README.md 참고)
+License: MIT (LICENSE.three)

@@ -1,0 +1,259 @@
+/* ⑤ #cluster 클러스터 (소유: cluster 담당) — 구도 docs/DESIGN_V2.md 2.5, v4 피드백 docs/REQUIREMENTS_v4_디자인피드백.md
+ * 머리 행 → 맥락 띠(#roles 와 같은 양옆 마진 안) → 왜 이 자리 → 상세
+ * 상세: 왼쪽 c1~c7 = 주행·정차 비교 + 주요 기능, 오른쪽 c9~c12 = 정보 순위·스타일(sticky)
+ *   sticky 열은 메뉴 아래 2.5vw 간격으로 따라 내려오다가 .cl-detail(그리드) 아래 끝 = 주요 기능 목록 하단에서 멈춘다
+ * 크기: 1440 기준 px 를 vw 로 옮긴 clamp(최소, Nvw, 2560 에서의 값 = N×25.6). 최대 폭 없음, 좌우 마진은 #roles .wrap 과 같은 --margin
+ *   1366~2560 데스크톱은 한 그리드를 vw 로 늘리고 줄인다(1440 미만 별도 배치 없음). 배치가 바뀌는 곳은 폭 900 미만뿐
+ * 이미지는 모두 설명용: 커서 기본, 호버·포커스 효과 없음. */
+
+/* #try → #cluster 간격(--gap-chapter)을 show.css 의 padding 대신 margin 으로 둔다.
+   메뉴·숫자키·발표 동선으로 도착하면 섹션 윗변이 메뉴 아래에 맞춰지는데, padding 이면 그 아래가 빈 채로
+   맥락 띠가 화면 밖으로 밀린다. margin 은 윗변 바깥이라 도착 화면에 머리 행 + 맥락 띠가 함께 들어온다 */
+#cluster { padding-top: 0; margin-top: var(--gap-chapter, clamp(112px, 10vw, 256px)); }
+
+#cluster {
+  --cl-fs-h2: clamp(34px, 3.25vw, 83px);
+  --cl-fs-h3: clamp(20px, 1.6vw, 41px);
+  --cl-fs-lead: clamp(17px, 1.35vw, 35px);
+  --cl-fs-body: clamp(15px, 1.1vw, 28px);
+  --cl-fs-cap: clamp(13px, 0.97vw, 25px);
+  --cl-fs-num: clamp(11px, 0.83vw, 21px);
+  --cl-gutter: var(--gutter, clamp(16px, 1.25vw, 32px));
+  --cl-gap-pair: var(--gap-pair, clamp(16px, 1.5vw, 38px));
+  --cl-gap-inner: var(--gap-inner, clamp(32px, 3vw, 77px));
+  --cl-gap-row: var(--gap-row, clamp(48px, 4vw, 102px));
+  --cl-gap-block: var(--gap-block, clamp(64px, 6vw, 154px));
+  --cl-shadow-panel: var(--shadow-panel, 1px 1px 2px rgba(18,20,23,.10), 12px 20px 44px -18px rgba(18,20,23,.18));
+  --cl-screen-edge: var(--screen-edge, inset 0 0 0 1px rgba(18,20,23,.12));
+  --cl-radius: clamp(8px, 0.69vw, 18px);              /* 클러스터 화면 조각(1440 에서 10px) */
+  --cl-radius-stage: clamp(16px, 1.39vw, 36px);       /* 맥락 띠(#roles 패널과 같은 20px 계열) */
+  --cl-zone-h: clamp(40px, 3.05vw, 78px);             /* 구역 이름 줄 높이(안내선이 이름 아래에서 시작) */
+  --cl-zone-li: clamp(22px, 1.67vw, 43px);            /* 구역 이름 칩 높이 */
+  --cl-stack-gap: clamp(24px, 2.2vw, 56px);           /* 주행 → 정차 조각 사이(안내선이 보이는 틈) */
+  --cl-num-sm: clamp(18px, 1.39vw, 36px);
+  --cl-num-lg: clamp(28px, 2.22vw, 57px);
+  --cl-sticky-top: calc(var(--nav-h, 56px) + clamp(24px, 2.5vw, 64px));
+}
+
+.cl {
+  max-width: none;
+  margin: 0;
+  padding: clamp(28px, 2.8vw, 72px) var(--margin, clamp(16px, 3.3333vw, 85px)) 0;
+  color: var(--ink);
+  font-family: var(--font);
+  letter-spacing: var(--tracking, -0.02em);
+  cursor: default;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+.cl p, .cl h2, .cl h3, .cl ol, .cl ul { margin: 0; padding: 0; }
+.cl ol, .cl ul { list-style: none; }
+.cl p, .cl li { text-wrap: balance; }
+
+.cl-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--cl-gutter);
+}
+
+/* ── 머리 행: 라벨 c1~c3, 제목 c4~c12, 리드 c4~c12(두 줄, 의미 단위 <br>) ── */
+.cl-label {
+  grid-column: 1 / 4; grid-row: 1; align-self: baseline;
+  font-size: var(--cl-fs-cap); font-weight: 600; line-height: 1.6; color: var(--ink);
+}
+.cl-title {
+  grid-column: 4 / 13; grid-row: 1; align-self: baseline;
+  font-size: var(--cl-fs-h2); font-weight: 600; line-height: var(--lh-title, 1.3); text-wrap: balance;
+}
+.cl-lead {
+  grid-column: 4 / 13; grid-row: 2; margin-top: clamp(12px, 1.11vw, 28px) !important;
+  font-size: var(--cl-fs-lead); line-height: var(--lh-body, 1.6); color: var(--ink-2);
+}
+/* 리드 줄 머리 라벨(사용 상황 · 필요한 정보): 캡션 크기·굵게·회색, 파랑 금지.
+   두 라벨 폭을 같게 해 두 줄의 본문이 같은 세로선에서 시작한다 */
+.cl-k-inline {
+  display: inline-block; min-width: 5.6em; margin-right: var(--sp-2, 8px);
+  font-size: var(--cl-fs-cap); font-weight: 600; line-height: 1; color: var(--mute);
+}
+
+/* ── 맥락 띠: #roles 와 같은 양옆 마진 안, 둥근 무대 ── */
+.cl-band { position: relative; margin: var(--cl-gap-inner) 0 0; }
+.cl-band__stage {
+  position: relative; width: 100%;
+  /* 도착 화면(메뉴 아래 머리 행 + 띠)에 띠 아래 끝과 상태 칩이 함께 들어오게 뷰포트 높이로도 제한한다.
+     메뉴 + .cl 위 여백 + 머리 행(제목 2줄·리드 2줄) + --gap-inner ≈ 56px + 20vw.
+     1366×768 → 439, 1440×900 → 504, 1920×1080 → 640 */
+  height: clamp(380px, min(35vw, calc(100svh - var(--nav-h, 56px) - 20vw)), 896px);
+  border-radius: var(--cl-radius-stage);
+  background: var(--night, #0D1013);
+  overflow: hidden;
+  user-select: none;
+}
+.cl-band__stage.is-failed { background: var(--night, #0D1013) url('../assets/sections/cluster-context.webp') 50% 58% / cover no-repeat; }
+.cl-band__state {
+  position: absolute; left: clamp(16px, 1.67vw, 43px); bottom: clamp(16px, 1.67vw, 43px);
+  height: clamp(28px, 2.22vw, 57px); display: inline-flex; align-items: center; padding: 0 clamp(12px, 0.97vw, 25px);
+  border-radius: 999px; background: rgba(13, 16, 19, .72);
+  color: var(--on-night, #F2F2EF); font-size: var(--cl-fs-cap); font-weight: 600; line-height: 1;
+  pointer-events: none;
+}
+
+/* ── 왜 이 자리: 라벨 c1~c3, 문장 c4~c12(두 줄) ── */
+.cl-why { margin-top: var(--cl-gap-inner); }
+.cl-k {
+  grid-column: 1 / 4; align-self: baseline;
+  font-size: var(--cl-fs-cap); font-weight: 600; line-height: 1.6; color: var(--ink);
+}
+.cl-why__text {
+  grid-column: 4 / 13; align-self: baseline;
+  font-size: var(--cl-fs-lead); line-height: 1.6; color: var(--ink);
+}
+/* 근거 꼬리표(.ev 모양은 show.css 공통)는 문장 바로 아래 같은 열 */
+.cl-why__ev { grid-column: 4 / 13; grid-row: 2; }
+.cl .cl-why__ev { margin-top: var(--sp-2, 8px); }   /* .cl p 의 margin:0 보다 앞서게 */
+
+/* ── 상세: 왼쪽 c1~c7(비교 + 주요 기능) + 오른쪽 근거 열 c9~c12(sticky) ──
+   근거 열은 두 행에 걸쳐 있고 그리드 아래 끝 = 주요 기능 목록 하단. 그리드에 아래 여백이 없어야 그 지점에서 멈춘다 */
+.cl-detail { margin-top: var(--cl-gap-row); align-items: start; grid-template-rows: auto auto; padding-bottom: 0; }
+
+.cl-cmp {
+  grid-column: 1 / 8; grid-row: 1;
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-template-rows: var(--cl-zone-h) auto auto auto;
+  position: relative;
+}
+.cl-zones { grid-column: 2 / -1; grid-row: 1; position: relative; z-index: 1; }
+.cl-zones li {
+  position: absolute; top: 0; left: var(--x); transform: translateX(-50%);
+  display: inline-flex; align-items: center; gap: clamp(5px, 0.42vw, 11px); white-space: nowrap;
+  height: var(--cl-zone-li); padding-right: clamp(5px, 0.42vw, 11px); background: var(--paper, #F2F2EF);
+  font-size: var(--cl-fs-cap); font-weight: 600; line-height: 1; color: var(--ink);
+  text-wrap: nowrap;
+}
+.cl-num {
+  flex: none; display: inline-grid; place-items: center;
+  width: var(--cl-num-sm); height: var(--cl-num-sm); border-radius: 50%;
+  background: var(--ink); color: var(--paper, #F2F2EF);
+  font-size: var(--cl-fs-num); font-weight: 600; line-height: 1; letter-spacing: 0;
+}
+.cl-num--lg { width: var(--cl-num-lg); height: var(--cl-num-lg); font-size: var(--cl-fs-cap); }
+
+/* 같은 자리 안내선: 조각 뒤에 깔려 이름 아래·조각 사이 틈에서만 보인다(UI 글자 위를 지나지 않음) */
+.cl-lines { grid-column: 2 / -1; grid-row: 1 / 4; position: relative; z-index: 0; pointer-events: none; }
+.cl-lines i {
+  position: absolute; left: var(--x); top: var(--cl-zone-li); bottom: calc(var(--cl-stack-gap) * -0.5); width: 0;
+  border-left: 1px dashed rgba(18, 20, 23, .38);
+}
+
+.cl-state { grid-column: 1; align-self: center; position: relative; z-index: 1; }
+.cl-state--drive { grid-row: 2; }
+.cl-state--park { grid-row: 3; margin-top: var(--cl-stack-gap); }
+.cl-state__name { font-size: var(--cl-fs-h3); font-weight: 600; line-height: 1.3; }
+.cl-state__val { margin-top: clamp(4px, 0.42vw, 11px) !important; font-size: var(--cl-fs-cap); line-height: 1.5; color: var(--ink-2); text-wrap: wrap; }
+.cl-state__val span { display: block; }
+
+.cl-shot {
+  grid-column: 2 / -1; position: relative; z-index: 1;
+  border-radius: var(--cl-radius); overflow: hidden;
+  background: #EDF0F2;
+  box-shadow: var(--cl-shadow-panel);
+  user-select: none; pointer-events: none;
+}
+.cl-shot::after { content: ''; position: absolute; inset: 0; border-radius: inherit; box-shadow: var(--cl-screen-edge); pointer-events: none; }
+.cl-shot--drive { grid-row: 2; }
+.cl-shot--park { grid-row: 3; margin-top: var(--cl-stack-gap); }
+
+.cl-cmp__cap {
+  grid-column: 2 / -1; grid-row: 4; margin-top: var(--cl-stack-gap) !important;
+  font-size: var(--cl-fs-body); line-height: 1.6; color: var(--ink);
+}
+
+/* 주요 기능: 비교와 같은 열 체계(라벨 c1 = '주행·정차' 자리, 목록 c2~c7 두 칸) */
+.cl-feat {
+  grid-column: 1 / 8; grid-row: 2;
+  display: grid; grid-template-columns: subgrid; align-items: baseline;
+  margin-top: var(--cl-gap-block);
+  padding-top: clamp(24px, 2.22vw, 57px);
+  border-top: 1px solid var(--line, #D9DBD8);
+}
+.cl-feat .cl-k { grid-column: 1; grid-row: 1; }
+.cl-feat__list {
+  grid-column: 2 / -1; grid-row: 1;
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: var(--cl-gutter); row-gap: clamp(20px, 1.67vw, 43px);
+}
+.cl-feat__list li { font-size: var(--cl-fs-body); line-height: 1.6; color: var(--ink-2); }
+
+/* 근거 열(sticky) */
+.cl-notes {
+  grid-column: 9 / 13; grid-row: 1 / 3;
+  align-self: start;
+  position: sticky; top: var(--cl-sticky-top);
+}
+.cl-notes__h { font-size: var(--cl-fs-cap); font-weight: 600; line-height: 1.6; color: var(--ink); }
+.cl-notes__h + * { margin-top: clamp(12px, 1.11vw, 28px) !important; }
+.cl-off + .cl-notes__h { margin-top: var(--cl-gap-inner) !important; }
+/* 올리지 않는 정보: 순위 목록 아래 한 줄(위 구분선은 사방 중 윗변만, 스타일 규칙 행과 같은 선) */
+.cl-off {
+  margin-top: clamp(14px, 1.39vw, 36px) !important; padding-top: clamp(10px, 0.97vw, 25px);
+  border-top: 1px solid var(--line, #D9DBD8);
+  font-size: var(--cl-fs-body); line-height: 1.6; color: var(--ink-2);
+}
+.cl-off strong { display: block; font-size: var(--cl-fs-cap); font-weight: 600; line-height: 1.6; color: var(--mute); }
+.cl-rank li { display: grid; grid-template-columns: var(--cl-num-lg) 1fr; column-gap: clamp(12px, 1.11vw, 28px); align-items: start; }
+.cl-rank li + li { margin-top: clamp(14px, 1.39vw, 36px); }
+.cl-rank strong, .cl-rules strong, .cl-feat__list strong {
+  display: block; font-size: var(--cl-fs-body); font-weight: 600; line-height: 1.6; color: var(--ink);
+}
+.cl-rank strong { line-height: var(--cl-num-lg); }
+.cl-rank p { font-size: var(--cl-fs-body); line-height: 1.6; color: var(--ink-2); }
+.cl-rules li { padding: clamp(10px, 0.97vw, 25px) 0; border-top: 1px solid var(--line, #D9DBD8); font-size: var(--cl-fs-body); line-height: 1.6; color: var(--ink-2); }
+.cl-rules li:first-child { border-top: 0; padding-top: 0; }
+.cl-rules li:last-child { padding-bottom: 0; }
+
+.cl-visually-hidden {
+  position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* ── 폭 900 미만: 세로 쌓기, sticky 해제(비교 → 정보 순위·스타일 → 주요 기능), 띠는 근접 컷 ── */
+@media (max-width: 899px) {
+  /* 상태 이름을 조각 위로(좁은 폭에서 c1 열이 너무 좁다). 데스크톱 1366~2560 은 위 그리드 그대로 */
+  .cl-cmp { grid-template-columns: minmax(0, 1fr); grid-template-rows: var(--cl-zone-h) auto auto auto auto auto; }
+  .cl-zones, .cl-lines, .cl-shot, .cl-state, .cl-cmp__cap { grid-column: 1; }
+  .cl-lines { grid-row: 1 / 6; }
+  .cl-state { align-self: end; justify-self: start; display: flex; align-items: baseline; gap: 12px; padding: 0 10px 10px 0; background: var(--paper, #F2F2EF); }
+  .cl-state--drive { grid-row: 2; }
+  .cl-shot--drive { grid-row: 3; }
+  .cl-state--park { grid-row: 4; margin-top: 20px; padding-top: 4px; }
+  .cl-shot--park { grid-row: 5; margin-top: 0; }
+  .cl-cmp__cap { grid-row: 6; }
+  .cl-state__name { font-size: var(--cl-fs-body); }
+  .cl-state__val { margin-top: 0 !important; }
+  .cl-state__val span { display: inline; }
+  .cl-state__val span + span::before { content: ' · '; }
+  .cl-state--drive .cl-state__val span:last-child::before { content: ' '; }
+  .cl-feat { grid-template-columns: minmax(0, 1fr); }
+  .cl .cl-feat__list { grid-column: 1; grid-row: 2; margin-top: 16px; }
+
+  .cl-label, .cl-title, .cl-lead, .cl-k, .cl-why__text, .cl-why__ev, .cl-cmp, .cl-notes, .cl-feat { grid-column: 1 / -1; }
+  .cl-why__ev { grid-row: auto; }
+  /* 리드 <br> 를 숨기므로 라벨을 블록으로 두어 각 줄 머리에 오게 한다 */
+  .cl-k-inline { display: block; min-width: 0; margin: 10px 0 2px; line-height: 1.6; }
+  .cl-k-inline:first-child { margin-top: 0; }
+  .cl-title { grid-row: 2; margin-top: 8px !important; }
+  .cl-lead { grid-row: 3; }
+  .cl-label { grid-row: 1; }
+  .cl-lead br, .cl-why__text br { display: none; }
+  .cl-band__stage { height: 56vw; }
+  /* 근접 컷은 화면이 띠 아래까지 차서 칩이 UI(회생제동 줄)를 덮는다 → 띠 바로 아래로 */
+  .cl-band__state { position: static; margin: 12px 0 0; }
+  .cl-why__text { margin-top: 8px !important; }
+  .cl-cmp { grid-row: 1; }
+  .cl-notes { grid-row: 2; position: static; margin-top: var(--cl-gap-row); }
+  .cl-feat { grid-row: 3; margin-top: var(--cl-gap-row); }
+  .cl-zones li { padding-right: 0; gap: 0; font-size: 0; }
+  .cl-zones li .cl-num { font-size: 12px; }
+  .cl-feat__list { grid-template-columns: minmax(0, 1fr); }
+}

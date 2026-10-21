@@ -1,0 +1,36 @@
+{
+ "generated": "2026-10-21",
+ "owner": "#mobile (partials/mobile.html, css/dev-mobile.css)",
+ "why": "#mobile 대표 확대 컷과 1.2배 이상 확대 조각이 2배 캡처·1056 폭 프레임을 DPR 2 에서 1.5~2배 늘려 흐렸다(review-r2 D2-01, R2-REQ-02, FID-04). 확대 컷에만 이 판을 쓴다",
+ "captures": {
+  "method": "scripts/capture_ui.py 의 Capturer 와 같은 절차(ui/showing/bridge.css 주입, 음성 차단, 같은 dispatch·클릭 순서)를 deviceScaleFactor 4 로만 바꿔 다시 찍음. 뷰포트 390x844, 결과 1560x3376. site/ui 와 assets/captures 는 고치지 않음",
+  "same_state_as": "assets/captures 의 같은 이름 2x 파일(4x 를 2x 크기로 줄여 비교한 평균 차 RGB 1 미만)",
+  "phone_45000@4x.png": "autoplay seek 45000, mobileScreen=shipment",
+  "manual_*@4x.png": "수동 모드 재현(사진은 scripts/fixtures/demo_photo.jpg 합성 이미지)"
+ },
+ "frame": {
+  "iphone-front@2x.webp": "scripts/mockups_v2/iphone_frame_build.py 의 기하 상수를 모두 2배로 해 다시 그린 2112x4280 판(바디 46,28 2020x4224 r354, 화면 112,94 1888x4092 r288, 아일랜드 764,164 584x170). 1056 판과 백분율 기하가 같아 iphone-front.json css 값을 그대로 쓴다. 자체 제작, 흰 티타늄"
+ },
+ "files": [
+  "iphone-front@2x.webp",
+  "manual_05_photo-saved_phone@4x.png",
+  "manual_07_defer-reason_phone@4x.png",
+  "manual_09_review-remaining_phone@4x.png",
+  "manual_12_transfer-failed_phone@4x.png",
+  "manual_13_transfer-received_phone@4x.png",
+  "phone_45000@4x.png"
+ ],
+ "recaptured": {
+  "at": "2026-10-20T22:39:30+00:00",
+  "by": "scripts/capture_ui.py --mobile4x (fix-uk-captures)",
+  "why": "UI Kit(Figma 49:5326 아이콘) 반영 뒤 4배 판이 옛 아이콘(입구·위치 핀)으로 남아 있었다. 수동 캡처는 상태 안내 토스트가 걷힌 뒤 찍었다",
+  "files": [
+   "assets/mobile/manual_05_photo-saved_phone@4x.png",
+   "assets/mobile/manual_07_defer-reason_phone@4x.png",
+   "assets/mobile/manual_09_review-remaining_phone@4x.png",
+   "assets/mobile/manual_12_transfer-failed_phone@4x.png",
+   "assets/mobile/manual_13_transfer-received_phone@4x.png",
+   "assets/mobile/phone_45000@4x.png"
+  ]
+ }
+}
